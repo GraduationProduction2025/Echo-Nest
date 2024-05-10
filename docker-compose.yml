@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mysqldb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+      MYSQL_CHARACTER_SET_SERVER: utf8
+      MYSQL_COLLATION_SERVER: utf8_unicode_ci
+    volumes:
+      - db-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MYSQL_DATABASE: mysqldb
+      MYSQL_ROOT_USER: rootuser
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3000:80"
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
+
+volumes:
+  db-data:
