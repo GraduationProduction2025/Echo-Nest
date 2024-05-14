@@ -23,6 +23,18 @@ services:
       MYSQL_COLLATION_SERVER: utf8_unicode_ci
     volumes:
       - db-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "user",
+          "-puserpass",
+        ]
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
