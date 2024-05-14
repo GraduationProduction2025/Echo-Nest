@@ -1,0 +1,35 @@
+# General
+.vscode/
+__pycache__/
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.env
+venv/
+*.venv/
+ENV/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+local_settings.py
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
