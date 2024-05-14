@@ -23,6 +23,9 @@ ENV/
 *.sqlite3
 local_settings.py
 
+# phpMyAdmin
+phpmyadmin/session/
+
 # Windows
 Thumbs.db
 ehthumbs.db
