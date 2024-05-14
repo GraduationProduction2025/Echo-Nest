@@ -24,7 +24,7 @@ ENV/
 local_settings.py
 
 # phpMyAdmin
-phpmyadmin/session/
+phpmyadmin/sessions/*
 
 # Windows
 Thumbs.db
