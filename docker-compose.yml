@@ -23,6 +23,8 @@ services:
       MYSQL_COLLATION_SERVER: utf8_unicode_ci
     volumes:
       - db-data:/var/lib/mysql
+    ports:
+      - 3307:3306
     healthcheck:
       test:
         [
