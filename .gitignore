@@ -20,6 +20,7 @@ ENV/
 *.pot
 *.sqlite3
 local_settings.py
+migrations/
 
 # phpMyAdmin
 phpmyadmin/sessions/*
