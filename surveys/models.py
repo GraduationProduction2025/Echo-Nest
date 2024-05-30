@@ -6,9 +6,15 @@ class Survey(models.Model):
     id = models.IntegerField(primary_key = True)
     title = models.CharField(max_length = 255)
     url = models.URLField()
+<<<<<<< HEAD
     created_at = models.DateTimeField()
     create_user = models.CharField(max_length = 255)   #users-user_idの外部キーを設定する
     deleted_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
+=======
+    create_at = models.DateTimeField()
+    create_user = models.CharField(max_length = 255)   #users-user_idの外部キーを設定する
+    delete_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
+>>>>>>> feature-db-fix
 
 # 選択肢形式データベース
 class Choicetype(models.Model):
