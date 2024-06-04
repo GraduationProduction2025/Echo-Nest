@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from .forms import SignupForm, LoginForm
 
 def index(request):
@@ -28,3 +28,7 @@ def login_view(request):
         form = LoginForm()
     param = {"form": form}
     return render(request, "login/login.html", param)
+
+def logout_view(request):
+    logout(request)
+    return render(request, "login/logout.html")
