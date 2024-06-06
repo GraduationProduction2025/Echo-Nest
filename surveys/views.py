@@ -1,4 +1,7 @@
-from django.views.generic import TemplateView
+from django.shortcuts import render
 
-class listView(TemplateView):
-    template_name = "base.html"
+def index(request):
+    base = {
+        'title':'質問一覧'
+    }
+    return render(request,'surveys/list_ques.html',base)

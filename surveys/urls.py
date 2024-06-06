@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import listView
+
+from . import views
+
+app_name = 'templates'
 
 urlpatterns = [
-    path("list", listView.as_view()),
+    path('list/', views.index, name='list'),
 ]
