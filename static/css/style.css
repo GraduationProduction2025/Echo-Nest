@@ -1,9 +1,40 @@
 /*全画面*/
 body {
     font-family: Arial, sans-serif;
-    background-color: #94d997;
+    background-color: #e2f7e6;
     margin: 0;
     height: 100vh;
+}
+
+header {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    background-color: #94e398;
+    align-items: center;
+    position: fixed;
+    margin-top: -130px;
+    box-shadow: 0px 0px 12px gray 
+}
+
+.user {
+    height:50px;
+    width:50px;
+}
+
+.appname {
+    margin-right: auto;
+    padding: 10px;
+}
+   
+.nav-item {
+    display: inline-block;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
 }
 /*全画面ここまで*/
 
@@ -13,7 +44,7 @@ body {
     margin: auto;
     background-color: #fff;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 130px;
 }
 
 .scrollable-table {
