@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="title-bar">
+        <h1>質問一覧</h1>
+    </div>
+    <div class="buttons">
+        <h3>top > 質問一覧 </h3>
+        <button class="right-button">編集</button>
+        <button>削除</button>
+    </div>
+    <h1>{{ title }}</h1>
+    <div class="scrollable-table">
+        <table>
+            <tr>
+                <th class="checkbox-column">
+                    <label class="styled-checkbox">
+                        <input type="checkbox">
+                    </label>
+                </th>
+                <th>ステータス</th>
+                <th>質問タイトル</th>
+                <th>URL</th>
+                <th>作成日</th>
+                <th>ユーザー</th>
+            </tr>
+            <!-- for文の開始 -->
+            {% for i in val2 %}
+            <tr>
+                <td class="checkbox-column"><input type="checkbox"></td>
+                <td>{{ i.id }}</td>
+                <td>{{ i.title }}</td>
+                <td><a href="{{ i.url }}" target="_blank">{{ i.url }}</a></td>
+                <td>{{ i.create_at }}</td>
+                <td>{{ i.create_user }}</td>
+            </tr>
+            {% endfor %}
+            <!-- for文の終了 -->
+        </table>
+    </div>
+    <div class="add-button">
+        <button>新規作成</button>
+    </div>
+</div>
+{% endblock content %}
