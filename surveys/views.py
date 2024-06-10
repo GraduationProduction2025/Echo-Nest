@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Survey
+from .models import Survey, Question, Choice, Choicetype
 from django.http import HttpResponse
 
 def index(request):
@@ -25,13 +25,19 @@ def info(request):
 # データベースの内容を取得して表示
 def detail(request):
     survey = Survey.objects.all()
+    question = Question.objects.all()
+    choicetype = Choicetype.objects.all()
+    choice = Choice.objects.all()
     header = ['ステータス','質問タイトル','URL','作成日','作成ユーザ']
     detaildict = {
         'title':'アンケート詳細',
         'header':header,
         'survey':survey,
+        'q':question,
+        'c':choice,
+        'ct':choicetype,
     }
-    return render(request, 'surveys/test.html', detaildict)
+    return render(request, 'surveys/detail.html', detaildict)
 
 # テスト
 def add(request):

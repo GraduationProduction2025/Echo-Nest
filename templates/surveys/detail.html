@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>質問の詳細情報</title>
+</head>
+
+<body>
+    <h2>{{title}}</h2>
+    <!-- テーブル -->
+    <table border="1">
+        <tr>
+            <th>header</th>
+            {% for i in header %}
+            <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <!-- <th>surveys</th> -->
+            {% for i2 in s %}
+            <!-- <td>{{ i2 }}</td> -->
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>question</th>
+            {% for i3 in q %}
+            <td>{{ i3 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>choice type</th>
+            {% for i4 in ct %}
+            <td>{{ i4 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>choice</th>
+            {% for i5 in c %}
+            <td>{{ i5 }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    <!-- surveys/list.htmlへ遷移 -->
+    <a href="{% url 'templates:info' %}">質問一覧へ</a>
+</body>
