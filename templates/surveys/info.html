@@ -24,19 +24,19 @@
                         <input type="checkbox">
                     </label>
                 </th>
-                <th>ステータス</th>
-                <th>質問タイトル</th>
-                <th>URL</th>
-                <th>作成日</th>
-                <th>ユーザー</th>
+                {% for i in header %}
+                <!-- headerを使って表の見出し行を表示 -->
+                <th>{{ i }}</th>
+                {% endfor %}
             </tr>
             <!-- for文の開始 -->
             {% for i in val2 %}
             <tr>
                 <td class="checkbox-column"><input type="checkbox"></td>
                 <td>{{ i.id }}</td>
-                <td>{{ i.title }}</td>
-                <td><a href="{{ i.url }}" target="_blank">{{ i.url }}</a></td>
+                <!-- <td>{{ i.title }}</td> -->
+                <!-- <td><a href="{{ i.url }}" target="_blank">{{ i.url }}</a></td> -->
+                <td><a href="{{ i.url }}" target="_blank">{{ i.title }}</a></td>
                 <td>{{ i.create_at }}</td>
                 <td>{{ i.create_user }}</td>
             </tr>
@@ -45,7 +45,10 @@
         </table>
     </div>
     <div class="add-button">
-        <button>新規作成</button>
+        <button onclick="">新規作成</button>
     </div>
+    <a href="{% url 'templates:create' %}" target="_self">新規作成</a>
+    <a href="{% url 'templates:add' %}" target="_self">追加</a>
+    <a href="{% url 'templates:detail' %}" target="_self">詳細</a>
 </div>
 {% endblock content %}
