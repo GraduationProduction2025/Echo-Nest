@@ -1,46 +1,83 @@
-<!doctype html>
-<html>
+<!-- surveys/templates/surveys/survey_list.html -->
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>質問の詳細情報</title>
+    <meta charset="UTF-8">
+    <title>Survey List</title>
 </head>
 
 <body>
-    <h2>{{title}}</h2>
-    <!-- テーブル -->
-    <table border="1">
+    <h2>All Surveys</h2>
+    <p>survey table</p>
+    <table border="1" style="border-collapse: collapse">
         <tr>
-            <th>header</th>
-            {% for i in header %}
-            <td>{{ i }}</td>
+            {% for i in sh %}
+            <!-- headerを使って表の見出し行を表示 -->
+            <th>{{ i }}</th>
             {% endfor %}
         </tr>
+        <!-- 内容の表示 -->
+        <!-- for文の開始 -->
+        {% for i in s %}
         <tr>
-            <!-- <th>surveys</th> -->
-            {% for i2 in s %}
-            <!-- <td>{{ i2 }}</td> -->
-            {% endfor %}
+            <td>{{ i.id }}</td>
+            <td>{{ i.title }}</td>
+            <td><a href="{{ i.url }}" target="_blank">{{ i.url }}</a></td>
+            <!-- <td><a href="{{ i.url }}" target="_blank">{{ i.title }}</a></td> -->
+            <td>{{ i.create_at }}</td>
+            <td>{{ i.create_user }}</td>
+            <td>{{ i.delete_flag }}</td>
         </tr>
-        <tr>
-            <th>question</th>
-            {% for i3 in q %}
-            <td>{{ i3 }}</td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>choice type</th>
-            {% for i4 in ct %}
-            <td>{{ i4 }}</td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th>choice</th>
-            {% for i5 in c %}
-            <td>{{ i5 }}</td>
-            {% endfor %}
-        </tr>
+        {% endfor %}
+        <!-- for文の終了 -->
     </table>
-    <!-- surveys/list.htmlへ遷移 -->
+    <p>question table</p>
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            {% for i in qh %}
+            <th>{{ i }}</th>
+            {% endfor %}
+        </tr>
+        {% for i in q %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.title }}</td>
+            <td>{{ i.survey_id }}</td>
+            <td>{{ i.type_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>choicetype table</p>
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            {% for i in cth %}
+            <th>{{ i }}</th>
+            {% endfor %}
+        </tr>
+        {% for i in ct %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.type }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>choicetable</p>
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            {% for i in ch %}
+            <th>{{ i }}</th>
+            {% endfor %}
+        </tr>
+        {% for i in c %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.text }}</td>
+            <td>{{ i.question_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
     <a href="{% url 'templates:info' %}">質問一覧へ</a>
 </body>
+
+</html>

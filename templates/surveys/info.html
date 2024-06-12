@@ -29,6 +29,7 @@
                 <th>{{ i }}</th>
                 {% endfor %}
             </tr>
+            <!-- 内容の表示 -->
             <!-- for文の開始 -->
             {% for i in val2 %}
             <tr>
@@ -50,5 +51,6 @@
     <a href="{% url 'templates:create' %}" target="_self">新規作成</a>
     <a href="{% url 'templates:add' %}" target="_self">追加</a>
     <a href="{% url 'templates:detail' %}" target="_self">詳細</a>
+    <a href="{% url 'templates:test' %}" target="_self">テスト</a>
 </div>
 {% endblock content %}

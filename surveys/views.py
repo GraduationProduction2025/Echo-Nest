@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Survey, Question, Choice, Choicetype
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 def index(request):
     base = {
@@ -53,3 +54,62 @@ def create(request):
     }
     return render(request,'surveys/create.html',base)
     # return HttpResponse('create')
+
+def detail_view(request):
+    # ヘッダー行の登録
+    sheader = ['アンケートID','アンケートタイトル','URL','作成日','作成ユーザ','削除フラグ']
+    ctheader = ['タイプID','タイプ']
+    qheader = ['質問ID','質問タイトル','アンケートID','タイプID']
+    cheader = ['選択肢ID','テキスト','質問ID']
+    # データを取得
+    survey = Survey.objects.all()
+    question = Question.objects.all()
+    choicetype = Choicetype.objects.all()
+    choice = Choice.objects.all()
+    context = {
+        'sh': sheader,
+        'cth': ctheader,
+        'qh': qheader,
+        'ch': cheader,
+        's': survey,
+        'q': question,
+        'ct':choicetype,
+        'c':choice,
+    }
+    
+    return render(request, 'surveys/detail.html', context)
+
+def test(request):
+    # header最終形
+    # header = ['ID','アンケートタイトル','質問タイトル','タイプ','テキスト']
+    # surveys.id, surveys.title, question.title, choicetype.type, choice.text
+    header = ['question.title', 'choice.text']  
+    choice = Choice.objects.get(id=1)
+    data = choice.question.title
+    queryset = Question.objects.select_related('survey_id').values()
+    queryset2 = Question.objects.select_related('survey_id').only()
+    cset = Choice.objects.select_related('question_id').values()
+    data2 = Question.objects.filter(id=1)
+    dict=[]
+    for i in queryset:
+        dict=i
+
+    # データを取得
+    # survey = Survey.objects.all()
+    # question = Question.objects.all()
+    # choicetype = Choicetype.objects.all()
+    # choice = Choice.objects.all()
+    # SQLを記述
+    # data = Question.objects.prefetch_related(survey).get(id=1)
+    
+    base={
+    'title': 'テスト',
+    'header': header,
+    'data': data,
+    'qset': queryset,
+    'oset': queryset2,
+    'data2': data2,
+    'dict': dict,
+    'cset': cset,
+    }
+    return render(request, 'surveys/test.html', base)
