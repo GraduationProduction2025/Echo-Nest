@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Survey, Question, Choice, Choicetype
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from .forms import SurveyAddForm
 
 def index(request):
     base = {
@@ -54,6 +54,25 @@ def create(request):
     }
     return render(request,'surveys/create.html',base)
     # return HttpResponse('create')
+
+def testcreate(request):
+    if request.method == 'POST':
+        form = SurveyAddForm(request.POST)
+        if form.is_valid():
+            survey = Survey()
+            survey.id = form.cleaned_data['id']
+            survey.title = form.cleaned_data['title']
+            survey.url = form.cleaned_data['url']
+            survey.create_at = form.cleaned_data['create_at']
+            survey.create_user = form.cleaned_data['create_user']
+            survey.delete_flag = form.cleaned_data['delete_flag']
+            survey.save()
+            return redirect('../detail/')
+
+    else:
+        form = SurveyAddForm()
+
+    return render(request, 'surveys/testcreate.html', {'form': form})  
 
 def detail_view(request):
     # ヘッダー行の登録
