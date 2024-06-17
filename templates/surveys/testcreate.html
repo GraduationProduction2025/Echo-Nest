@@ -18,7 +18,30 @@
     <form action="{% url 'templates:testcreate' %}" method="post">
         <table class="example">
             {% csrf_token %}
-            {{ form.as_table }}
+            {{ form.as_table }}<tr>
+                <th>Id:</th>
+                <td>{{ form.id }}</td>
+            </tr>
+            <tr>
+                <th>Title:</th>
+                <td>{{ form.title }}</td>
+            </tr>
+            <tr>
+                <th>URL:</th>
+                <td>{{ form.url }}</td>
+            </tr>
+            <tr>
+                <th>Create at:</th>
+                <td>{{ form.create_at }}</td>
+            </tr>
+            <tr>
+                <th>Create user:</th>
+                <td>{{ form.create_user }}</td>
+            </tr>
+            <tr>
+                <th>Deleted flag:</th>
+                <td>{{ form.delete_flag }}削除済みならTrue</td>
+            </tr>
             <tr>
                 <td></td>
                 <td><input type="submit" value="送信"></td>
