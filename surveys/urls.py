@@ -6,4 +6,5 @@ app_name = 'templates'
 
 urlpatterns = [
     path('list/', views.index, name='list'),
+    path('create/', views.create, name='create'),
 ]

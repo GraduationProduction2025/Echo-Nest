@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <input type="text" class="title-text" placeholder="タイトル">
+</div>
+    
+<!-- 質問ごとのコンテナ -->
+<div class="ques-container">
+    <!-- タイトルと削除 -->
+    <div class="ques-lane">
+        <input type="text" class="ques-name" placeholder="質問のタイトルを入力">
+        <img src="{% static "img/delbox.png" %}" class="ques-del">
+    </div>
+
+    <!-- テキストの配置例 -->
+    <div>
+        <input type="text" class="ques-text" placeholder="回答を入力してください" disabled>
+    </div>
+</div>
+
+<!-- 質問コンテナ -->
+<div class="ques-container">
+    <div class="ques-lane">
+        <input type="text" class="ques-name" placeholder="質問のタイトルを入力">
+        <img src="{% static "img/delbox.png" %}" class="ques-del">
+    </div>
+    
+    <!-- ラジオボタンの配置例 -->
+    <div>
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" placeholder="オプション名を入力">
+            <button class="option-del">✕</button>
+        </div>
+
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" placeholder="オプション名を入力">
+            <button class="option-del">✕</button>
+        </div>
+        <button class="option-add">＋ オプションを追加</button>
+    </div>
+</div>
+
+<!-- 質問コンテナ -->
+<div class="ques-container">
+    <div class="ques-lane">
+        <input type="text" class="ques-name" placeholder="質問のタイトルを入力">
+        <img src="{% static "img/delbox.png" %}" class="ques-del">
+    </div>
+    
+    <!-- チェックボックスの配置例 -->
+    <div>
+        <div>
+            <input type="checkbox">
+            <input type="text" class="option-text" placeholder="オプション名を入力">
+            <button class="option-del">✕</button>
+        </div>
+
+        <div>
+            <input type="checkbox">
+            <input type="text" class="option-text" placeholder="オプション名を入力">
+            <button class="option-del">✕</button>
+        </div>
+        <button class="option-add">＋ オプションを追加</button>
+    </div>
+</div>
+
+<!-- 質問コンテナ -->
+<div class="ques-container">
+    <div class="ques-lane">
+        <input type="text" class="ques-name" placeholder="質問のタイトルを入力">
+        <img src="{% static "img/delbox.png" %}" class="ques-del">
+    </div>
+    
+    <!-- プルダウンの配置例 -->
+    <div>
+        <input type="text" class="ques-text" placeholder="(要素1,要素2,要素3)と入力">
+    </div>
+</div>
+
+<!-- 質問の新規追加 -->
+<div class="add-ques">
+    <!-- 新しい質問を入れるdiv -->
+    <div id="inputFields"></div>
+
+    <button class="add-ques-btn" id="input-cre" onclick="showInputOptions()">＋ 新規追加</button>
+    
+    <!-- 新規追加ボタンを押すと出現 -->
+    <!-- 質問のタイプを選択 -->
+    <div id="inputOptions">
+        <input type="button" class="input-option" value="テキスト" onclick="createInputField('text')">
+        <input type="button" class="input-option" value="ラジオボタン" onclick="createInputField('radio')">
+        <input type="button" class="input-option" value="チェックボックス" onclick="createInputField('checkbox')">
+        <input type="button" class="input-option" value="プルダウン" onclick="createInputField('select')">
+    </div>
+</div>
+
+<div class="ques-container">
+    <!-- プレビューを表示する場所 -->
+    <div id="formPreview" class="form-preview"><h3>Form Preview</h3></div>
+    
+    <!-- 質問を作成 -->
+    <div class="create-ques">
+        <button type="submit" class="create-ques-btn">質問を作成</button>
+    </div>
+</div>
+
+<!-- 新規追加ボタンを押したときの処理 -->
+<!-- 細かい処理は内部の方お願いします -->
+<script>
+    //新規追加ボタンを非表示にして質問タイプ選択ボタンを表示
+    function showInputOptions() {
+        document.getElementById("inputOptions").style.display = "block";
+        document.getElementById("input-cre").style.display = "none";
+    }
+
+    //質問タイプを選択
+    function createInputField(inputType) {
+        var inputFields = document.getElementById("inputFields");
+        var newInputField;
+
+        if (inputType === "text") { //テキストを選択
+            newInputField = '<input type="text" placeholder="Enter text">';
+        } else if (inputType === "radio") { //ラジオボタンを選択
+            newInputField = '<input type="radio" name="radio"> Option 1 <br>' +
+                            '<input type="radio" name="radio"> Option 2 <br>' +
+                            '<input type="radio" name="radio"> Option 3';
+        } else if (inputType === "checkbox") { //チェックボックスを選択
+            newInputField = '<input type="checkbox"> Checkbox 1 <br>' +
+                            '<input type="checkbox"> Checkbox 2 <br>' +
+                            '<input type="checkbox"> Checkbox 3';
+        } else if (inputType === "select") { //プルダウンを選択
+            newInputField = '<select>' +
+                            '<option value="option1">Option 1</option>' +
+                            '<option value="option2">Option 2</option>' +
+                            '<option value="option3">Option 3</option>' +
+                            '</select>';
+        }
+        inputFields.innerHTML += newInputField; //選択されたタイプをhtmlに追加
+        document.getElementById("inputOptions").style.display = "none"; //タイプ選択ボタンを非表示
+        document.getElementById("input-cre").style.display = ""; //新規追加ボタンを表示
+    }
+</script>
+{% endblock content %}
