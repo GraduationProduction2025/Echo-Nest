@@ -182,6 +182,10 @@ td {
     margin-top: 10px;
 }
 
+.ques-container textarea {
+    resize: none;
+}
+
 .ques-lane {
     display: flex;
 }

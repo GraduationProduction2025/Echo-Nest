@@ -21,7 +21,7 @@
 
     <!-- テキストの配置例 -->
     <div>
-        <input type="text" class="ques-text" placeholder="回答を入力してください" disabled>
+        <textarea rows="3" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
     </div>
 </div>
 
@@ -112,41 +112,4 @@
         <button type="submit" class="create-ques-btn">質問を作成</button>
     </div>
 </div>
-
-<!-- 新規追加ボタンを押したときの処理 -->
-<!-- 細かい処理は内部の方お願いします -->
-<script>
-    //新規追加ボタンを非表示にして質問タイプ選択ボタンを表示
-    function showInputOptions() {
-        document.getElementById("inputOptions").style.display = "block";
-        document.getElementById("input-cre").style.display = "none";
-    }
-
-    //質問タイプを選択
-    function createInputField(inputType) {
-        var inputFields = document.getElementById("inputFields");
-        var newInputField;
-
-        if (inputType === "text") { //テキストを選択
-            newInputField = '<input type="text" placeholder="Enter text">';
-        } else if (inputType === "radio") { //ラジオボタンを選択
-            newInputField = '<input type="radio" name="radio"> Option 1 <br>' +
-                            '<input type="radio" name="radio"> Option 2 <br>' +
-                            '<input type="radio" name="radio"> Option 3';
-        } else if (inputType === "checkbox") { //チェックボックスを選択
-            newInputField = '<input type="checkbox"> Checkbox 1 <br>' +
-                            '<input type="checkbox"> Checkbox 2 <br>' +
-                            '<input type="checkbox"> Checkbox 3';
-        } else if (inputType === "select") { //プルダウンを選択
-            newInputField = '<select>' +
-                            '<option value="option1">Option 1</option>' +
-                            '<option value="option2">Option 2</option>' +
-                            '<option value="option3">Option 3</option>' +
-                            '</select>';
-        }
-        inputFields.innerHTML += newInputField; //選択されたタイプをhtmlに追加
-        document.getElementById("inputOptions").style.display = "none"; //タイプ選択ボタンを非表示
-        document.getElementById("input-cre").style.display = ""; //新規追加ボタンを表示
-    }
-</script>
 {% endblock content %}
