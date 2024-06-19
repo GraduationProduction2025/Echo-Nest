@@ -1,12 +1,57 @@
+{% load static %}
 <!doctype html>
-<html>
+<html lang="ja">
 
 <head>
     <meta charset="utf-8">
-    <title>質問の新規作成</title>
+    <title>{{ title }}</title>
+    <style>
+        .example {
+            width: fit-content;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>{{title}}</h2>
-    <a href="{% url 'templates:info' %}">質問一覧へ</a>
+    <h1>{{ title }}</h1>
+    <form action="{% url 'templates:create' %}" method="post">
+        <table class="example">
+            {% csrf_token %}
+            <!-- {{ form.as_table }} -->
+            <tr>
+                <th>Id:</th>
+                <td>{{ form.id }}</td>
+            </tr>
+            <tr>
+                <th>Title:</th>
+                <td>{{ form.title }}</td>
+            </tr>
+            <tr>
+                <th>Url:</th>
+                <td>{{ form.url }}</td>
+            </tr>
+            <tr>
+                <th>Create at:</th>
+                <td>{{ form.create_at }}</td>
+            </tr>
+            <tr>
+                <th>Create user:</th>
+                <td>{{ form.create_user }}</td>
+            </tr>
+            <tr>
+                <th>Deleted flag:</th>
+                <td>{{ form.delete_flag }}削除済みならTrue</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="送信"></td>
+            </tr>
+        </table>
+    </form>
+    {% for error in form.errors %}
+    {{ error }}
+    {% endfor %}
 </body>
+
+</html>

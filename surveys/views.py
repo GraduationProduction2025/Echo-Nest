@@ -48,14 +48,14 @@ def add(request):
     return render(request,'surveys/add.html',base)
     # return HttpResponse('add')
 
-def create(request):
-    base = {
-    'title':'アンケート作成'
-    }
-    return render(request,'surveys/create.html',base)
-    # return HttpResponse('create')
+# def create(request):
+#     base = {
+#     'title':'アンケート作成'
+#     }
+#     # return render(request,'surveys/create.html',base)
+#     return HttpResponse('create')
 
-def testcreate(request):
+def create(request):
     if request.method == 'POST':
         form = SurveyAddForm(request.POST)
         if form.is_valid():
@@ -72,7 +72,7 @@ def testcreate(request):
     else:
         form = SurveyAddForm()
 
-    return render(request, 'surveys/testcreate.html', {'form': form})  
+    return render(request, 'surveys/create.html', {'form': form})
 
 def detail_view(request):
     # ヘッダー行の登録
@@ -95,14 +95,14 @@ def detail_view(request):
         'ct':choicetype,
         'c':choice,
     }
-    
+
     return render(request, 'surveys/detail.html', context)
 
-def test(request):
+def print(request):
     # header最終形
     # header = ['ID','アンケートタイトル','質問タイトル','タイプ','テキスト']
     # surveys.id, surveys.title, question.title, choicetype.type, choice.text
-    header = ['question.title', 'choice.text']  
+    header = ['question.title', 'choice.text']
     choice = Choice.objects.get(id=1)
     data = choice.question.title
     queryset = Question.objects.select_related('survey_id').values()
@@ -120,7 +120,7 @@ def test(request):
     # choice = Choice.objects.all()
     # SQLを記述
     # data = Question.objects.prefetch_related(survey).get(id=1)
-    
+
     base={
     'title': 'テスト',
     'header': header,
@@ -131,4 +131,6 @@ def test(request):
     'dict': dict,
     'cset': cset,
     }
-    return render(request, 'surveys/test.html', base)
+    return render(request, 'surveys/print.html', base)
+def test(request):
+    return HttpResponse('test')
