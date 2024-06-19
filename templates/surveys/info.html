@@ -39,6 +39,7 @@
                 <td><a href="{{ i.url }}" target="_blank">{{ i.title }}</a></td>
                 <td>{{ i.create_at }}</td>
                 <td>{{ i.create_user }}</td>
+                <td><a href="{% url 'templates:detail' i.id %}">詳細を見る</a></td>
             </tr>
             {% endfor %}
             <!-- for文の終了 -->
@@ -49,6 +50,5 @@
     </div>
     <a href="{% url 'templates:create' %}" target="_self">新規作成</a>
     <a href="{% url 'templates:add' %}" target="_self">追加</a>
-    <a href="{% url 'templates:detail' %}" target="_self">詳細</a>
 </div>
 {% endblock content %}

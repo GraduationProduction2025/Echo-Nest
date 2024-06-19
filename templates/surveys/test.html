@@ -1,24 +1,65 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <title>質問の詳細情報</title>
+    <meta charset="UTF-8">
+    <title>{{ survey.title }}</title>
+    <!-- ページタイトルにアンケートのタイトルを表示 -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
-
 <body>
-    <h2>{{title}}</h2>
-    <!-- テーブル -->
-    <!-- <table>
-            <tr>
-                 {% for i in header %}
-                 <th>{{ i }}</th>
-                 {% endfor %}
-                 {% for i2 in survey %}
-                 <td>{{i2}}</td>
+<h1>{{ survey.title }}</h1>
+<!-- アンケートのタイトルを表示 -->
+<p>URL: <a href="{{ survey.url }}">{{ survey.url }}</a></p>
+<!-- アンケートのURLを表示 -->
+<p>作成日: {{ survey.create_at }}</p>
+<!-- アンケートの作成日時を表示 -->
+<p>作成ユーザ: {{ survey.create_user }}</p>
+<!-- アンケートの作成者を表示 -->
+
+<h2>質問一覧</h2>
+<table>
+    <thead>
+    <tr>
+        <th>質問タイトル</th>
+        <th>選択肢形式</th>
+        <th>選択肢</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for question in questions %}
+    <tr>
+        <td>{{ question.title }}</td>
+        <!-- 質問のタイトルを表示 -->
+        <td>{{ question.type_id }}</td>
+        <!-- 質問の選択肢形式を表示 -->
+        <td>
+            <ul>
+                {% for choice in choices %}
+                    {% if choice.question_id.id == question.id %}
+                        <li>{{ choice.text }}</li>
+                        <!-- 質問に対応する選択肢をリスト表示 -->
+                    {% endif %}
                 {% endfor %}
-            </tr>
-    </table> -->
-    <!-- surveys/list.htmlへ遷移 -->
-    <a href="{% url 'templates:info' %}">質問一覧へ</a>
+            </ul>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'templates:info' %}">質問一覧へ</a>
+<!-- 質問一覧へのリンクを設定 -->
 </body>
+</html>
