@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>削除ページ</title>
+</head>
+
+<body>
+    <h1>削除ページ</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table>
+            <thead>
+                <tr>
+                    <th>タイトル</th>
+                    <th>URL</th>
+                    <th>作成日時</th>
+                    <th>作成ユーザー</th>
+                    <th>削除</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                <tr>
+                    <td>{{ form.id }} {{ form.title }}</td>
+                    <td>{{ form.url }}</td>
+                    <td>{{ form.create_at }}</td>
+                    <td>{{ form.create_user }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">削除</button>
+    </form>
+</body>
+
+</html>
