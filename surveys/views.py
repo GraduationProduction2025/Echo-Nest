@@ -32,7 +32,7 @@ def detail(request, survey_id):
         'questions': questions,
         'choices': choices,
     }
-    return render(request, 'surveys/test.html', context)
+    return render(request, 'surveys/detail.html', context)
 
 # テスト
 def add(request):
