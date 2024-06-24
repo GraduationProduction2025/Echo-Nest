@@ -26,8 +26,8 @@ def info(request):
 # データベースの内容を取得して表示
 def detail(request, survey_id):
     survey = Survey.objects.get(id=survey_id)
-    questions = Question.objects.filter(survey_id=survey)
-    choices = Choice.objects.filter(question_id__in=questions)
+    questions = Question.objects.filter(survey=survey)
+    choices = Choice.objects.filter(question__in=questions)
     context = {
         'survey': survey,
         'questions': questions,

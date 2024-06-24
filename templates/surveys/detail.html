@@ -43,12 +43,12 @@
     <tr>
         <td>{{ question.title }}</td>
         <!-- 質問のタイトルを表示 -->
-        <td>{{ question.type_id }}</td>
+        <td>{{ question.type }}</td>
         <!-- 質問の選択肢形式を表示 -->
         <td>
             <ul>
                 {% for choice in choices %}
-                    {% if choice.question_id.id == question.id %}
+                    {% if choice.question.id == question.id %}
                         <li>{{ choice.text }}</li>
                         <!-- 質問に対応する選択肢をリスト表示 -->
                     {% endif %}
