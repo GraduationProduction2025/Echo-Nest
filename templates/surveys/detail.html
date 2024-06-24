@@ -1,83 +1,65 @@
-<!-- surveys/templates/surveys/survey_list.html -->
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Survey List</title>
+    <title>{{ survey.title }}</title>
+    <!-- ページタイトルにアンケートのタイトルを表示 -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
-
 <body>
-    <h2>All Surveys</h2>
-    <p>survey table</p>
-    <table border="1" style="border-collapse: collapse">
-        <tr>
-            {% for i in sh %}
-            <!-- headerを使って表の見出し行を表示 -->
-            <th>{{ i }}</th>
-            {% endfor %}
-        </tr>
-        <!-- 内容の表示 -->
-        <!-- for文の開始 -->
-        {% for i in s %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.title }}</td>
-            <td><a href="{{ i.url }}" target="_blank">{{ i.url }}</a></td>
-            <!-- <td><a href="{{ i.url }}" target="_blank">{{ i.title }}</a></td> -->
-            <td>{{ i.create_at }}</td>
-            <td>{{ i.create_user }}</td>
-            <td>{{ i.delete_flag }}</td>
-        </tr>
-        {% endfor %}
-        <!-- for文の終了 -->
-    </table>
-    <p>question table</p>
-    <table border="1" style="border-collapse: collapse">
-        <tr>
-            {% for i in qh %}
-            <th>{{ i }}</th>
-            {% endfor %}
-        </tr>
-        {% for i in q %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.title }}</td>
-            <td>{{ i.survey_id }}</td>
-            <td>{{ i.type_id }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <p>choicetype table</p>
-    <table border="1" style="border-collapse: collapse">
-        <tr>
-            {% for i in cth %}
-            <th>{{ i }}</th>
-            {% endfor %}
-        </tr>
-        {% for i in ct %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.type }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <p>choicetable</p>
-    <table border="1" style="border-collapse: collapse">
-        <tr>
-            {% for i in ch %}
-            <th>{{ i }}</th>
-            {% endfor %}
-        </tr>
-        {% for i in c %}
-        <tr>
-            <td>{{ i.id }}</td>
-            <td>{{ i.text }}</td>
-            <td>{{ i.question_id }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <a href="{% url 'templates:info' %}">質問一覧へ</a>
-</body>
+<h1>{{ survey.title }}</h1>
+<!-- アンケートのタイトルを表示 -->
+<p>URL: <a href="{{ survey.url }}">{{ survey.url }}</a></p>
+<!-- アンケートのURLを表示 -->
+<p>作成日: {{ survey.create_at }}</p>
+<!-- アンケートの作成日時を表示 -->
+<p>作成ユーザ: {{ survey.create_user }}</p>
+<!-- アンケートの作成者を表示 -->
 
+<h2>質問一覧</h2>
+<table>
+    <thead>
+    <tr>
+        <th>質問タイトル</th>
+        <th>選択肢形式</th>
+        <th>選択肢</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for question in questions %}
+    <tr>
+        <td>{{ question.title }}</td>
+        <!-- 質問のタイトルを表示 -->
+        <td>{{ question.type }}</td>
+        <!-- 質問の選択肢形式を表示 -->
+        <td>
+            <ul>
+                {% for choice in choices %}
+                    {% if choice.question.id == question.id %}
+                        <li>{{ choice.text }}</li>
+                        <!-- 質問に対応する選択肢をリスト表示 -->
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'templates:info' %}">質問一覧へ</a>
+<!-- 質問一覧へのリンクを設定 -->
+</body>
 </html>
