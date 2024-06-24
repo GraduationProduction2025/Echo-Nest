@@ -8,17 +8,5 @@
 
 <body>
     <h2>{{title}}</h2>
-    <!-- テーブル -->
-    <!-- <table>
-            <tr>
-                 {% for i in header %}
-                 <th>{{ i }}</th>
-                 {% endfor %}
-                 {% for i2 in survey %}
-                 <td>{{i2}}</td>
-                {% endfor %}
-            </tr>
-    </table> -->
-    <!-- surveys/list.htmlへ遷移 -->
     <a href="{% url 'templates:info' %}">質問一覧へ</a>
 </body>

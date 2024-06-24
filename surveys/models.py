@@ -23,8 +23,8 @@ class Choicetype(models.Model):
 class Question(models.Model):
     id = models.IntegerField(primary_key = True)
     title = models.CharField(max_length = 255)
-    survey_id = models.ForeignKey(Survey, on_delete = models.CASCADE)
-    type_id = models.ForeignKey(Choicetype, on_delete = models.CASCADE)
+    survey = models.ForeignKey(Survey, on_delete = models.CASCADE)
+    type = models.ForeignKey(Choicetype, on_delete = models.CASCADE)
     def __str__(self):
         return self.title
 
@@ -32,6 +32,6 @@ class Question(models.Model):
 class Choice(models.Model):
     id = models.IntegerField(primary_key = True)
     text = models.CharField(max_length = 255)
-    question_id = models.ForeignKey(Question, on_delete = models.CASCADE)
+    question = models.ForeignKey(Question, on_delete = models.CASCADE)
     def __str__(self):
         return self.text

@@ -10,4 +10,5 @@ urlpatterns = [
     path('detail/<int:survey_id>/', views.detail, name='detail'),
     path('add/', views.add, name='add'),
     path('create/', views.create, name='create'),
+    path('test/', views.test, name='test'),
 ]
