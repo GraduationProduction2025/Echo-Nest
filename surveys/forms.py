@@ -4,4 +4,4 @@ from .models import Survey
 class SurveyUpdateForm(forms.ModelForm):
     class Meta:
         model = Survey
-        fields = ['title', 'url', 'create_user', 'delete_flag']
+        fields = ['title', 'url', 'create_user',]
