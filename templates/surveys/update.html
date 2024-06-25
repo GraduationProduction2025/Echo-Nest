@@ -10,7 +10,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">更新</button>
+        <button type="submit" onclick='return confirm("更新しますか？");'>更新</button>
     </form>
 </body>
 
