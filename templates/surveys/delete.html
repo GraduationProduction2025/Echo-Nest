@@ -13,21 +13,23 @@
         <table>
             <thead>
                 <tr>
+                    <th>削除</th>
+                    <th>ID</th>
                     <th>タイトル</th>
                     <th>URL</th>
                     <th>作成日時</th>
                     <th>作成ユーザー</th>
-                    <th>削除</th>
                 </tr>
             </thead>
             <tbody>
                 {% for form in formset %}
                 <tr>
-                    <td>{{ form.id }} {{ form.title }}</td>
+                    <td>{{ form.DELETE }}</td>
+                    <td>{{ form.id }}</td>
+                    <td>{{ form.title }}</td>
                     <td>{{ form.url }}</td>
                     <td>{{ form.create_at }}</td>
                     <td>{{ form.create_user }}</td>
-                    <td>{{ form.DELETE }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
