@@ -11,13 +11,13 @@ function createInputField(inputType) {
     var addQuesDiv = document.querySelector(".add-ques");
     addQuesDiv.parentNode.insertBefore(newDiv, addQuesDiv);
     var newInputField;
-    
+
     newInputField = '<div class="ques-lane">' +
                         '<input type="text" class="ques-name" placeholder="質問のタイトルを入力">' +
                         '<img src="/static/img/delbox.png" class="ques-del">' +
                     '</div>';
     newDiv.innerHTML += newInputField;
-    
+
     if (inputType === "text") { //テキストを選択
         newInputField = '<div>' +
                             '<textarea rows="3" class="ques-text" placeholder="回答を入力してください" disabled></textarea> ' +

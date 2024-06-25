@@ -2,6 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #e2f7e6;
+    background-color: #e2f7e6;
     margin: 0;
     height: 100vh;
 }
@@ -26,7 +27,7 @@ header {
     margin-right: auto;
     padding: 10px;
 }
-   
+
 .nav-item {
     display: inline-block;
     padding: 10px;
@@ -56,6 +57,10 @@ input[type=button] {
 button:hover,
 input[type=button]:hover {
     background-color: #5ecd7a;
+}
+
+.title-bar {
+    margin-bottom: 20px;
 }
 /*全画面ここまで*/
 
@@ -88,16 +93,6 @@ td {
     background-color: #f5f5f5;
 }
 
-.title-bar {
-    margin-bottom: 20px;
-}
-
-.title-bar h1 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-}
-
 .list-buttons {
     display: flex;
     align-items: center;
@@ -117,6 +112,16 @@ td {
 
 .list-upd-btn {
     margin-left: auto;
+    margin-right: 5px;
+}
+
+.list-del-btn {
+    background-color: #ddd;
+    color: #000;
+}
+
+.list-del-btn:hover {
+    background-color: #ccc;
     margin-right: 5px;
 }
 
@@ -236,18 +241,24 @@ td {
     font-size: 16px;
 }
 
-.create-ques-btn {
-    padding: 10px 15px;
-    margin: 0px 10px;
-}
-
 .create-ques {
     text-align: right;
 }
 
-.create-ques-btn {
+.create-ques-btn,
+.cancel-ques-btn {
+    padding: 10px 15px;
     margin-top: 20px;
     margin-right: 0px;
+}
+
+.cancel-ques-btn {
+    background-color: #ddd;
+    color: #000;
+}
+
+.cancel-ques-btn:hover {
+    background-color: #ccc;
 }
 
 .form-preview {
@@ -268,3 +279,27 @@ td {
     padding: 5px;
 }
 /*質問作成画面ここまで*/
+
+/**/
+.detailtable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detailtable th,
+td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+.detailtable th {
+    background-color: #f2f2f2;
+}
+
+.listtable td {
+    text-align: left;
+}
+
+.listtable tr:hover {
+    background-color: #f5f5f5;
+}
