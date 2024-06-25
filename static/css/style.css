@@ -1,46 +1,90 @@
 /*全画面*/
 body {
     font-family: Arial, sans-serif;
-    background-color: #94d997;
+    background-color: #e2f7e6;
     margin: 0;
     height: 100vh;
 }
-/*全画面ここまで*/
 
-/*質問一覧画面*/
+header {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    background-color: #94e398;
+    align-items: center;
+    position: fixed;
+    margin-top: -130px;
+    box-shadow: 0px 0px 4px gray 
+}
+
+.user {
+    height:50px;
+    width:50px;
+}
+
+.appname {
+    margin-right: auto;
+    padding: 10px;
+}
+   
+.nav-item {
+    display: inline-block;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+}
+
 .container {
     width: 80%;
     margin: auto;
     background-color: #fff;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 130px;
 }
 
+button,
+input[type=button] {
+    background-color: #67de85;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover,
+input[type=button]:hover {
+    background-color: #5ecd7a;
+}
+/*全画面ここまで*/
+
+/*質問一覧画面*/
 .scrollable-table {
     overflow-y: scroll;
     margin-top: 20px;
 }
 
-table {
+.listtable {
     width: 100%;
     border-collapse: collapse;
 }
 
-th,
+.listtable th,
 td {
     border: 1px solid #ddd;
     padding: 12px;
 }
 
-th {
+.listtable th {
     background-color: #f2f2f2;
 }
 
-td {
+.listtable td {
     text-align: left;
 }
 
-tr:hover {
+.listtable tr:hover {
     background-color: #f5f5f5;
 }
 
@@ -54,30 +98,38 @@ tr:hover {
     color: #333;
 }
 
-.buttons {
+.list-buttons {
     display: flex;
     align-items: center;
 }
 
-.buttons h3 {
+.list-buttons h3 {
     margin: 0;
     color: #555;
 }
 
-.buttons button {
+.list-buttons button {
     padding: 10px 20px;
     font-size: 14px;
     border: none;
     border-radius: 4px;
 }
 
-.buttons .right-button {
-    background-color: #3498db;
-    color: #fff;
+.list-upd-btn {
     margin-left: auto;
+    margin-right: 5px;
 }
 
-.checkbox-column {
+.list-del-btn {
+    background-color: #ddd;
+    color: #000;
+}
+
+.list-del-btn:hover {
+    background-color: #ccc;
+}
+
+.listtable .checkbox-column {
     width: 40px;
     text-align: center;
 }
@@ -97,10 +149,122 @@ tr:hover {
 .add-button button {
     padding: 10px 20px;
     font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    background-color: #345edb;
-    color: #fff;
     margin-left: auto;
 }
 /*質問一覧画面ここまで*/
+
+
+/*質問作成画面*/
+.title-text {
+    width: 97%;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #32c63a;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 24pt;
+}
+
+.ques-container {
+    width: 80%;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.ques-container input {
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    margin-top: 10px;
+}
+
+.ques-container textarea {
+    resize: none;
+}
+
+.ques-lane {
+    display: flex;
+}
+
+.ques-name {
+    width: 85%;
+    background-color: #f2f2f2;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.ques-del {
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+}
+
+.ques-text {
+    width: 80%;
+}
+
+.option-text {
+    width: 60%;
+}
+
+.option-add,
+.option-del {
+    background-color: #fff;
+    color: #333;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.option-add:hover,
+.option-del:hover {
+    background-color: #fff;
+    color: #888;
+}
+
+.add-ques {
+    width: 80%;
+    margin: auto;
+}
+
+.add-ques-btn {
+    padding: 7px 10px;
+    font-size: 16px;
+}
+
+.create-ques-btn {
+    padding: 10px 15px;
+    margin: 0px 10px;
+}
+
+.create-ques {
+    text-align: right;
+}
+
+.create-ques-btn {
+    margin-top: 20px;
+    margin-right: 0px;
+}
+
+.form-preview {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* 質問タイプ選択ボタンを初期非表示 */
+#inputOptions {
+    display: none;
+}
+
+.input-option {
+    width: 120px;
+    margin-right: 10px;
+    padding: 5px;
+}
+/*質問作成画面ここまで*/

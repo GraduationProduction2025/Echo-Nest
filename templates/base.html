@@ -9,11 +9,22 @@
         {% endblock base %}
     </title>
     {% load static %}
+    <script src="{% static 'js/common.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 
 <body>
+    <header>
+        <h1 class="appname">EchoNest</h1>
+        <nav class="nav">
+            <ul class="nav-group">
+              <li class="nav-item"><a href="#">ホーム</a></li>
+              <li class="nav-item"><a href="#">お問い合わせ</a></li>
+              <li class="nav-item"><a href="#"><img src="{% static "img/icon.png" %}" class="user"></a></li>
+            </ul>
+        </nav>
+    </header>
     {% block content %}
     {% endblock content %}
 </body>
