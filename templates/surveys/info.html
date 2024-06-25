@@ -8,16 +8,17 @@
 {% load static %}
 <div class="container">
     <div class="title-bar">
-        <h1>質問一覧</h1>
+        <h1>{{ title }}</h1>
     </div>
-    <div class="buttons">
+    
+    <div class="list-buttons">
         <h3>top > 質問一覧 </h3>
-        <button class="right-button">編集</button>
-        <button>削除</button>
+        <button class="list-upd-btn" onclick=location.href="{% url 'templates:add' %}">編集</button>
+        <button class="list-del-btn">削除</button>
     </div>
-    <h1>{{ title }}</h1>
+
     <div class="scrollable-table">
-        <table>
+        <table class="listtable">
             <tr>
                 <th class="checkbox-column">
                     <label class="styled-checkbox">
@@ -46,10 +47,9 @@
             <!-- for文の終了 -->
         </table>
     </div>
+    
     <div class="add-button">
-        <button onclick="">新規作成</button>
+        <button onclick=location.href="{% url 'templates:create' %}">新規作成</button>
     </div>
-    <a href="{% url 'templates:create' %}" target="_self">新規作成</a>
-    <a href="{% url 'templates:add' %}" target="_self">追加</a>
 </div>
 {% endblock content %}
