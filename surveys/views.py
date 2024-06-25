@@ -8,7 +8,7 @@ def index(request):
         'title': '質問一覧',
         'surveys': surveys,
     }
-    return render(request, 'surveys/test.html', context)
+    return render(request, 'surveys/list_ques.html', context)
 
 # forms.pyに移行予定
 SurveyFormSet = forms.modelformset_factory(Survey, fields=['id', 'title', 'url', 'create_at', 'create_user'], can_delete=True, extra=0)
