@@ -8,7 +8,7 @@
 <div class="container">
 
     <div class="buttons">
-        <h2>質問作成 </h2>
+        <h2>質問作成</h2>
     </div>
     <form method="post">
         {% csrf_token %}
@@ -18,37 +18,78 @@
             {% for form in question_formset %}
             <div class="question-formset">
                 {{ form.as_p }}
-                {% if form.instance.pk %}
-                <button type="button" class="delete-question">Delete Question</button>
-                {% endif %}
+                <button type="button" class="delete-question">質問削除</button>
             </div>
             {% endfor %}
         </div>
-        <button type="button" id="add-question">Add Question</button>
-        <button type="submit">Save</button>
+        <button type="button" id="add-question">質問追加</button>
+        <button type="submit">保存</button>
     </form>
     <script>
+        // 質問追加ボタンをクリックしたときのイベントリスナー
         document.getElementById('add-question').addEventListener('click', function () {
-            let formset = document.querySelectorAll('.question-formset');
-            if (formset.length > 0) {
-                let newForm = formset[0].cloneNode(true);
-                newForm.querySelectorAll('input, textarea').forEach(input => {
-                    input.value = ''; // Clear the value
-                });
-                document.getElementById('question-forms').appendChild(newForm);
-
-                // Re-bind delete event for new delete buttons
-                newForm.querySelector('.delete-question').addEventListener('click', function () {
-                    this.parentElement.remove();
-                });
-            }
+            addQuestionForm();
         });
 
+        // 既存の質問削除ボタンにイベントリスナーを追加
         document.querySelectorAll('.delete-question').forEach(button => {
             button.addEventListener('click', function () {
                 this.parentElement.remove();
+                updateManagementForm();
             });
         });
+
+        // 新しい質問フォームを追加する関数
+        function addQuestionForm() {
+            let formset = document.querySelectorAll('.question-formset');
+            let newForm;
+            if (formset.length > 0) {
+                // 既存のフォームセットがある場合、そのクローンを作成
+                newForm = formset[0].cloneNode(true);
+                newForm.querySelectorAll('input, textarea').forEach(input => {
+                    input.value = ''; // フォームの値をクリア
+                });
+            } else {
+                // フォームセットがない場合、新しい空のフォームを作成
+                newForm = document.createElement('div');
+                newForm.classList.add('question-formset');
+                newForm.innerHTML = `
+                    <div class="question-formset">
+                        {% for field in question_formset.empty_form %}
+                            {{ field.label_tag }} {{ field }}
+                        {% endfor %}
+                        <button type="button" class="delete-question">質問削除</button>
+                    </div>
+                `;
+            }
+            document.getElementById('question-forms').appendChild(newForm);
+
+            // 新しい削除ボタンにイベントリスナーを追加
+            newForm.querySelector('.delete-question').addEventListener('click', function () {
+                this.parentElement.remove();
+                updateManagementForm();
+            });
+
+            updateManagementForm();
+        }
+
+        // 管理フォームを更新する関数
+        function updateManagementForm() {
+            let formset = document.querySelectorAll('.question-formset');
+            formset.forEach((form, index) => {
+                form.querySelectorAll('input, textarea').forEach(input => {
+                    let name = input.getAttribute('name');
+                    let newName = name.replace(/-\d+-/, `-${index}-`);
+                    input.setAttribute('name', newName);
+                    let id = input.getAttribute('id');
+                    let newId = id.replace(/_\d+_/, `_${index}_`);
+                    input.setAttribute('id', newId);
+                });
+            });
+
+            // TOTAL_FORMSの値を更新
+            document.querySelector('input[name$="TOTAL_FORMS"]').value = formset.length;
+        }
     </script>
 </div>
 {% endblock content %}
