@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Survey</title>
+</head>
+
+<body>
+    <h1>Edit Survey</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ survey_form.as_p }}
+        {{ question_formset.management_form }}
+        {% for form in question_formset %}
+        {{ form.as_p }}
+        {% if form.instance.pk %}
+        <button type="button" class="delete-question">Delete Question</button>
+        {% endif %}
+        {% endfor %}
+        <button type="button" id="add-question">Add Question</button>
+        <button type="submit">Save</button>
+    </form>
+    <script>
+        document.getElementById('add-question').addEventListener('click', function () {
+            let formset = document.querySelectorAll('.question-formset');
+            let newForm = formset[0].cloneNode(true);
+            formset[0].parentNode.appendChild(newForm);
+        });
+
+        document.querySelectorAll('.delete-question').forEach(button => {
+            button.addEventListener('click', function () {
+                this.parentElement.remove();
+            });
+        });
+    </script>
+</body>
+
+</html>

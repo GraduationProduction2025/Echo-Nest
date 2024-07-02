@@ -11,5 +11,6 @@ urlpatterns = [
     path('add/', views.add, name='add'),
     path('create/', views.create, name='create'),
     path('test/', views.test, name='test'),
-    path('print/', views.print, name='print'),
+    path('test2/', views.create_survey, name='test2'), 
+    path('test3/', views.edit_survey, name='test3'), 
 ]

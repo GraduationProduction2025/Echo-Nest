@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+<div class="container">
+    <h1>Create Survey</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ survey_form.as_p }}
+        {{ question_form.as_p }}
+        {{ choice_form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+</div>
+{% endblock content %}

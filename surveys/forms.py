@@ -1,7 +1,7 @@
 from django import forms
 from django.utils import timezone
 from django.db.models import Max
-from .models import Survey
+from .models import Survey, Question, Choice, Choicetype
 
 class SurveyAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -35,3 +35,18 @@ class SurveyAddForm(forms.ModelForm):
         label='URL',
         required=True,
     )
+
+class SurveyCreateForm(forms.ModelForm):
+    class Meta:
+        model = Survey
+        fields = ['title', 'url', 'create_at', 'create_user', 'delete_flag']
+
+class QuestionCreateForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['title', 'type']
+
+class ChoiceCreateForm(forms.ModelForm):
+    class Meta:
+        model = Choice
+        fields = ['text']

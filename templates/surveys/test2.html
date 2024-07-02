@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ 新規作成 }}
+{% endblock base %}
+
+{% block content %}
+<div class="container">
+
+    <div class="buttons">
+        <h2>質問作成 </h2>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ survey_form.as_p }}
+        {{ question_formset.management_form }}
+        <div id="question-forms">
+            {% for form in question_formset %}
+            <div class="question-formset">
+                {{ form.as_p }}
+                {% if form.instance.pk %}
+                <button type="button" class="delete-question">Delete Question</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="add-question">Add Question</button>
+        <button type="submit">Save</button>
+    </form>
+    <script>
+        document.getElementById('add-question').addEventListener('click', function () {
+            let formset = document.querySelectorAll('.question-formset');
+            if (formset.length > 0) {
+                let newForm = formset[0].cloneNode(true);
+                newForm.querySelectorAll('input, textarea').forEach(input => {
+                    input.value = ''; // Clear the value
+                });
+                document.getElementById('question-forms').appendChild(newForm);
+
+                // Re-bind delete event for new delete buttons
+                newForm.querySelector('.delete-question').addEventListener('click', function () {
+                    this.parentElement.remove();
+                });
+            }
+        });
+
+        document.querySelectorAll('.delete-question').forEach(button => {
+            button.addEventListener('click', function () {
+                this.parentElement.remove();
+            });
+        });
+    </script>
+</div>
+{% endblock content %}

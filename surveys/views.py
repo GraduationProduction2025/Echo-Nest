@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import Survey, Question, Choice, Choicetype
 from django.http import HttpResponse
-from .forms import SurveyAddForm
+from django.forms import inlineformset_factory
+from .forms import SurveyAddForm, SurveyCreateForm, QuestionCreateForm, ChoiceCreateForm
 
 def index(request):
     base = {
@@ -98,39 +99,107 @@ def detail_view(request):
 
     return render(request, 'surveys/detail.html', context)
 
-def print(request):
-    # header最終形
-    # header = ['ID','アンケートタイトル','質問タイトル','タイプ','テキスト']
-    # surveys.id, surveys.title, question.title, choicetype.type, choice.text
-    header = ['question.title', 'choice.text']
-    choice = Choice.objects.get(id=1)
-    data = choice.question.title
-    queryset = Question.objects.select_related('survey_id').values()
-    queryset2 = Question.objects.select_related('survey_id').only()
-    cset = Choice.objects.select_related('question_id').values()
-    data2 = Question.objects.filter(id=1)
-    dict=[]
-    for i in queryset:
-        dict=i
+def generate_id(model):
+    last_item = model.objects.order_by('id').last()
+    if not last_item:
+        return 1
+    return last_item.id + 1
 
-    # データを取得
-    # survey = Survey.objects.all()
-    # question = Question.objects.all()
-    # choicetype = Choicetype.objects.all()
-    # choice = Choice.objects.all()
-    # SQLを記述
-    # data = Question.objects.prefetch_related(survey).get(id=1)
-
-    base={
-    'title': 'テスト',
-    'header': header,
-    'data': data,
-    'qset': queryset,
-    'oset': queryset2,
-    'data2': data2,
-    'dict': dict,
-    'cset': cset,
-    }
-    return render(request, 'surveys/print.html', base)
 def test(request):
-    return HttpResponse('test')
+    if request.method == 'POST':
+        survey_form = SurveyCreateForm(request.POST)
+        question_form = QuestionCreateForm(request.POST)
+        choice_form = ChoiceCreateForm(request.POST)
+
+        if survey_form.is_valid() and question_form.is_valid() and choice_form.is_valid():
+            # Surveyを保存
+            survey = survey_form.save(commit=False)
+            survey.id = generate_id(Survey)
+            survey.save()
+
+            # Questionを保存し、Surveyと関連付ける
+            question = question_form.save(commit=False)
+            question.id = generate_id(Question)
+            question.survey = survey
+            question.save()
+
+            # Choiceを保存し、Questionと関連付ける
+            choice = choice_form.save(commit=False)
+            choice.id = generate_id(Choice)
+            choice.question = question
+            choice.save()
+
+            return redirect('../detail/')
+
+    else:
+        survey_form = SurveyCreateForm()
+        question_form = QuestionCreateForm()
+        choice_form = ChoiceCreateForm()
+
+    return render(request, 'surveys/test.html', {
+        'title':'アンケート作成',
+        'survey_form': survey_form,
+        'question_form': question_form,
+        'choice_form': choice_form,
+    })
+
+# Create formsets
+QuestionFormSet = inlineformset_factory(Survey, Question, form=QuestionCreateForm, extra=1, can_delete=True)
+ChoiceFormSet = inlineformset_factory(Question, Choice, form=ChoiceCreateForm, extra=1, can_delete=True)
+
+def create_survey(request):
+    if request.method == 'POST':
+        survey_form = SurveyCreateForm(request.POST)
+        question_formset = QuestionFormSet(request.POST, request.FILES)
+        if survey_form.is_valid() and question_formset.is_valid():
+            survey = survey_form.save(commit=False)
+            survey.id = generate_id(Survey)
+            survey.save()
+            questions = question_formset.save(commit=False)
+            for question in questions:
+                question.survey = survey
+                question.id = generate_id(Question)
+                question.save()
+
+            for form in question_formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()
+
+            return redirect('../detail/')  # 適切なリダイレクト先に変更してください
+    else:
+        survey_form = SurveyCreateForm()
+        question_formset = QuestionFormSet()
+
+    return render(request, 'surveys/test2.html', {
+        'survey_form': survey_form,
+        'question_formset': question_formset,
+    })
+
+def edit_survey(request, survey_id):
+    survey = Survey.objects.get(pk=survey_id)
+    question_formset = QuestionFormSet(request.POST or None, request.FILES or None, instance=survey)
+    
+    if request.method == 'POST':
+        survey_form = SurveyCreateForm(request.POST, instance=survey)
+        if survey_form.is_valid() and question_formset.is_valid():
+            survey = survey_form.save()
+            questions = question_formset.save(commit=False)
+            for question in questions:
+                question.survey = survey
+                if not question.id:
+                    question.id = generate_id(Question)
+                question.save()
+
+            for form in question_formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()
+
+            return redirect('../detail/')  # 適切なリダイレクト先に変更してください
+
+    else:
+        survey_form = SurveyCreateForm(instance=survey)
+
+    return render(request, 'surveys/test3.html', {
+        'survey_form': survey_form,
+        'question_formset': question_formset,
+    })
