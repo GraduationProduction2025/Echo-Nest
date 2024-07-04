@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="fin-bar">
+        <h1>{{ title }}</h1>
+    </div>
+    <div class="rtn-button">
+        <button onclick=location.href="{% url 'templates:list' %}">一覧に戻る</button>
+    </div>
+</div>
+{% endblock content %}

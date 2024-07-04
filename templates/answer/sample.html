@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="ans-title-container">
+    <input type="text" class="ans-title-text" value="アンケート" disabled>
+</div>
+
+<!-- 質問コンテナ -->
+<div class="ans-container">
+    <div class="ques-lane">
+        <input type="text" class="ans-name" value="あなたの好きなプログラミング言語は何ですか？" disabled>
+    </div>
+    
+    <!-- ラジオボタンの配置例 -->
+    <div>
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" value="Python" disabled>
+        </div>
+
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" value="JavaScript" disabled>
+        </div>
+
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" value="Java" disabled>
+        </div>
+
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" value="C++" disabled>
+        </div>
+
+        <div class="radio">
+            <input type="radio" name="radio">
+            <input type="text" class="option-text" value="Ruby" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="smp-btn">
+    <button onclick=location.href="{% url 'templates:fin' %}">回答を送信</button>
+</div>
+{% endblock content %}
