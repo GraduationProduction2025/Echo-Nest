@@ -36,9 +36,7 @@ header {
 a {
     text-decoration: none;
 }
-/*全画面ここまで*/
 
-/*質問一覧画面*/
 .container {
     width: 80%;
     margin: auto;
@@ -49,6 +47,23 @@ a {
 /*全画面ここまで*/
 
 /*質問一覧画面*/
+button,
+input[type=button] {
+    background-color: #67de85;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover,
+input[type=button]:hover {
+    background-color: #5ecd7a;
+}
+
+.title-bar {
+    margin-bottom: 20px;
+}
+
 .scrollable-table {
     overflow-y: scroll;
     margin-top: 20px;
@@ -106,7 +121,6 @@ td {
 
 .list-del-btn:hover {
     background-color: #ccc;
-    margin-right: 5px;
 }
 
 .list-del-btn {
