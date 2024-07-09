@@ -5,59 +5,51 @@
 {% endblock base %}
 
 {% block content %}
-    <div class="container">
-        <div class="title-bar">
-            <h1>質問一覧</h1>
-        </div>
-        <div class="buttons">
-            <h3>top > 質問一覧 </h3>
-            <button class="right-button">編集</button>
-            <button>削除</button>
-        </div>
-        <div class="scrollable-table">
-            <table>
-                <tr>
-                    <th class="checkbox-column">
-                        <label class="styled-checkbox">
-                            <input type="checkbox">
-                        </label>
-                    </th>
-                    <th>ステータス</th>
-                    <th>質問タイトル</th>
-                    <th>URL</th>
-                    <th>作成日</th>
-                    <th>ユーザー</th>
-                </tr>
-                <tr>
-                    <td class="checkbox-column"><input type="checkbox"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="checkbox-column"><input type="checkbox"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="checkbox-column"><input type="checkbox"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <!-- Add more rows as needed -->
-                <!-- ... -->
-            </table>
-        </div>
-        <div class="add-button">
-            <button>新規作成</button>
-        </div>
+{% load static %}
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ title }}</h1>
     </div>
+    
+    <div class="list-buttons">
+        <h3>top > 質問一覧 </h3>
+        <button class="list-upd-btn" onclick=location.href="{% url 'templates:add' %}">編集</button>
+        <button class="list-del-btn">削除</button>
+    </div>
+
+    <div class="scrollable-table">
+        <table class="listtable">
+            <tr>
+                <th class="checkbox-column">
+                    <label class="styled-checkbox">
+                        <input type="checkbox">
+                    </label>
+                </th>
+                {% for i in header %}
+                <!-- headerを使って表の見出し行を表示 -->
+                <th>{{ i }}</th>
+                {% endfor %}
+            </tr>
+            <!-- 内容の表示 -->
+            <!-- for文の開始 -->
+            {% for i in val2 %}
+            <tr>
+                <td class="checkbox-column"><input type="checkbox"></td>
+                <td>{{ i.id }}</td>
+                <!-- <td>{{ i.title }}</td> -->
+                <!-- <td><a href="{{ i.url }}" target="_blank">{{ i.url }}</a></td> -->
+                <td><a href="{{ i.url }}" target="_blank">{{ i.title }}</a></td>
+                <td>{{ i.create_at }}</td>
+                <td>{{ i.create_user }}</td>
+                <td><a href="{% url 'templates:detail' i.id %}">詳細を見る</a></td>
+            </tr>
+            {% endfor %}
+            <!-- for文の終了 -->
+        </table>
+    </div>
+    
+    <div class="add-button">
+        <button onclick=location.href="{% url 'templates:create' %}">新規作成</button>
+    </div>
+</div>
 {% endblock content %}

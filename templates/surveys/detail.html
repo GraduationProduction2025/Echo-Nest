@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ survey.title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ survey.title }}</h1>
+    </div>
+
+    <p>URL: <a href="{{ survey.url }}">{{ survey.url }}</a></p>
+    <!-- アンケートのURLを表示 -->
+    <p>作成日: {{ survey.create_at }}</p>
+    <!-- アンケートの作成日時を表示 -->
+    <p>作成ユーザ: {{ survey.create_user }}</p>
+    <!-- アンケートの作成者を表示 -->
+
+    <h2>質問一覧</h2>
+    <table class="detailtable">
+        <thead>
+            <tr>
+                <th>質問タイトル</th>
+                <th>選択肢形式</th>
+                <th>選択肢</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+        <tr>
+            <td>{{ question.title }}</td>
+            <!-- 質問のタイトルを表示 -->
+            <td>{{ question.type }}</td>
+            <!-- 質問の選択肢形式を表示 -->
+            <td>
+                <ul>
+                    {% for choice in choices %}
+                        {% if choice.question.id == question.id %}
+                            <li>{{ choice.text }}</li>
+                            <!-- 質問に対応する選択肢をリスト表示 -->
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="create-ques">
+        <button type="submit" class="cancel-ques-btn" onclick=location.href="{% url 'templates:list' %}">戻る</button>
+    </div>
+    <!-- 質問一覧へのリンクを設定 -->
+</div>
+{% endblock content %}
