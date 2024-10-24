@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 import os
 from pathlib import Path
 
@@ -20,8 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+env = environ.Env()
+# .envファイルを読み込む
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&0egg5*e+3^%2a5l+on5t-c4bi4luxmc0*x%rtk48e-%d$21vx'
+SECRET_KEY = env('SECRET_KEY')
+#SECRET_KEYが存在しない場合のデフォルト値が欲しい場合　ー＞ ,default='デフォルト値'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,12 +83,12 @@ WSGI_APPLICATION = 'EchoNest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysqldb',
-        'USER': 'user',
-        'PASSWORD': "userpass",
-        'HOST':'db',
-        'PORT':'3306'
+        'ENGINE': env('DB_ENGINE'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
