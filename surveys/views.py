@@ -4,42 +4,49 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView
 
 # データベースを取得して表示する
-def list(request):
-    survey = Survey.objects.all()
-    survey_2 = Survey.objects.values()
-    # header = ['ステータス','質問タイトル','URL','作成日','作成ユーザ']
-    header = ['ステータス','質問タイトル','作成日','作成ユーザ','詳細']
+def list_ques(request):
+    survey_field_data = Survey.objects.values()
     listdict = {
-        'title':'テスト',
-        'header':header,
-        'val':survey,
-        'val2':survey_2,
+        'title':'一覧',
+        'val':survey_field_data,
     }
     return render(request, 'surveys/list_ques.html', listdict)
 
-# データベースの内容を取得して表示
-def detail(request, survey_id):
-    survey = Survey.objects.get(id=survey_id)
-    questions = Question.objects.filter(survey=survey)
-    choices = Choice.objects.filter(question__in=questions)
-    context = {
-        'survey': survey,
-        'questions': questions,
-        'choices': choices,
-    }
-    return render(request, 'surveys/detail.html', context)
-
-# テスト
-def add(request):
-    base = {
-        'title':'アンケート追加'
-    }
-    return render(request,'surveys/add.html',base)
-    # return HttpResponse('add')
-
-def create(request):
+def create_ques(request):
     base = {
     'title':'アンケート作成'
     }
-    return render(request,'surveys/create.html',base)
-    # return HttpResponse('create')
+    return render(request,'surveys/create_ques.html',base)
+
+def al_list(request):
+    survey_field_data = Survey.objects.filter(published_flag=True)
+    listdict = {
+        'title':'公開済みアンケート一覧',
+        'val':survey_field_data,
+    }
+    return render(request, 'surveys/al_list.html', listdict)
+
+def tem_list(request):
+    survey_field_data = Survey.objects.filter(published_flag=False)
+    listdict = {
+        'title':'下書きアンケート一覧',
+        'val':survey_field_data,
+    }
+    return render(request, 'surveys/tem_list.html', listdict)
+
+def ag_data(request, survey_id):
+    survey_field_data = Survey.objects.get(id = survey_id)
+    listdist = {
+        'title':'集計結果',
+        'val':survey_field_data
+    }
+    return render(request, 'surveys/ag_data.html', listdist)
+
+def edit_ques(request, survey_id):
+    survey = Survey.objects.get(id = survey_id)
+    listdict = {
+        'title':'編集画面',
+        'survey':survey,
+    }
+    return render(request, 'surveys/edit_ques.html', listdict)
+    

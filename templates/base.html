@@ -16,12 +16,11 @@
 
 <body>
     <header>
-        <h1 class="appname">EchoNest</h1>
+        <h1 class="appname" onclick=location.href="{% url 'templates:list_ques' %}">EchoNest</h1>
         <nav class="nav">
             <ul class="nav-group">
-              <li class="nav-item"><a href="{% url 'templates:list' %}">ホーム</a></li>
-              <li class="nav-item"><a href="#">お問い合わせ</a></li>
-              <li class="nav-item"><a href="#"><img src="{% static "img/icon.png" %}" class="user"></a></li>
+              <li class="nav-item">お問い合わせ</li>
+              <li class="nav-item"><img src="{% static "img/icon.png" %}" class="user"></li>
             </ul>
         </nav>
     </header>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+<div class="title-bar">
+    <h1>{{ title }}</h1>
+</div>
+<div class="scrollable-table">
+    <table class="listtable">
+        <!-- 内容の表示 -->
+        <!-- for文の開始 -->
+        {% for i in val %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.title }}</td>
+            <td>{{ i.create_at }}</td>
+            <td>{{ i.create_user }}</td>
+            <td><a href="{% url 'templates:ag_data' i.id %}">詳細を見る</a></td>
+        </tr>
+        {% endfor %}
+        <!-- for文の終了 -->
+    </table>
+</div>
+<button onclick=location.href="{% url 'templates:tem_list' %}">下書き一覧</button>
+<button onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
+
+</div>
+
+{% endblock content %}
