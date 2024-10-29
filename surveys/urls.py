@@ -12,5 +12,6 @@ urlpatterns = [
     path('list/ag_data/<int:survey_id>/', views.ag_data, name='ag_data'),
     path('al_list/ag_data/<int:survey_id>', views.ag_data, name='ag_data'),
     path('tem_list/edit_ques/<int:survey_id>/', views.edit_ques, name='edit_ques'),
-
+    path('answer/<int:survey_id>/', views.answer, name='answer'),
+    path('complete/', views.complete, name='Answered'),
 ]

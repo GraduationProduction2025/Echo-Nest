@@ -38,3 +38,10 @@ class Choice(models.Model):
     deleted_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
     def __str__(self):
         return self.text
+
+# テキスト回答データベース
+class Answer(models.Model):
+    id = models.IntegerField(primary_key=True)
+    context = models.JSONField(max_length=255)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+# JSONで実装する

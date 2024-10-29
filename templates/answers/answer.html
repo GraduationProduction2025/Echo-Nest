@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ title }}</h1>
+    </div>
+    <form action="/complete/" method="post">
+        {% csrf_token %}
+        <label for="your_name">アンケートID: </label>
+        <input id="survey_id" name="survey_id" type="number" value=""><br>
+        <label for="type">タイプ: </label>
+        <input id="type" name="type" type="text" value=""><br>
+        <label for="context">内容: </label>
+        <input id="context" name="context" type="text" value=""><br>
+        <input type="submit" value="送信する">
+    </form>
+</div>
+{% endblock content %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
-from .models import Survey, Question, Choice, Choicetype
+from .models import Survey, Question, Choice, Choicetype, Answer
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from .forms import TextInputForm
 
 # データベースを取得して表示する
 def list_ques(request):
@@ -49,4 +50,18 @@ def edit_ques(request, survey_id):
         'survey':survey,
     }
     return render(request, 'surveys/edit_ques.html', listdict)
-    
+
+def answer(request, survey_id):
+    survey = Survey.objects.get(id = survey_id)
+
+    listdict = {
+        'title':'回答画面',
+        'survey':survey,
+    }
+    return render(request, 'answers/answer.html', listdict)
+
+def complete(request):
+    listdict = {
+        'title' : '回答完了画面',
+    }
+    return render(request, 'answers/complete.html', listdict)
