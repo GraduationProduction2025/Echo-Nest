@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from .models import Survey, Question, Choice, Choicetype, Answer
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.generic import TemplateView
 from .forms import TextInputForm
+
 
 # データベースを取得して表示する
 def list_ques(request):
@@ -52,13 +53,21 @@ def edit_ques(request, survey_id):
     return render(request, 'surveys/edit_ques.html', listdict)
 
 def answer(request, survey_id):
-    survey = Survey.objects.get(id = survey_id)
+    try:
+        # ページ番号と同じSurveyを取り出す
+        survey = Survey.objects.get(id=survey_id)
+        # 上のアンケートに関連したQuestionを取り出す
+        question = Question.objects.filter(survey__id = survey_id)
+        listdict = {
+            "survey": survey,
+            "question": question,
+        }
+    except Survey.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, "answers/answer.html", listdict)
 
-    listdict = {
-        'title':'回答画面',
-        'survey':survey,
-    }
-    return render(request, 'answers/answer.html', listdict)
+
+
 
 def complete(request):
     listdict = {
