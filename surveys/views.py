@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype
-from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.utils import timezone
+from django.db import models
 
 # データベースを取得して表示する
 def list(request):
@@ -37,9 +37,78 @@ def add(request):
     return render(request,'surveys/add.html',base)
     # return HttpResponse('add')
 
-def create(request):
+def create_ques(request):
+    # GETリクエストの場合、入力フォームを表示
+    choicetypes = Choicetype.objects.all()  # 質問タイプを選ぶために全てのタイプを取得
+    # base辞書を作成
     base = {
-    'title':'アンケート作成'
+        'title': 'アンケート作成',
+        'choicetypes': choicetypes,  # 質問タイプを追加
     }
-    return render(request,'surveys/create.html',base)
-    # return HttpResponse('create')
+    survey = Survey.objects.all()
+    survey_2 = Survey.objects.values()
+    # header = ['ステータス','質問タイトル','URL','作成日','作成ユーザ']
+    header = ['ステータス','質問タイトル','作成日','作成ユーザ','詳細']
+    listdict = {
+        'title':'テスト',
+        'header':header,
+        'val':survey,
+        'val2':survey_2,
+    }
+
+    if request.method == 'POST' and request.POST.get('action') == 'create':
+        print("POSTデータ:", request.POST)
+        # Surveyモデルの最大IDを取得
+        max_survey_id = Survey.objects.aggregate(models.Max('id'))['id__max'] or 0
+        new_survey_id = max_survey_id + 1
+
+        survey_title = request.POST.get('title-text')
+        survey_url = "http://example.com/"
+        survey_create_user = "admin"
+
+        # 新しいSurveyオブジェクトを作成
+        survey = Survey(
+            id=new_survey_id,
+            title=survey_title,
+            url=survey_url,
+            create_at=timezone.now(),
+            create_user=survey_create_user,
+            delete_flag=False
+        )
+        survey.save()
+
+        # 質問と選択肢を処理
+        question_titles = request.POST.getlist('ques-title')
+        choice_texts = request.POST.getlist('ques-text')
+
+        for i in range(len(question_titles)):
+            max_question_id = Question.objects.aggregate(models.Max('id'))['id__max'] or 0
+            new_question_id = max_question_id + 1
+
+            # 新しいQuestionオブジェクトを作成
+            question = Question(
+                id=new_question_id,
+                title=question_titles[i],
+                survey=survey,  # Surveyオブジェクトを直接指定
+                type=Choicetype.objects.get(id=1)  # 適切な選択肢タイプIDを指定
+            )
+            question.save()
+
+            # 選択肢を保存（もし存在する場合）
+            if i < len(choice_texts):
+                choice_text = choice_texts[i].strip()  # 空白をトリム
+                if choice_text:  # 空文字列でない場合のみ保存
+                    max_choice_id = Choice.objects.aggregate(models.Max('id'))['id__max'] or 0
+                    new_choice_id = max_choice_id + 1
+
+                    choice = Choice(
+                        id=new_choice_id,
+                        text=choice_text,
+                        question=question  # Questionオブジェクトを指定
+                    )
+                    choice.save()
+
+        return render(request, 'surveys/list_ques.html', listdict)
+
+    return render(request, 'surveys/create_ques.html', base)
+
