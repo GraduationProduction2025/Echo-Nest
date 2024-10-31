@@ -22,11 +22,12 @@
         <!-- タイトルと削除 -->
         <div class="ques-lane">
             <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
-            <img src="{% static "img/delbox.png" %}" class="ques-del">
+            <img src="{% static "img/delbox.png" %}" class="ques-del" onclick="ques_del(this)">
         </div>
 
         <!-- テキストの配置例 -->
         <div>
+            <input type="hidden" name="ques-type" value="1">
             <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
         </div>
     </div>
