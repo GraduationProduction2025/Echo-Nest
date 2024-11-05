@@ -22,12 +22,12 @@
         <!-- タイトルと削除 -->
         <div class="ques-lane">
             <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
+            <input type="hidden" name="ques-type" value="1">
             <img src="{% static "img/delbox.png" %}" class="ques-del" onclick="ques_del(this)">
         </div>
 
         <!-- テキストの配置例 -->
         <div>
-            <input type="hidden" name="ques-type" value="1">
             <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
         </div>
     </div>
@@ -43,6 +43,7 @@
         <!-- 質問のタイプを選択 -->
         <div id="inputOptions">
             <input type="button" class="input-option" value="テキスト" onclick="createInputField(event,'text')">
+            <input type="button" class="input-option" value="チェックボックス" onclick="createInputField(event,'checkbox')">
         </div>
     </div>
 

@@ -79,34 +79,42 @@ def create_ques(request):
 
         # 質問と選択肢を処理
         question_titles = request.POST.getlist('ques-title')
-        choice_texts = request.POST.getlist('ques-text')
+        question_types = request.POST.getlist('ques-type')
 
         for i in range(len(question_titles)):
             max_question_id = Question.objects.aggregate(models.Max('id'))['id__max'] or 0
             new_question_id = max_question_id + 1
 
-            # 新しいQuestionオブジェクトを作成
+            # 適切な選択肢タイプを取得
+            question_type_id = int(question_types[i])  # 1がtextbox、2がcheckbox
+            question_type = Choicetype.objects.get(id=question_type_id)
+
+            # Questionオブジェクトの作成
             question = Question(
                 id=new_question_id,
                 title=question_titles[i],
-                survey=survey,  # Surveyオブジェクトを直接指定
-                type=Choicetype.objects.get(id=1)  # 適切な選択肢タイプIDを指定
+                survey=survey,
+                type=question_type
             )
             question.save()
 
-            # 選択肢を保存（もし存在する場合）
-            if i < len(choice_texts):
-                choice_text = choice_texts[i].strip()  # 空白をトリム
-                if choice_text:  # 空文字列でない場合のみ保存
-                    max_choice_id = Choice.objects.aggregate(models.Max('id'))['id__max'] or 0
-                    new_choice_id = max_choice_id + 1
+            # チェックボックスタイプの場合のみ選択肢を取得
+            if question_type_id == 2:  # チェックボックスの場合
+                # インデックスに基づくキー名を使用
+                choice_texts = request.POST.getlist(f'option-text-{i}')  # インデックスを使用して選択肢を取得
 
-                    choice = Choice(
-                        id=new_choice_id,
-                        text=choice_text,
-                        question=question  # Questionオブジェクトを指定
-                    )
-                    choice.save()
+                for choice_text in choice_texts:
+                    choice_text = choice_text.strip()
+                    if choice_text:
+                        max_choice_id = Choice.objects.aggregate(models.Max('id'))['id__max'] or 0
+                        new_choice_id = max_choice_id + 1
+
+                        choice = Choice(
+                            id=new_choice_id,
+                            text=choice_text,
+                            question=question
+                        )
+                        choice.save()
 
         return render(request, 'surveys/list_ques.html', listdict)
 
