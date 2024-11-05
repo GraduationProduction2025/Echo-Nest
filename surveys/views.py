@@ -4,7 +4,6 @@ from django.http import HttpResponse, Http404
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 
-
 # データベースを取得して表示する
 def list_ques(request):
     survey_field_data = Survey.objects.values()

@@ -51,4 +51,3 @@ class Answer(models.Model):
             max_id = Answer.objects.aggregate(Max('id'))['id__max']
             self.id = (max_id or 0) + 1  # 1を加えて新しいIDを設定
         super().save(*args, **kwargs)
-# JSONで実装する
