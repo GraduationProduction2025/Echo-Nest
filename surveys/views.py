@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect, get_object_or_404
 from .models import Survey, Question, Choice, Choicetype, Answer
 from django.http import HttpResponse, Http404
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 from .forms import TextInputForm
+import json
 
 
 # データベースを取得して表示する
@@ -61,16 +63,41 @@ def answer(request, survey_id):
         listdict = {
             "survey": survey,
             "question": question,
+            "title": survey.title,
         }
     except Survey.DoesNotExist:
         raise Http404("Question does not exist")
     return render(request, "answers/answer.html", listdict)
 
 
-
-
+@csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
 def complete(request):
-    listdict = {
-        'title' : '回答完了画面',
-    }
-    return render(request, 'answers/complete.html', listdict)
+    if request.method == 'POST':
+        responses = request.POST
+        response_list = []
+
+        for key, value in responses.items():
+            if key != 'csrfmiddlewaretoken':
+                question_id = int(key)
+                question = Question.objects.get(id=question_id)  # 質問を取得
+                answer_data = {
+                    "question_id": question.id,  # 質問のIDを取得
+                    "type": str(question.type),  # 質問のタイプを取得
+                    "content": [value],  # ユーザーが入力した回答をリスト形式で格納
+                }
+
+                # Answerインスタンスを作成
+                answer_instance = Answer(
+                    context=answer_data,  # JSONデータをcontextに格納
+                    question=question  # Questionを関連付け
+                )
+                answer_instance.save()  # データベースに保存
+                response_list.append(answer_data)
+        listdict = {
+            'title': '回答完了画面',
+            'responses': response_list,
+        }        
+        return render(request, 'answers/complete.html', listdict)
+        # return render(request, 'answers/dump.html', listdict)
+
+    return render(request, 'answers/answer.html', {'title': '回答ページ'})

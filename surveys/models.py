@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 
 # Create your models here.
 # アンケートのデータベースの作成
@@ -44,4 +45,10 @@ class Answer(models.Model):
     id = models.IntegerField(primary_key=True)
     context = models.JSONField(max_length=255)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    # saveメソッドをオーバーライドしてIDを手動で設定
+    def save(self, *args, **kwargs):
+        if not self.id:  # IDがまだ設定されていない場合
+            max_id = Answer.objects.aggregate(Max('id'))['id__max']
+            self.id = (max_id or 0) + 1  # 1を加えて新しいIDを設定
+        super().save(*args, **kwargs)
 # JSONで実装する

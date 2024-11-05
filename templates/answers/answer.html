@@ -22,7 +22,7 @@
         <!-- Survey_idをキーとするQuestionをすべて取り出す -->
         {% for q in question %}
         <p>{{ q.title }}</p>
-        <input type={{q.type}}></br>
+        <input type={{q.type}} name="{{q.id}}"></br>
         {% empty %}
         <p>質問はありません</p>
         {% endfor %}
