@@ -1,10 +1,8 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype, Answer
 from django.http import HttpResponse, Http404
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from .forms import TextInputForm
-import json
 
 
 # データベースを取得して表示する
@@ -98,6 +96,5 @@ def complete(request):
             'responses': response_list,
         }        
         return render(request, 'answers/complete.html', listdict)
-        # return render(request, 'answers/dump.html', listdict)
 
     return render(request, 'answers/answer.html', {'title': '回答ページ'})

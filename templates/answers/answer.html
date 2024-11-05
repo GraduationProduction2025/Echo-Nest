@@ -10,12 +10,6 @@
 <div class="container">
     <div class="title-bar">
         <h1>{{ title }}</h1>
-        <!-- アンケートの情報を取り出す -->
-        <p>アンケート情報ここから</p>
-        <p>{{ survey.title }}</p>
-        <!-- <p>{{ survey.create_at }}</p> -->
-        <!-- <p>{{ survey.create_user }}</p> -->
-        <p>―――</p>
     </div>
     <form action="/complete/" method="post">
         {% csrf_token %}
@@ -26,7 +20,6 @@
         {% empty %}
         <p>質問はありません</p>
         {% endfor %}
-        <p>―――</p>
         <input type="submit" value="送信する">
     </form>
 </div>
