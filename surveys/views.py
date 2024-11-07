@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype, Answer
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # データベースを取得して表示する
 def list_ques(request):
@@ -37,11 +38,23 @@ def tem_list(request):
 
 def ag_data(request, survey_id):
     survey_field_data = Survey.objects.get(id = survey_id)
-    listdist = {
-        'title':'集計結果',
-        'val':survey_field_data
+    question_field_data = Question.objects.values()
+    answer_field_data = Answer.objects.all()
+    # JSONデータをパースする必要がある
+    jsondata = Answer.objects.all()
+
+    questions = Question.objects.filter(survey_id = survey_id)
+    # 質問に対応するAnswerをフィルタリング
+    answers = Answer.objects.filter(question__in = questions)
+    # jsondata = json.load(jsondata.context["content"][0])
+    listdict = {
+    #     'title':'集計結果',
+    #     'val':survey_field_data,
+    #     'val2': question_field_data,
+    #     'ans': answer_field_data,
+        'jsondata': answers,
     }
-    return render(request, 'surveys/ag_data.html', listdist)
+    return render(request, 'answers/ag_data.html', listdict)
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
