@@ -1,34 +1,33 @@
-<!-- display_context.html -->
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Display Context</title>
-</head>
+{% block base %}
+{{ survey.title }} - Questions and Answers
+{% endblock base %}
 
-<body>
-    <h1>Context Data</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Context Content</th>
-                <th>Question ID</th>
-                <th>Survey ID</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in jsondata %}
-            <tr>
-                <td>{{ i.id }}</td>
-                <td>{{ i.context.content }}</td>
-                <td>{{ i.question_id }}</td>
-                <td>{{ i.question.survey_id }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+{% block content %}
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ survey.title }}の回答一覧</h1>
+    </div>
 
-</html>
+    <ul>
+        <!-- 質問と回答を対応付ける -->
+        {% for question, answers in question_answers.items %}
+        <li>
+            <strong>{{ question.title }}</strong>
+            <ul>
+                <!-- 質問に対応する回答をすべて取り出す -->
+                {% for answer in answers %}
+                <ul>・ {{ answer.context.content.0 }}</ul>
+                {% empty %}
+                <li>質問に対応する回答が存在しませんでした。</li>
+                {% endfor %}
+            </ul><br>
+        </li>
+        {% empty %}
+        <li>アンケートに対応する質問が存在しませんでした。</li>
+        {% endfor %}
+    </ul>
+    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
+</div>
+{% endblock content %}

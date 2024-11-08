@@ -37,24 +37,22 @@ def tem_list(request):
     return render(request, 'surveys/tem_list.html', listdict)
 
 def ag_data(request, survey_id):
-    survey_field_data = Survey.objects.get(id = survey_id)
-    question_field_data = Question.objects.values()
-    answer_field_data = Answer.objects.all()
-    # JSONデータをパースする必要がある
-    jsondata = Answer.objects.all()
+    survey = Survey.objects.get(id = survey_id)
+    # Surveyに関連するQuestionを取得
+    questions = Question.objects.filter(survey=survey, deleted_flag=False)
+    
+    # 各Questionに関連するAnswerを取得して辞書に格納
+    question_answers = {}
+    for question in questions:
+        answers = Answer.objects.filter(question=question)
+        question_answers[question] = answers
 
-    questions = Question.objects.filter(survey_id = survey_id)
-    # 質問に対応するAnswerをフィルタリング
-    answers = Answer.objects.filter(question__in = questions)
-    # jsondata = json.load(jsondata.context["content"][0])
-    listdict = {
-    #     'title':'集計結果',
-    #     'val':survey_field_data,
-    #     'val2': question_field_data,
-    #     'ans': answer_field_data,
-        'jsondata': answers,
+    context = {
+        'survey': survey,
+        'question_answers': question_answers,
     }
-    return render(request, 'answers/ag_data.html', listdict)
+    
+    return render(request, 'answers/ag_data.html', context)
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
