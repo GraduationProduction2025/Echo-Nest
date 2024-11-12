@@ -37,31 +37,31 @@ def tem_list(request):
 
 def ag_data(request, survey_id):
     survey = Survey.objects.get(id=survey_id)
-    # Surveyに関連するQuestionを取得
     questions = Question.objects.filter(survey=survey, deleted_flag=False)
     
-    # 各Questionに関連するAnswerを取得して辞書に格納
     question_answers = {}
     for question in questions:
         answers = Answer.objects.filter(question=question)
         
-        # 回答内容をIDからテキストに変換
         formatted_answers = []
         for answer in answers:
             content_list = []
-            if question.type.type == "checkbox" or question.type.type == "radio" or question.type.type == "pulldown":
-                # 選択肢のIDを選択肢テキストに変換
+            if question.type.type in ["checkbox", "radio", "pulldown"]:
                 for choice_id in answer.context.get("content", []):
                     try:
                         choice = Choice.objects.get(id=choice_id)
-                        content_list.append(choice.text)
+                        if choice.text:  # 空文字でないかチェック
+                            content_list.append(choice.text)
                     except Choice.DoesNotExist:
                         content_list.append("選択肢が見つかりません")
             else:
-                # テキストボックスの場合はそのまま表示
-                content_list = answer.context.get("content", [])
-                
-            formatted_answers.append(content_list)
+                # テキストボックスの場合も空文字を除外
+                content = answer.context.get("content", [])
+                if content:
+                    content_list.extend([text for text in content if text])  # 空文字でないものだけ追加
+
+            if content_list:  # 空リストでない場合のみ追加
+                formatted_answers.append(content_list)
         
         question_answers[question] = formatted_answers
 
@@ -70,7 +70,9 @@ def ag_data(request, survey_id):
         'question_answers': question_answers,
     }
     
-    return render(request, 'answers/ag_data.html', context)
+    return render(request, 'surveys/ag_data.html', context)
+
+
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
