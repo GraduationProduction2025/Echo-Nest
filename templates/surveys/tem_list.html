@@ -6,6 +6,7 @@
 
 {% block content %}
 {% load static %}
+
 <div class="container">
     <div class="title-bar">
         <h1>{{ title }}</h1>
@@ -17,20 +18,17 @@
             {% for i in val %}
             <tr>
                 <td>{{ i.id }}</td>
-                <td><a href="{% url 'templates:answer' i.id %}" , target="_blank">{{ i.title }}</a></td>
+                <td>{{ i.title }}</td>
                 <td>{{ i.create_at }}</td>
                 <td>{{ i.create_user }}</td>
-                <td><a href="{% url 'templates:ag_data' i.id %}">詳細を見る</a></td>
+                <td><a href="{% url 'templates:edit_ques' i.id %}">編集</a></td>
             </tr>
             {% endfor %}
             <!-- for文の終了 -->
         </table>
     </div>
-    
-    <div class="add-button">
-        <button onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
-        <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
-        <button onclick=location.href="{% url 'templates:tem_list' %}">下書き一覧</button>
-    </div>
+    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
+    <button onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
+
 </div>
 {% endblock content %}
