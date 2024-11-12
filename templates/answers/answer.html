@@ -13,13 +13,42 @@
     </div>
     <form action="/complete/" method="post">
         {% csrf_token %}
+
         <!-- Survey_idをキーとするQuestionをすべて取り出す -->
         {% for q in question %}
         <p>{{ q.title }}</p>
-        <input type={{q.type}} name="{{q.id}}"></br>
+
+        {% if q.type.type == "text" %}
+        <!-- テキスト入力用のフィールド -->
+        <input type="text" name="answer_{{ q.id }}">
+
+        {% elif q.type.type == "checkbox" %}
+        <!-- チェックボックス用のフィールド（複数の選択肢をまとめて表示） -->
+        <div>
+            {% for choice in q.choice_set.all %}
+            <label>
+                <input type="checkbox" name="answer_{{ q.id }}" value="{{ choice.id }}"> {{ choice.text }}
+            </label>
+            {% endfor %}
+        </div>
+        {% elif q.type.type == "radio" %}
+        <!-- ラジオボタン用のフィールド -->
+        <div>
+            {% for choice in q.choice_set.all %}
+            <label>
+                <input type="radio" name="answer_{{ q.id }}" value="{{ choice.id }}"> {{ choice.text }}
+            </label>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- 他のタイプがあればここに追加 -->
+        <p>入力タイプが不明です</p>
+        {% endif %}
+        <br>
         {% empty %}
         <p>質問はありません</p>
         {% endfor %}
+
         <input type="submit" value="送信する">
     </form>
 </div>
