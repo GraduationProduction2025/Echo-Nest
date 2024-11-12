@@ -8,28 +8,12 @@
 {% load static %}
 <form method="POST">
     {% csrf_token %}
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
     <div class="container">
         <div class="title-bar">
             <h1>{{ title }}</h1>
         </div>
         <input type="text" name="title-text" class="title-text" placeholder="タイトル">
-    </div>
-
-    <!-- 質問ごとのコンテナ -->
-    <div class="ques-container">
-        <!-- タイトルと削除 -->
-        <div class="ques-lane">
-            <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
-            <input type="hidden" name="ques-type" value="1">
-            <img src="{% static "img/delbox.png" %}" class="ques-del" onclick="ques_del(this)">
-        </div>
-
-        <!-- テキストの配置例 -->
-        <div>
-            <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
-        </div>
     </div>
 
     <!-- 質問の新規追加 -->
@@ -47,11 +31,11 @@
         </div>
     </div>
 
-    <div class="ques-container">
+    <div class="submit-container">
         <!-- 質問を作成 -->
         <div class="create-ques">
-            <button type="submit" class="create-ques-btn" name="action" value="create">質問を作成</button>
-            <button type="submit" class="cancel-ques-btn" onclick=location.href="{% url 'templates:list' %}">キャンセル</button>
+            <button type="submit" class="create-ques-btn" id="create-ques-btn" name="action" value="create">質問を作成</button>
+            <button type="button" class="cancel-ques-btn" onclick=location.href="{% url 'templates:list' %}">キャンセル</button>
         </div>
     </div>
     </form>

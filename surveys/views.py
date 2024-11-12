@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype
 from django.utils import timezone
 from django.db import models
+import re
 
 # データベースを取得して表示する
 def list(request):
@@ -58,7 +59,6 @@ def create_ques(request):
 
     if request.method == 'POST' and request.POST.get('action') == 'create':
         print("POSTデータ:", request.POST)
-        # Surveyモデルの最大IDを取得
         max_survey_id = Survey.objects.aggregate(models.Max('id'))['id__max'] or 0
         new_survey_id = max_survey_id + 1
 
@@ -81,11 +81,20 @@ def create_ques(request):
         question_titles = request.POST.getlist('ques-title')
         question_types = request.POST.getlist('ques-type')
 
+        # ques-title フィールド名をすべて取得してリストに追加
+        for key, value in request.POST.items():
+            if re.match(r'^ques-title-\d+$', key):
+                question_titles.append(value)
+
+        # タイトルとタイプの数が一致しない場合のエラーハンドリング
+        if len(question_titles) != len(question_types):
+            raise ValueError("質問タイトルと質問タイプの数が一致しません")
+
+        # 各質問を保存
         for i in range(len(question_titles)):
             max_question_id = Question.objects.aggregate(models.Max('id'))['id__max'] or 0
             new_question_id = max_question_id + 1
 
-            # 適切な選択肢タイプを取得
             question_type_id = int(question_types[i])  # 1がtextbox、2がcheckbox
             question_type = Choicetype.objects.get(id=question_type_id)
 
@@ -98,13 +107,20 @@ def create_ques(request):
             )
             question.save()
 
-            # チェックボックスタイプの場合のみ選択肢を取得
-            if question_type_id == 2:  # チェックボックスの場合
-                # インデックスに基づくキー名を使用
-                choice_texts = request.POST.getlist(f'option-text-{i}')  # インデックスを使用して選択肢を取得
+            # チェックボックスの場合にのみ選択肢を取得
+            if question_type_id == 2:
+                choice_texts = []
+                option_index = 1
+                while True:
+                    choice_key = f'option-text-{i + 1}-{option_index}'
+                    choice_text = request.POST.get(choice_key)
+                    if not choice_text:
+                        break
+                    choice_texts.append(choice_text.strip())
+                    option_index += 1
 
+                # 各選択肢を保存
                 for choice_text in choice_texts:
-                    choice_text = choice_text.strip()
                     if choice_text:
                         max_choice_id = Choice.objects.aggregate(models.Max('id'))['id__max'] or 0
                         new_choice_id = max_choice_id + 1

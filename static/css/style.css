@@ -189,6 +189,15 @@ td {
     resize: none;
 }
 
+.submit-container {
+    width: 80%;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
 .ques-lane {
     display: flex;
 }
