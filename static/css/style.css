@@ -139,15 +139,6 @@ path {
     right: 0;
 }
 
-.submit-container {
-    width: 80%;
-    margin: auto;
-    background-color: #fff;
-    padding: 20px;
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
 /* メニュー項目 */
 .menu-items {
     list-style: none;
