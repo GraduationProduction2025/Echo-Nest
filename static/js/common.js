@@ -1,10 +1,3 @@
-// 新規追加ボタンを非表示にして質問タイプ選択ボタンを表示
-function showInputOptions(event) {
-    event.preventDefault();
-    document.getElementById("inputOptions").style.display = "block";
-    document.getElementById("input-cre").style.display = "none";
-}
-
 // インデックスを管理するオブジェクト
 let optionCounters = {}; // 各質問ごとのオプション数を保持
 let questionIndex = 1;  // 質問ごとのインデックス
@@ -17,17 +10,13 @@ function createInputField(event, inputType) {
     newDiv.dataset.index = questionIndex; // 質問ごとのインデックスを設定
     const addQuesDiv = document.querySelector(".add-ques");
     addQuesDiv.parentNode.insertBefore(newDiv, addQuesDiv);
-    let newInputField;
-
-    // `inputType` に応じて初期オプションを選択
-    const selectedOption = inputType === "checkbox" ? "checkbox" : "text";
-    newInputField = `<div class="ques-lane">
+    let newInputField = `<div class="ques-lane">
                     <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
                     <img src="/static/img/delbox.png" class="ques-del" onclick="ques_del(this)">
                     </div>
                     <select name="ques-change" onchange="updateInputField(this, ${questionIndex})">
-                        <option value="text" ${selectedOption === "text" ? "selected" : ""}>テキスト</option>
-                        <option value="checkbox" ${selectedOption === "checkbox" ? "selected" : ""}>チェックボックス</option>
+                        <option value="text">テキスト</option>
+                        <option value="checkbox">チェックボックス</option>
                     </select>`;
     newDiv.innerHTML += newInputField;
 
@@ -37,8 +26,6 @@ function createInputField(event, inputType) {
     // 初期の inputType に応じたフィールドを追加
     addInputField(newDiv, inputType, questionIndex);
     questionIndex++;
-    document.getElementById("input-cre").style.display = ""; 
-    document.getElementById("inputOptions").style.display = "none"; 
 }
 
 // 質問タイプに応じて入力フィールドを追加

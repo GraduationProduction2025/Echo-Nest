@@ -20,15 +20,7 @@
     <div class="add-ques">
         <!-- 新しい質問を入れるdiv -->
         <div id="inputFields"></div>
-
-        <button class="add-ques-btn" id="input-cre" onclick="showInputOptions(event)">＋ 新規追加</button>
-
-        <!-- 新規追加ボタンを押すと出現 -->
-        <!-- 質問のタイプを選択 -->
-        <div id="inputOptions">
-            <input type="button" class="input-option" value="テキスト" onclick="createInputField(event,'text')">
-            <input type="button" class="input-option" value="チェックボックス" onclick="createInputField(event,'checkbox')">
-        </div>
+        <button class="add-ques-btn" id="input-cre" onclick="createInputField(event,'text')">＋ 新規追加</button>
     </div>
 
     <div class="submit-container">
