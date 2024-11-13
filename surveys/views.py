@@ -52,7 +52,7 @@ def ag_data(request, survey_id):
         'question_answers': question_answers,
     }
     
-    return render(request, 'answers/ag_data.html', context)
+    return render(request, 'surveys/ag_data.html', context)
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
