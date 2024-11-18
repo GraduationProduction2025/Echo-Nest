@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.db import models
 import re
+from django.db.models import Max
 
 # データベースを取得して表示する
 def list_ques(request):
@@ -17,36 +18,39 @@ def list_ques(request):
     return render(request, 'surveys/list_ques.html', listdict)
 
 def create_ques(request):
-    survey = Survey.objects.all()
-    survey_2 = Survey.objects.values()
-    # header = ['ステータス','質問タイトル','URL','作成日','作成ユーザ']
-    header = ['ステータス','質問タイトル','作成日','作成ユーザ','詳細']
-    listdict = {
-        'title':'テスト',
-        'header':header,
-        'val':survey,
-        'val2':survey_2,
-    }
-
-    if request.method == 'POST' and request.POST.get('action') == 'create':
+    if request.method == 'POST':
         print("POSTデータ:", request.POST)
-        max_survey_id = Survey.objects.aggregate(models.Max('id'))['id__max'] or 0
-        new_survey_id = max_survey_id + 1
+        existing_question_count = Survey.objects.count()
+        next_survey_id = existing_question_count + 1
 
         survey_title = request.POST.get('title-text')
-        survey_url = "http://example.com/"
         survey_create_user = "admin"
 
+        path = '/list'
+
         # 新しいSurveyオブジェクトを作成
-        survey = Survey(
-            id=new_survey_id,
-            title=survey_title,
-            url=survey_url,
-            create_at=timezone.now(),
-            create_user=survey_create_user,
-            delete_flag=False
-        )
-        survey.save()
+        if request.POST.get('action') == 'create':
+            survey = Survey(
+                id=next_survey_id,
+                title=survey_title,
+                create_at=timezone.now(),
+                create_user=survey_create_user,
+                published_flag=True,
+                deleted_flag=False
+            )
+            survey.save()
+            path = '/al_list'
+        elif request.POST.get('action') == 'tem':
+            survey = Survey(
+                id=next_survey_id,
+                title=survey_title,
+                create_at=timezone.now(),
+                create_user=survey_create_user,
+                published_flag=False,
+                deleted_flag=False
+            )
+            survey.save()
+            path = '/tem_list'
 
         # 質問と選択肢を処理
         question_titles = request.POST.getlist('ques-title')
@@ -63,23 +67,24 @@ def create_ques(request):
 
         # 各質問を保存
         for i in range(len(question_titles)):
-            max_question_id = Question.objects.aggregate(models.Max('id'))['id__max'] or 0
-            new_question_id = max_question_id + 1
+            existing_question_count = Question.objects.count()
+            next_question_id = existing_question_count + 1
 
             question_type_id = int(question_types[i])  # 1がtextbox、2がcheckbox
             question_type = Choicetype.objects.get(id=question_type_id)
 
             # Questionオブジェクトの作成
             question = Question(
-                id=new_question_id,
+                id=next_question_id,
                 title=question_titles[i],
                 survey=survey,
-                type=question_type
+                type=question_type,
+                deleted_flag=False
             )
             question.save()
 
-            # チェックボックスの場合にのみ選択肢を取得
-            if question_type_id == 2:
+            # テキストボックスじゃない場合に選択肢を取得
+            if question_type_id != 1:
                 choice_texts = []
                 option_index = 1
                 while True:
@@ -93,20 +98,18 @@ def create_ques(request):
                 # 各選択肢を保存
                 for choice_text in choice_texts:
                     if choice_text:
-                        max_choice_id = Choice.objects.aggregate(models.Max('id'))['id__max'] or 0
-                        new_choice_id = max_choice_id + 1
+                        existing_question_count = Choice.objects.count()
+                        next_choice_id = existing_question_count + 1
 
                         choice = Choice(
-                            id=new_choice_id,
+                            id=next_choice_id,
                             text=choice_text,
-                            question=question
+                            question=question,
+                            deleted_flag=False
                         )
                         choice.save()
-
-        return render(request, 'surveys/list_ques.html', listdict)
-
-    return render(request, 'surveys/create_ques.html', listdict)
-
+        return redirect(path)
+    return render(request, 'surveys/create_ques.html')
 
 def al_list(request):
     survey_field_data = Survey.objects.filter(published_flag=True)
