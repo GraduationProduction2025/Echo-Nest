@@ -18,9 +18,9 @@
         {% for q in question %}
         <p>{{ q.title }}</p>
 
-        {% if q.type.type == "text" %}
+        {% if q.type.type == "textarea" %}
         <!-- テキスト入力用のフィールド -->
-        <input type="text" name="answer_{{ q.id }}">
+        <textarea name="answer_{{ q.id }}" rows="4" cols="30"></textarea>
 
         {% elif q.type.type == "checkbox" %}
         <!-- チェックボックス用のフィールド（複数の選択肢をまとめて表示） -->

@@ -17,10 +17,8 @@
             <!-- for文の開始 -->
             {% for i in val %}
             <tr>
-                <td>{{ i.id }}</td>
                 <td>{{ i.title }}</td>
                 <td>{{ i.create_at }}</td>
-                <td>{{ i.create_user }}</td>
                 <td><a href="{% url 'templates:edit_ques' i.id %}">編集</a></td>
             </tr>
             {% endfor %}
