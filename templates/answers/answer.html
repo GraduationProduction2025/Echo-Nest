@@ -31,6 +31,13 @@
             </label>
             {% endfor %}
         </div>
+        {% elif q.type.type == "select" %}
+        <select name="answer_{{ q.id }}">
+            <option>選択してください</option>
+            {% for choice in q.choice_set.all %}
+                <option>{{ choice.text }}</option>
+            {% endfor %}
+        </select>
         {% else %}
         <!-- 他のタイプがあればここに追加 -->
         <p>入力タイプが不明です</p>
