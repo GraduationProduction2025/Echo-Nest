@@ -113,7 +113,11 @@ def complete(request):
                     user_answers = request.POST.getlist(key)
                 else:
                     # テキストボックスやその他の形式の質問の場合
-                    user_answers = [responses[key]]
+                    user_answers = [responses[key].strip()]  # 空白を除去
+
+                # 回答が空の場合は保存せずスキップ
+                if not any(user_answers):  # user_answersが空リストまたは空文字のみならスキップ
+                    continue
 
                 answer_data = {
                     "question_id": question.id,
