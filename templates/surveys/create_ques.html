@@ -6,31 +6,30 @@
 
 {% block content %}
 {% load static %}
-
-<div class="container">
-    <input type="text" class="title-text" placeholder="タイトル">
-</div>
-
-<div>
-    <!-- タイトルと削除 -->
-    <div>
-        <input type="text" placeholder="質問のタイトルを入力">
-        <img src="{% static "img/delbox.png" %}" class="ques-del">
+<form method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="title-bar">
+            <h1>{{ title }}</h1>
+        </div>
+        <input type="text" name="title-text" class="title-text" placeholder="タイトル">
     </div>
 
-    <!-- テキストの配置例 -->
-    <div>
-        <textarea rows="3" placeholder="回答を入力してください" disabled></textarea>
+    <!-- 質問の新規追加 -->
+    <div class="add-ques">
+        <!-- 新しい質問を入れるdiv -->
+        <div id="inputFields"></div>
+        <button class="add-ques-btn" id="input-cre" onclick="createInputField(event,'text')">＋ 新規追加</button>
     </div>
-</div>
-    
-<div>
-    <!-- 質問を作成 -->
-    <div>
-        <button type="submit">公開</button>
-        <button type="submit" >一時保存</button>
-        <button onclick="history.back()">キャンセル</button>
+
+    <div class="submit-container">
+        <!-- 質問を作成 -->
+        <div class="create-ques">
+            <button type="submit" class="create-ques-btn" id="create-ques-btn" name="action" value="create">質問を公開</button>
+            <button type="submit" class="tem-ques-btn" id="tem-ques-btn" name="action" value="tem">下書きで保存</button>
+            <button type="button" class="cancel-ques-btn" onclick="history.back()">キャンセル</button>
+        </div>
     </div>
-    
-</div>
+</form>
+
 {% endblock content %}
