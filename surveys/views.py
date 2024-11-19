@@ -1,12 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype, Answer
-from django.http import HttpResponse, Http404, JsonResponse
-from django.views.generic import TemplateView
+from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-from django.db import models
 import re
-from django.db.models import Max
 
 # データベースを取得して表示する
 def list_ques(request):
