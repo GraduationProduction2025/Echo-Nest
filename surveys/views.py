@@ -87,31 +87,7 @@ def answer(request, survey_id):
         questions = Question.objects.filter(survey__id=survey_id)
     except Survey.DoesNotExist:
         raise Http404("Survey does not exist")
-
-    if request.method == "POST":
-        # POSTリクエスト: 回答データを保存する
-        for question in questions:
-            # `answer_<question_id>`という名前で回答が送信されているかを確認
-            answer_key = f'answer_{question.id}'
-            if question.type.type == "text":
-                # テキスト回答の場合
-                user_answer = request.POST.get(answer_key, "")
-                if user_answer:  # 入力がある場合のみ保存
-                    Answer.objects.create(
-                        context={'text': user_answer},
-                        question=question,
-                    )
-            elif question.type.type == "checkbox":
-                # チェックボックス回答の場合
-                user_answers = request.POST.getlist(answer_key)  # 複数選択肢
-                if user_answers:  # 選択肢がある場合のみ保存
-                    Answer.objects.create(
-                        context={'choices': user_answers},
-                        question=question,
-                    )
-        # 回答完了後にリダイレクト
-        return redirect('/complete/')
-
+    
     # GETリクエスト: 回答画面を表示する
     listdict = {
         "survey": survey,
