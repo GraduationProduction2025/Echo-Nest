@@ -11,16 +11,20 @@
     </div>
 
     <ul>
-        <!-- 質問と回答を対応付ける -->
         {% for question, answers in question_answers.items %}
         <li>
             <strong>{{ question.title }}</strong>
             <ul>
-                <!-- 質問に対応する回答をすべて取り出す -->
-                {% for answer in answers %}
-                <ul>・{{ answer.context.content.0 }}</ul>
-                {% empty %}
+                {% for answer_list in answers %}
+                {% if answer_list %}
+                <li>
+                    {% for item in answer_list %}
+                    ・{{ item }}<br>
+                    {% endfor %}
+                </li>
+                {% else %}
                 <li>質問に対応する回答が存在しませんでした。</li>
+                {% endif %}
                 {% endfor %}
             </ul><br>
         </li>

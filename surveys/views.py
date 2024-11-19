@@ -125,15 +125,33 @@ def tem_list(request):
     return render(request, 'surveys/tem_list.html', listdict)
 
 def ag_data(request, survey_id):
-    survey = Survey.objects.get(id = survey_id)
+    survey = Survey.objects.get(id=survey_id)
     # Surveyに関連するQuestionを取得
     questions = Question.objects.filter(survey=survey, deleted_flag=False)
     
     # 各Questionに関連するAnswerを取得して辞書に格納
     question_answers = {}
     for question in questions:
-        answers = Answer.objects.filter(question=question)
-        question_answers[question] = answers
+        answers = Answer.objects.filter(question=question)  
+        # 回答内容をIDからテキストに変換
+        formatted_answers = []
+        for answer in answers:
+            content_list = []
+            if question.type.type == "checkbox" or question.type.type == "radio" or question.type.type == "pulldown":
+                # 選択肢のIDを選択肢テキストに変換
+                for choice_id in answer.context.get("content", []):
+                    try:
+                        choice = Choice.objects.get(id=choice_id)
+                        content_list.append(choice.text)
+                    except Choice.DoesNotExist:
+                        content_list.append("選択肢が見つかりません")
+            else:
+                # テキストボックスの場合はそのまま表示
+                content_list = answer.context.get("content", [])
+                
+            formatted_answers.append(content_list)
+        
+        question_answers[question] = formatted_answers
 
     context = {
         'survey': survey,
@@ -152,17 +170,18 @@ def edit_ques(request, survey_id):
 
 def answer(request, survey_id):
     try:
-        # ページ番号と同じSurveyを取り出す
+        # Surveyと関連したQuestionを取り出す
         survey = Survey.objects.get(id=survey_id)
-        # 上のアンケートに関連したQuestionを取り出す
-        question = Question.objects.filter(survey__id = survey_id)
-        listdict = {
-            "survey": survey,
-            "question": question,
-            "title": survey.title,
-        }
+        questions = Question.objects.filter(survey__id=survey_id)
     except Survey.DoesNotExist:
-        raise Http404("Question does not exist")
+        raise Http404("Survey does not exist")
+    
+    # GETリクエスト: 回答画面を表示する
+    listdict = {
+        "survey": survey,
+        "question": questions,
+        "title": survey.title,
+    }
     return render(request, "answers/answer.html", listdict)
 
 @csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
@@ -171,14 +190,26 @@ def complete(request):
         responses = request.POST
         response_list = []
 
-        for key, value in responses.items():
+        for key in responses:
             if key != 'csrfmiddlewaretoken':
-                question_id = int(key)
+                question_id = int(key.replace("answer_", ""))
                 question = Question.objects.get(id=question_id)  # 質問を取得
+                
+                if question.type.type == "checkbox":
+                    # チェックボックス形式の質問の場合、複数選択肢をリストとして取得
+                    user_answers = request.POST.getlist(key)
+                else:
+                    # テキストボックスやその他の形式の質問の場合
+                    user_answers = [responses[key].strip()]  # 空白を除去
+
+                # 回答が空の場合は保存せずスキップ
+                if not any(user_answers):  # user_answersが空リストまたは空文字のみならスキップ
+                    continue
+
                 answer_data = {
-                    "question_id": question.id,  # 質問のIDを取得
-                    "type": str(question.type),  # 質問のタイプを取得
-                    "content": [value],  # ユーザーが入力した回答をリスト形式で格納
+                    "question_id": question.id,
+                    "type": question.type.type,
+                    "content": user_answers,  # リスト形式で回答内容を格納
                 }
 
                 # Answerインスタンスを作成
@@ -188,10 +219,12 @@ def complete(request):
                 )
                 answer_instance.save()  # データベースに保存
                 response_list.append(answer_data)
+
+        # 完了画面に表示するためのデータをレンダリング
         listdict = {
             'title': '回答完了画面',
             'responses': response_list,
-        }        
+        }
         return render(request, 'answers/complete.html', listdict)
 
     return render(request, 'answers/answer.html', {'title': '回答ページ'})
