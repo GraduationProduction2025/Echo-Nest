@@ -70,8 +70,8 @@ def create_ques(request):
             existing_question_count = Question.objects.count()
             next_question_id = existing_question_count + 1
 
-            question_type_id = int(question_types[i])  # 1がtextbox、2がcheckbox
-            question_type = Choicetype.objects.get(id=question_type_id)
+            question_type_text = question_types[i]
+            question_type = Choicetype.objects.get(type=question_type_text)  
 
             # Questionオブジェクトの作成
             question = Question(
@@ -84,7 +84,7 @@ def create_ques(request):
             question.save()
 
             # テキストボックスじゃない場合に選択肢を取得
-            if question_type_id != 1:
+            if question_type_text != 'textarea':
                 choice_texts = []
                 option_index = 1
                 while True:
