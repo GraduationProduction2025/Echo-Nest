@@ -32,12 +32,12 @@ function createInputField(event, inputType) {
 function addInputField(container, inputType, index) {
     let inputFieldHtml;
     if (inputType === "text") {
-        inputFieldHtml = `<input type="hidden" name="ques-type" value="1">
+        inputFieldHtml = `<input type="hidden" name="ques-type" value="textarea">
                         <div>
                             <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
                         </div>`;
     } else if (inputType === "checkbox") {
-        inputFieldHtml = `<input type="hidden" name="ques-type" value="2">
+        inputFieldHtml = `<input type="hidden" name="ques-type" value="checkbox">
                          <div id="options-container-${index}">
                             <div><input type="checkbox">
                             <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
