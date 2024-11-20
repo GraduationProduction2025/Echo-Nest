@@ -17,6 +17,7 @@ function createInputField(event, inputType) {
                     <select name="ques-change" onchange="updateInputField(this, ${questionIndex})">
                         <option value="text">テキスト</option>
                         <option value="checkbox">チェックボックス</option>
+                        <option value="radio">ラジオボタン</option>
                     </select>`;
     newDiv.innerHTML += newInputField;
 
@@ -49,9 +50,24 @@ function addInputField(container, inputType, index) {
                             </div>
                          </div>
                          <div id="options-add-${index}">
-                            <button type="button" class="option-add" onclick="option_add(this, ${index})">＋ オプションを追加</button>
+                            <button type="button" class="option-add" onclick="option_add(this, ${index} ,1)">＋ オプションを追加</button>
                          </div>`;
-    }
+    } else if (inputType === "radio") {
+        inputFieldHtml = `<input type="hidden" name="ques-type" value="radio">
+                         <div id="options-container-${index}">
+                            <div><input type="radio" name="radio${index}">
+                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                            <div><input type="radio" name="radio${index}">
+                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                         </div>
+                         <div id="options-add-${index}">
+                            <button type="button" class="option-add" onclick="option_add(this, ${index} , 2)">＋ オプションを追加</button>
+                         </div>`;
+    } 
     container.querySelector('.ques-lane').insertAdjacentHTML('afterend', inputFieldHtml);
 }
 
@@ -72,23 +88,34 @@ function updateInputField(selectElement, questionIndex) {
         quesTypeField.remove();
     }
 
-    // options-add が存在する場合、text タイプでは削除する
+    // options-add が存在する場合削除する
     const optionsAdd = container.querySelector(`#options-add-${questionIndex}`);
-    if (optionsAdd && selectedType === "text") {
+    if (optionsAdd) {
         optionsAdd.remove();
     }
+
+    //オプション数をリセット
+    optionCounters[questionIndex] = 3;
 
     // 新しいタイプに応じてフィールドを追加
     addInputField(container, selectedType, questionIndex);
 }
 
 // オプションを追加する関数
-function option_add(button, Index) {
+function option_add(button, Index , Type_num) {
     const optionsContainer = document.getElementById(`options-container-${Index}`);
     let optionCount = optionCounters[Index]++;
-    const newOption = `<div><input type="checkbox">
-                       <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
-                       <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+
+    if (Type_num == 1) {
+        newOption = `<div><input type="checkbox">
+               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
+               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    } else if (Type_num == 2) {
+        newOption = `<div><input type="radio" name="radio${Index}">
+               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
+               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    }
+    
     optionsContainer.insertAdjacentHTML('beforeend', newOption);
 }
 
