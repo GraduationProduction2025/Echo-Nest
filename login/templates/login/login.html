@@ -10,5 +10,6 @@
       {% csrf_token %} {{ form.as_p }}
       <input type="submit" value="ログイン" />
     </form>
+    <button onclick=location.href="{% url 'signup' %}">新規作成</button>
   </body>
 </html>

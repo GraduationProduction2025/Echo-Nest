@@ -9,5 +9,6 @@
       {% csrf_token %} {{ form.as_p }}
       <button type="submit">登録</button>
     </form>
+    <button onclick=location.href="{% url 'login' %}">ログイン</button>
   </body>
 </html>
