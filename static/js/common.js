@@ -176,3 +176,68 @@ function updateQuestionIndices() {
 
     questionIndex = questionContainers.length + 1;
 }
+
+//タイトルやオプションが空欄で送信される際にメッセージを出す処理
+document.addEventListener('DOMContentLoaded', () => {
+    if (!document.getElementById('create-ques-btn')) {
+        return;
+    }
+    const createBtn = document.getElementById('create-ques-btn');
+    const tempBtn = document.getElementById('tem-ques-btn');
+
+    function validateInputs() {
+        const titleText = document.querySelector('.title-text');
+        const quesTitles = document.querySelectorAll('.ques-title');
+        const optionTexts = document.querySelectorAll('.option-text');
+
+        let errors = [];
+        let check = true;
+
+        // タイトルのチェック
+        if (!titleText.value.trim()) {
+            errors.push('タイトルが入力されていません。');
+        }
+
+        // 質問タイトルのチェック
+        quesTitles.forEach((quesTitle) => {
+            if (!quesTitle.value.trim()) {
+                check = false; 
+            }
+        });
+        if(check != true){
+            errors.push('未入力の質問タイトルがあります。');
+            check = true
+        }
+
+        // オプション名のチェック
+        optionTexts.forEach((optionText) => {
+            if (!optionText.value.trim()) {
+                check = false;
+            }
+        });
+        if(check != true){
+            errors.push('未入力のオプションがあります。');
+            check = true
+        }
+
+        // エラーがあれば警告表示
+        if (errors.length > 0) {
+            alert(errors.join('\n'));
+            return false;
+        }
+
+        return true;
+    }
+
+    createBtn.addEventListener('click', (e) => {
+        if (!validateInputs()) {
+            e.preventDefault(); // フォームの送信を防ぐ
+        }
+    });
+
+    tempBtn.addEventListener('click', (e) => {
+        if (!validateInputs()) {
+            e.preventDefault(); // フォームの送信を防ぐ
+        }
+    });
+});
