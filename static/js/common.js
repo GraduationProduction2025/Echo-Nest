@@ -18,6 +18,7 @@ function createInputField(event, inputType) {
                         <option value="text">テキスト</option>
                         <option value="checkbox">チェックボックス</option>
                         <option value="radio">ラジオボタン</option>
+                        <option value="select">プルダウン</option>
                     </select>`;
     newDiv.innerHTML += newInputField;
 
@@ -67,6 +68,21 @@ function addInputField(container, inputType, index) {
                          <div id="options-add-${index}">
                             <button type="button" class="option-add" onclick="option_add(this, ${index} , 2)">＋ オプションを追加</button>
                          </div>`;
+    } else if (inputType === "select") {
+        inputFieldHtml = `<input type="hidden" name="ques-type" value="select">
+                         <div id="options-container-${index}">
+                            <div><label id="select-num">1.</label>
+                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                            <div><label id="select-num">2.</label>
+                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                         </div>
+                         <div id="options-add-${index}">
+                            <button type="button" class="option-add" onclick="option_add(this, ${index} , 3)">＋ オプションを追加</button>
+                         </div>`;
     } 
     container.querySelector('.ques-lane').insertAdjacentHTML('afterend', inputFieldHtml);
 }
@@ -114,6 +130,10 @@ function option_add(button, Index , Type_num) {
         newOption = `<div><input type="radio" name="radio${Index}">
                <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
                <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    } else if (Type_num == 3) {
+        newOption = `<div><label id="select-num">${optionCount}.</label>
+               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
+               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
     }
     
     optionsContainer.insertAdjacentHTML('beforeend', newOption);
@@ -131,6 +151,11 @@ function updateOptionIndices(Index) {
     const options = optionsContainer.querySelectorAll('.option-text');
     options.forEach((option, index) => {
         option.name = `option-text-${Index}-${index + 1}`;
+
+        const label = option.previousElementSibling;
+        if (label && label.id === "select-num") {
+            label.textContent = `${index + 1}.`;
+        }
     });
     optionCounters[Index] = options.length + 1;
 }
