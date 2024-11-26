@@ -1,37 +1,212 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
 
-{% block base %}
-{{ survey.title }} - Questions and Answers
-{% endblock base %}
+<head>
+    <title>アンケート結果ダッシュボード</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-{% block content %}
-<div class="container">
-    <div class="title-bar">
-        <h1>{{ survey.title }}の回答一覧</h1>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1,
+        h2 {
+            color: #1a1a1a;
+        }
+
+        .question-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .total-votes {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+
+        .text-responses {
+            margin-top: 20px;
+        }
+
+        .text-response {
+            background-color: #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chart-controls {
+            margin-bottom: 15px;
+        }
+
+        .chart-type-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .chart-type-btn.active {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>アンケート結果ダッシュボード</h1>
+        <div id="multipleChoiceQuestions"></div>
+        <div id="textResponses"></div>
     </div>
+    <script>
+        let charts = [];
 
-    <ul>
-        {% for question, answers in question_answers.items %}
-        <li>
-            <strong>{{ question.title }}</strong>
-            <ul>
-                {% for answer_list in answers %}
-                {% if answer_list %}
-                <li>
-                    {% for item in answer_list %}
-                    ・{{ item }}<br>
-                    {% endfor %}
-                </li>
-                {% else %}
-                <li>質問に対応する回答が存在しませんでした。</li>
-                {% endif %}
-                {% endfor %}
-            </ul><br>
-        </li>
-        {% empty %}
-        <li>アンケートに対応する質問が存在しませんでした。</li>
-        {% endfor %}
-    </ul>
-    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
-</div>
-{% endblock content %}
+        // Djangoから渡されたデータを受け取って処理
+        let data = {{ data | safe }}
+
+        function createCharts(data) {
+            const mcContainer = document.getElementById('multipleChoiceQuestions');
+            data.multiple_choice.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.innerHTML = `
+                    <h2>${question.question}</h2>
+                    <div class="chart-controls">
+                        <button class="chart-type-btn active" data-type="pie" data-index="${index}">円グラフ</button>
+                        <button class="chart-type-btn" data-type="bar" data-index="${index}">棒グラフ</button>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-wrapper">
+                            <canvas id="chart${index}"></canvas>
+                        </div>
+                    </div>
+                    <div class="total-votes">総投票数: ${question.total_votes}</div>
+                `;
+                mcContainer.appendChild(questionDiv);
+
+                createChart(index, 'pie', question);
+
+                // イベントリスナーを追加
+                questionDiv.querySelectorAll('.chart-type-btn').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const type = this.getAttribute('data-type');
+                        const index = this.getAttribute('data-index');
+                        createChart(index, type, question);
+
+                        // アクティブなボタンのスタイルを更新
+                        this.parentNode.querySelectorAll('.chart-type-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+            });
+
+            const trContainer = document.getElementById('textResponses');
+            data.text_responses.forEach(question => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.innerHTML = `
+                    <h2>${question.question}</h2>
+                    <div class="text-responses">
+                        ${question.responses.map(response => `<div class="text-response">${response}</div>`).join('')}
+                    </div>
+                `;
+                trContainer.appendChild(questionDiv);
+            });
+        }
+
+        function createChart(index, type, question) {
+            const ctx = document.getElementById(`chart${index}`).getContext('2d');
+
+            if (charts[index]) {
+                charts[index].destroy();
+            }
+
+            const config = {
+                type: type,
+                data: {
+                    labels: question.labels,
+                    datasets: [{
+                        data: question.data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)'
+                        ],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: getChartTitle(type)
+                        }
+                    }
+                }
+            };
+
+            if (type === 'bar') {
+                config.options.indexAxis = 'y';
+                config.options.scales = {
+                    x: {
+                        beginAtZero: true
+                    }
+                };
+            }
+
+            charts[index] = new Chart(ctx, config);
+        }
+
+        function getChartTitle(type) {
+            switch (type) {
+                case 'pie': return '円グラフ';
+                case 'bar': return '棒グラフ';
+                default: return '';
+            }
+        }
+
+        // データの作成
+        createCharts(data);
+    </script>
+</body>
+
+</html>

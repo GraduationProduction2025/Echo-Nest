@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype, Answer
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from collections import Counter
 import re
 
 # データベースを取得して表示する
@@ -125,40 +126,67 @@ def tem_list(request):
     return render(request, 'surveys/tem_list.html', listdict)
 
 def ag_data(request, survey_id):
+    # 対象のSurveyを取得
     survey = Survey.objects.get(id=survey_id)
+
     # Surveyに関連するQuestionを取得
     questions = Question.objects.filter(survey=survey, deleted_flag=False)
-    
-    # 各Questionに関連するAnswerを取得して辞書に格納
-    question_answers = {}
+
+    # JSONデータの格納先
+    multiple_choice_data = []
+    text_responses_data = []
+
+    # 各Questionに関連するデータを処理
     for question in questions:
-        answers = Answer.objects.filter(question=question)  
-        # 回答内容をIDからテキストに変換
-        formatted_answers = []
-        for answer in answers:
-            content_list = []
-            if question.type.type == "checkbox" or question.type.type == "radio" or question.type.type == "pulldown":
-                # 選択肢のIDを選択肢テキストに変換
+        answers = Answer.objects.filter(question=question)
+        
+        if question.type.type in ["checkbox", "radio", "pulldown"]:
+            # 選択式質問の場合
+            choice_counts = {}  # 選択肢の集計用辞書
+
+            # 各回答を解析
+            for answer in answers:
                 for choice_id in answer.context.get("content", []):
                     try:
                         choice = Choice.objects.get(id=choice_id)
-                        content_list.append(choice.text)
+                        if choice.text not in choice_counts:
+                            choice_counts[choice.text] = 0
+                        choice_counts[choice.text] += 1
                     except Choice.DoesNotExist:
-                        content_list.append("選択肢が見つかりません")
-            else:
-                # テキストボックスの場合はそのまま表示
-                content_list = answer.context.get("content", [])
-                
-            formatted_answers.append(content_list)
-        
-        question_answers[question] = formatted_answers
+                        if "選択肢が見つかりません" not in choice_counts:
+                            choice_counts["選択肢が見つかりません"] = 0
+                        choice_counts["選択肢が見つかりません"] += 1
 
-    context = {
-        'survey': survey,
-        'question_answers': question_answers,
+            # データをフォーマット
+            multiple_choice_data.append({
+                'question': question.title,
+                'labels': list(choice_counts.keys()),
+                'data': list(choice_counts.values()),
+                'total_votes': sum(choice_counts.values())
+            })
+        else:
+            # テキスト形式質問の場合
+            text_answers = []
+            for answer in answers:
+                content = answer.context.get("content", [])
+                if isinstance(content, list):
+                    text_answers.extend(content)
+                elif isinstance(content, str):
+                    text_answers.append(content)
+
+            # データをフォーマット
+            text_responses_data.append({
+                'question': question.title,
+                'responses': text_answers
+            })
+
+    # JSONデータの構築
+    data = {
+        'multiple_choice': multiple_choice_data,
+        'text_responses': text_responses_data
     }
-    
-    return render(request, 'surveys/ag_data.html', context)
+
+    return render(request, 'surveys/ag_data.html', {'data':data})
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
