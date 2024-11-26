@@ -135,7 +135,7 @@ def ag_data(request, survey_id):
     # 各Questionに関連するAnswerを取得して辞書に格納
     question_answers = {}
     for question in questions:
-        answers = Answer.objects.filter(question=question)  
+        answers = Answer.objects.filter(question=question)
         # 回答内容をIDからテキストに変換
         formatted_answers = []
         for answer in answers:

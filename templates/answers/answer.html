@@ -31,6 +31,15 @@
             </label>
             {% endfor %}
         </div>
+        {% elif q.type.type == "radio" %}
+        <!-- ラジオボタン用のフィールド -->
+        <div>
+            {% for choice in q.choice_set.all %}
+            <label>
+                <input type="radio" name="answer_{{ q.id }}" value="{{ choice.id }}"> {{ choice.text }}
+            </label>
+            {% endfor %}
+        </div>
         {% else %}
         <!-- 他のタイプがあればここに追加 -->
         <p>入力タイプが不明です</p>
