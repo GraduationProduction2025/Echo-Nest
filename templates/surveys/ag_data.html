@@ -32,6 +32,6 @@
         <li>アンケートに対応する質問が存在しませんでした。</li>
         {% endfor %}
     </ul>
-    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
+    <button type="button" onclick="history.back()">戻る</button>
 </div>
 {% endblock content %}
