@@ -1,0 +1,187 @@
+/* ---- 全画面 ---- */
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    height: 100vh;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    margin-top: -150px;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+}
+
+.header-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.cloud-shape {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+.appname {
+    margin-right: auto;
+    padding: 30px 0px 0px 20px;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.user {
+    height: 50px;
+    width: 50px;
+}
+
+.nav-item {
+    display: inline-block;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    margin-top: 150px;
+    position: relative;
+    z-index: 1;
+}
+
+path {
+    z-index: -1;
+}
+
+/* ---- サイドメニュー ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ハンバーガーメニューボタン */
+.hamburger {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 45px;
+    height: 45px;
+    background-color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: 0.3s ease-in-out;
+}
+
+.hamburger span {
+    position: absolute;
+    left: 10px;
+    width: 25px;
+    height: 2px;
+    background-color: white;
+    transition: 0.3s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+    top: 15px;
+}
+
+.hamburger span:nth-child(2) {
+    top: 22px;
+}
+
+.hamburger span:nth-child(3) {
+    top: 29px;
+}
+
+/* ハンバーガーメニューがアクティブ時の×マーク */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 22px;
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 22px;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: #333;
+    padding-top: 80px;
+    transition: 0.3s ease-in-out;
+    z-index: 999;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+/* メニュー項目 */
+.menu-items {
+    list-style: none;
+}
+
+.menu-items li {
+    padding: 15px 30px;
+    border-bottom: 1px solid #444;
+}
+
+.menu-items li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    transition: 0.2s;
+}
+
+.menu-items li a:hover {
+    color: #66ccff;
+    padding-left: 5px;
+}
+
+/* オーバーレイ */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s ease-in-out;
+    z-index: 998;
+}
+
+.overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+/* サイドメニューここまで */
+
+
+/*全画面ここまで */
+

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ title }}</h1>
+    </div>
+    <div class="scrollable-table">
+        <table class="listtable">
+            <!-- 内容の表示 -->
+            <!-- for文の開始 -->
+            {% for i in val %}
+            <tr>
+                <td>{{ i.title }}</td>
+                <td>{{ i.create_at }}</td>
+                <td><a href="{% url 'templates:edit_ques' i.id %}">編集</a></td>
+            </tr>
+            {% endfor %}
+            <!-- for文の終了 -->
+        </table>
+    </div>
+    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
+    <button onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
+
+</div>
+{% endblock content %}

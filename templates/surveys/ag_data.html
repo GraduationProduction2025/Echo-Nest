@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ survey.title }} - Questions and Answers
+{% endblock base %}
+
+{% block content %}
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ survey.title }}の回答一覧</h1>
+    </div>
+
+    <ul>
+        {% for question, answers in question_answers.items %}
+        <li>
+            <strong>{{ question.title }}</strong>
+            <ul>
+                {% for answer_list in answers %}
+                {% if answer_list %}
+                <li>
+                    {% for item in answer_list %}
+                    ・{{ item }}<br>
+                    {% endfor %}
+                </li>
+                {% else %}
+                <li>質問に対応する回答が存在しませんでした。</li>
+                {% endif %}
+                {% endfor %}
+            </ul><br>
+        </li>
+        {% empty %}
+        <li>アンケートに対応する質問が存在しませんでした。</li>
+        {% endfor %}
+    </ul>
+    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
+</div>
+{% endblock content %}
