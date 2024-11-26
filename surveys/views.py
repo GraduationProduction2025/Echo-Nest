@@ -15,6 +15,9 @@ def list_ques(request):
     return render(request, 'surveys/list_ques.html', listdict)
 
 def create_ques(request):
+    listdict = {
+        'title':'新規作成画面',
+    }
     if request.method == 'POST':
         print("POSTデータ:", request.POST)
         existing_question_count = Survey.objects.count()
@@ -106,7 +109,7 @@ def create_ques(request):
                         )
                         choice.save()
         return redirect(path)
-    return render(request, 'surveys/create_ques.html')
+    return render(request, 'surveys/create_ques.html', listdict)
 
 def al_list(request):
     survey_field_data = Survey.objects.filter(published_flag=True)
@@ -132,7 +135,7 @@ def ag_data(request, survey_id):
     # 各Questionに関連するAnswerを取得して辞書に格納
     question_answers = {}
     for question in questions:
-        answers = Answer.objects.filter(question=question)  
+        answers = Answer.objects.filter(question=question)
         # 回答内容をIDからテキストに変換
         formatted_answers = []
         for answer in answers:

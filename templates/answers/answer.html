@@ -31,7 +31,17 @@
             </label>
             {% endfor %}
         </div>
+        {% elif q.type.type == "radio" %}
+        <!-- ラジオボタン用のフィールド -->
+        <div>
+            {% for choice in q.choice_set.all %}
+            <label>
+                <input type="radio" name="answer_{{ q.id }}" value="{{ choice.id }}"> {{ choice.text }}
+            </label>
+            {% endfor %}
+        </div>
         {% elif q.type.type == "select" %}
+        <!-- プルダウンリスト用のフィールド -->
         <select name="answer_{{ q.id }}">
             <option>選択してください</option>
             {% for choice in q.choice_set.all %}
