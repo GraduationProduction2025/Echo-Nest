@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Survey, Question, Choice, Choicetype, Answer
-from django.http import Http404, JsonResponse
+from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-from collections import Counter
 import re
 
 # データベースを取得して表示する
@@ -181,12 +180,12 @@ def ag_data(request, survey_id):
             })
 
     # JSONデータの構築
-    data = {
+    context = {
         'multiple_choice': multiple_choice_data,
         'text_responses': text_responses_data
     }
 
-    return render(request, 'surveys/ag_data.html', {'data':data})
+    return render(request, 'surveys/ag_data.html', {'context':context})
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)

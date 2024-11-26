@@ -94,7 +94,7 @@
         let charts = [];
 
         // Djangoから渡されたデータを受け取って処理
-        let data = {{ data | safe }}
+        let data = {{ context | safe }}
 
         function createCharts(data) {
             const mcContainer = document.getElementById('multipleChoiceQuestions');
