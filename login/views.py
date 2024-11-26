@@ -3,16 +3,16 @@ from django.contrib.auth import login, logout
 from .forms import SignupForm, LoginForm
 from django.contrib.auth.decorators import login_required
 
-@login_required
-def index(request):
-    return render(request, "login/index.html")
+# @login_required
+# def index(request):
+#     return render(request, "login/index.html")
 
 def signup_view(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(to="/login/")
+            return redirect(to="/")
     else:
         form = SignupForm()
     param = {"form": form}
@@ -25,7 +25,7 @@ def login_view(request):
             user = form.get_user()
             if user:
                 login(request, user)
-                return redirect(to="/login/")
+                return redirect(to="/")
     else:
         form = LoginForm()
     param = {"form": form}
