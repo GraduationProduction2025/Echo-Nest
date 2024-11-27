@@ -9,7 +9,8 @@ from django.contrib.auth.decorators import login_required
 # データベースを取得して表示する
 @login_required
 def list_ques(request):
-    survey_field_data = Survey.objects.values()
+    login_user = request.user.email
+    survey_field_data = Survey.objects.exclude(create_user=login_user)
     listdict = {
         'title':'一覧',
         'val':survey_field_data,
@@ -116,7 +117,8 @@ def create_ques(request):
 
 @login_required
 def al_list(request):
-    survey_field_data = Survey.objects.filter(published_flag=True)
+    login_user = request.user.email
+    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=True)
     listdict = {
         'title':'公開済みアンケート一覧',
         'val':survey_field_data,
@@ -125,7 +127,8 @@ def al_list(request):
 
 @login_required
 def tem_list(request):
-    survey_field_data = Survey.objects.filter(published_flag=False)
+    login_user = request.user.email
+    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=False)
     listdict = {
         'title':'下書きアンケート一覧',
         'val':survey_field_data,
