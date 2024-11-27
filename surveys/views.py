@@ -182,7 +182,7 @@ def ag_data(request, survey_id):
     # JSONデータの構築
     context = {
         'multiple_choice': multiple_choice_data,
-        'text_responses': text_responses_data
+        'text_responses': text_responses_data,
     }
 
     return render(request, 'surveys/ag_data.html', {'context':context})
