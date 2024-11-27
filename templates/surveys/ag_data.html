@@ -97,54 +97,77 @@
         let data = {{ context | safe }}
 
         function createCharts(data) {
-            const mcContainer = document.getElementById('multipleChoiceQuestions');
-            data.multiple_choice.forEach((question, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-container';
-                questionDiv.innerHTML = `
-                    <h2>${question.question}</h2>
-                    <div class="chart-controls">
-                        <button class="chart-type-btn active" data-type="pie" data-index="${index}">円グラフ</button>
-                        <button class="chart-type-btn" data-type="bar" data-index="${index}">棒グラフ</button>
+                const mcContainer = document.getElementById('multipleChoiceQuestions');
+                data.multiple_choice.forEach((question, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-container';
+
+                    if (question.data.length === 0) {
+                        // データがない場合、キャンバスを表示しない
+                        questionDiv.innerHTML = `
+                <h2>${question.question}</h2>
+                <p>データがありません。</p>
+            `;
+                    } else {
+                        // データがある場合
+                        questionDiv.innerHTML = `
+                <h2>${question.question}</h2>
+                <div class="chart-controls">
+                    <button class="chart-type-btn active" data-type="pie" data-index="${index}">円グラフ</button>
+                    <button class="chart-type-btn" data-type="bar" data-index="${index}">棒グラフ</button>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="chart${index}"></canvas>
                     </div>
-                    <div class="chart-container">
-                        <div class="chart-wrapper">
-                            <canvas id="chart${index}"></canvas>
-                        </div>
-                    </div>
-                    <div class="total-votes">総投票数: ${question.total_votes}</div>
-                `;
-                mcContainer.appendChild(questionDiv);
+                </div>
+                <div class="total-votes">総投票数: ${question.total_votes}</div>
+            `;
+                    }
+                    mcContainer.appendChild(questionDiv);
 
-                createChart(index, 'pie', question);
+                    if (question.data.length > 0) {
+                        createChart(index, 'pie', question);
 
-                // イベントリスナーを追加
-                questionDiv.querySelectorAll('.chart-type-btn').forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        const type = this.getAttribute('data-type');
-                        const index = this.getAttribute('data-index');
-                        createChart(index, type, question);
+                        // イベントリスナーを追加
+                        questionDiv.querySelectorAll('.chart-type-btn').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                const type = this.getAttribute('data-type');
+                                const index = this.getAttribute('data-index');
+                                createChart(index, type, question);
 
-                        // アクティブなボタンのスタイルを更新
-                        this.parentNode.querySelectorAll('.chart-type-btn').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                    });
+                                // アクティブなボタンのスタイルを更新
+                                this.parentNode.querySelectorAll('.chart-type-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                            });
+                        });
+                    }
                 });
-            });
 
-            const trContainer = document.getElementById('textResponses');
-            data.text_responses.forEach(question => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-container';
-                questionDiv.innerHTML = `
-                    <h2>${question.question}</h2>
-                    <div class="text-responses">
-                        ${question.responses.map(response => `<div class="text-response">${response}</div>`).join('')}
-                    </div>
-                `;
-                trContainer.appendChild(questionDiv);
-            });
-        }
+                const trContainer = document.getElementById('textResponses');
+                data.text_responses.forEach(question => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question-container';
+
+                    if (question.responses.length === 0) {
+                        // テキスト回答がない場合
+                        questionDiv.innerHTML = `
+                <h2>${question.question}</h2>
+                <div class="text-responses">データがありません。</div>
+            `;
+                    } else {
+                        // テキスト回答がある場合
+                        questionDiv.innerHTML = `
+                <h2>${question.question}</h2>
+                <div class="text-responses">
+                    ${question.responses.map(response => `<div class="text-response">${response}</div>`).join('')}
+                </div>
+            `;
+                    }
+                    trContainer.appendChild(questionDiv);
+                });
+            }
+
 
         function createChart(index, type, question) {
             const ctx = document.getElementById(`chart${index}`).getContext('2d');
