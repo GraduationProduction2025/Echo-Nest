@@ -95,13 +95,8 @@
 
         let data = {{ context | safe }}
 
-        // `order` 順で並べ替え
-        let mergedData = [
-            ...data.multiple_choice.map(item => ({ ...item, type: 'multiple_choice' })),
-            ...data.text_responses.map(item => ({ ...item, type: 'text_responses' }))
-        ];
-
-        mergedData.sort((a, b) => a.order - b.order);
+        // データをidの昇順でソート
+        data.sort((a, b) => a.id - b.id);
 
         function createCharts(data) {
             const container = document.getElementById('questions');
@@ -110,7 +105,7 @@
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-container';
 
-                if (item.type === 'multiple_choice') {
+                if (item.labels && item.data) {
                     // 選択肢質問
                     if (item.data.length === 0) {
                         questionDiv.innerHTML = `
@@ -151,7 +146,7 @@
                             });
                         });
                     }
-                } else if (item.type === 'text_responses') {
+                } else if (item.responses) {
                     // テキスト質問
                     if (item.responses.length === 0) {
                         questionDiv.innerHTML = `
@@ -230,9 +225,9 @@
         }
 
         // データの作成
-        createCharts(mergedData);
-
+        createCharts(data);
     </script>
+
 </body>
 
 </html>

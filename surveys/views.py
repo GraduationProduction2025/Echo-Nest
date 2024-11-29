@@ -132,15 +132,16 @@ def ag_data(request, survey_id):
     questions = Question.objects.filter(survey=survey, deleted_flag=False)
 
     # JSONデータの格納先
-    multiple_choice_data = []
-    text_responses_data = []
+    answer_data = []
+    # JSONデータのid
+    answer_id = 0
 
     # 各Questionに関連するデータを処理
     for question in questions:
         answers = Answer.objects.filter(question=question)
         
+        # 選択式質問の場合
         if question.type.type in ["checkbox", "radio", "pulldown"]:
-            # 選択式質問の場合
             choice_counts = {}  # 選択肢の集計用辞書
 
             # 各回答を解析
@@ -156,36 +157,37 @@ def ag_data(request, survey_id):
                             choice_counts["選択肢が見つかりません"] = 0
                         choice_counts["選択肢が見つかりません"] += 1
 
-            # データをフォーマット
-            multiple_choice_data.append({
+            # データを追加
+            answer_data.append({
+                'id': answer_id,
                 'question': question.title,
                 'labels': list(choice_counts.keys()),
                 'data': list(choice_counts.values()),
                 'total_votes': sum(choice_counts.values())
             })
-        else:
-            # テキスト形式質問の場合
+            answer_id += 1
+        # テキスト形式の場合
+        elif question.type.type in ["textarea"]:
             text_answers = []
+            # 回答をすべて取り出す
             for answer in answers:
                 content = answer.context.get("content", [])
                 if isinstance(content, list):
                     text_answers.extend(content)
                 elif isinstance(content, str):
                     text_answers.append(content)
-
-            # データをフォーマット
-            text_responses_data.append({
+            # データを追加
+            answer_data.append({
+                'id':answer_id,
                 'question': question.title,
-                'responses': text_answers
+                'responses': text_answers,
             })
+            answer_id += 1
+        # その他の場合はelifで追記
+        else:
+            pass
 
-    # JSONデータの構築
-    context = {
-        'multiple_choice': multiple_choice_data,
-        'text_responses': text_responses_data,
-    }
-
-    return render(request, 'surveys/ag_data.html', {'context':context})
+    return render(request, 'surveys/ag_data.html', {'context':answer_data})
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
