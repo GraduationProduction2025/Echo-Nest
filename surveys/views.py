@@ -11,6 +11,10 @@ from django.contrib.auth.decorators import login_required
 def list_ques(request):
     login_user = request.user.email
     survey_field_data = Survey.objects.exclude(create_user=login_user)
+    query = request.GET.get('query', '')
+    if query:
+        survey_field_data = survey_field_data.filter(title__icontains=query)
+        
     listdict = {
         'title':'一覧',
         'val':survey_field_data,
