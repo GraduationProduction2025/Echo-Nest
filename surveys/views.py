@@ -186,8 +186,11 @@ def ag_data(request, survey_id):
         # その他の場合はelifで追記
         else:
             pass
-
-    return render(request, 'surveys/ag_data.html', {'context':answer_data})
+    listdict = {
+        'title':'アンケート結果ダッシュボード',
+        'context':answer_data,
+    }
+    return render(request, 'surveys/ag_data.html', listdict)
 
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)

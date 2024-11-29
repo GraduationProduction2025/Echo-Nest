@@ -2,94 +2,19 @@
 <html>
 
 <head>
-    <title>アンケート結果ダッシュボード</title>
+    <title>{{title}}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1,
-        h2 {
-            color: #1a1a1a;
-        }
-
-        .question-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .chart-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .chart-wrapper {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .total-votes {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-top: 10px;
-        }
-
-        .text-responses {
-            margin-top: 20px;
-        }
-
-        .text-response {
-            background-color: #e9ecef;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        .chart-controls {
-            margin-bottom: 15px;
-        }
-
-        .chart-type-btn {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .chart-type-btn.active {
-            background-color: #45a049;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
-    <div class="container">
-        <h1>アンケート結果ダッシュボード</h1>
-        <div id="questions"></div>
+    <div class="over-wrapper">
+        <div class="ag-data-container">
+            <h1>{{title}}</h1>
+            <div id="ag-data-questions"></div>
+        </div>
     </div>
-
     <script>
         let charts = [];
 
@@ -99,11 +24,11 @@
         data.sort((a, b) => a.id - b.id);
 
         function createCharts(data) {
-            const container = document.getElementById('questions');
+            const container = document.getElementById('ag-data-questions');
 
             data.forEach((item, index) => {
                 const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-container';
+                questionDiv.className = 'ag-data-question-container';
 
                 if (item.labels && item.data) {
                     // 選択肢質問
@@ -115,16 +40,16 @@
                     } else {
                         questionDiv.innerHTML = `
                         <h2>${item.question}</h2>
-                        <div class="chart-controls">
-                            <button class="chart-type-btn active" data-type="pie" data-index="${index}">円グラフ</button>
-                            <button class="chart-type-btn" data-type="bar" data-index="${index}">棒グラフ</button>
+                        <div class="ag-data-chart-controls">
+                            <button class="ag-data-chart-type-btn active" data-type="pie" data-index="${index}">円グラフ</button>
+                            <button class="ag-data-chart-type-btn" data-type="bar" data-index="${index}">棒グラフ</button>
                         </div>
-                        <div class="chart-container">
-                            <div class="chart-wrapper">
+                        <div class="ag-data-chart-container">
+                            <div class="ag-data-chart-wrapper">
                                 <canvas id="chart${index}"></canvas>
                             </div>
                         </div>
-                        <div class="total-votes">総投票数: ${item.total_votes}</div>
+                        <div class="ag-data-total-votes">総投票数: ${item.total_votes}</div>
                     `;
                     }
 
@@ -134,14 +59,14 @@
                         createChart(index, 'pie', item);
 
                         // イベントリスナーを追加
-                        questionDiv.querySelectorAll('.chart-type-btn').forEach(btn => {
+                        questionDiv.querySelectorAll('.ag-data-chart-type-btn').forEach(btn => {
                             btn.addEventListener('click', function () {
                                 const type = this.getAttribute('data-type');
                                 const index = this.getAttribute('data-index');
                                 createChart(index, type, item);
 
                                 // アクティブなボタンのスタイルを更新
-                                this.parentNode.querySelectorAll('.chart-type-btn').forEach(b => b.classList.remove('active'));
+                                this.parentNode.querySelectorAll('.ag-data-chart-type-btn').forEach(b => b.classList.remove('active'));
                                 this.classList.add('active');
                             });
                         });
@@ -151,13 +76,13 @@
                     if (item.responses.length === 0) {
                         questionDiv.innerHTML = `
                         <h2>${item.question}</h2>
-                        <div class="text-responses">データがありません。</div>
+                        <div class="ag-data-text-responses">データがありません。</div>
                     `;
                     } else {
                         questionDiv.innerHTML = `
                         <h2>${item.question}</h2>
-                        <div class="text-responses">
-                            ${item.responses.map(response => `<div class="text-response">${response}</div>`).join('')}
+                        <div class="ag-data-text-responses">
+                            ${item.responses.map(response => `<div class="ag-data-text-response">${response}</div>`).join('')}
                         </div>
                     `;
                     }
