@@ -186,13 +186,12 @@ path {
 /* ----- 結果表示画面 ----- */
 .ag-data-container {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f0f2f5;
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
     max-width: 1200px;
 }
-
+/* 以下2つ、他画面で使われていなかったため命名変更なしのまま移行 */
 h1,
 h2 {
     color: #1a1a1a;
