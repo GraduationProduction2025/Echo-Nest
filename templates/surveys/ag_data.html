@@ -6,13 +6,12 @@
 
 {% block content %}
 {% load static %}
-
-<div class="over-wrapper">
-    <div class="ag-data-container">
-        <h1>{{title}}</h1>
-        <button type="button" class="cancel-ques-btn" onclick="history.back()">戻る</button>
-        <div id="ag-data-questions"></div>
+<div class="container">
+    <div class="title-bar">
+        <h1>{{ title }}</h1>
     </div>
+    <button type="button" class="cancel-ques-btn" onclick="history.back()">戻る</button>
+    <div id="ag-data-questions"></div>
 </div>
 <script>
     let charts = [];
