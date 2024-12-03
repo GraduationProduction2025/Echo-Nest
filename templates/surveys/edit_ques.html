@@ -1,36 +1,87 @@
 {% extends 'base.html' %}
 
 {% block base %}
-{{ title }}
+{{ edittitle }}
 {% endblock base %}
 
 {% block content %}
 {% load static %}
-
-<div class="container">
-    <input type="text" class="title-text" placeholder="タイトル" value= {{ survey.title }}>
-</div>
-
-<div>
-    <!-- タイトルと削除 -->
-    <div>
-        <input type="text" placeholder="質問のタイトルを入力">
-        <img src="{% static "img/delbox.png" %}" class="ques-del">
+<form method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="title-bar">
+            <h1>{{ edittitle }}</h1>
+            <input type="text" name="title-text" class="title-text" placeholder="タイトルを入力" value="{{ title }}">
+        </div>
     </div>
 
-    <!-- テキストの配置例 -->
-    <div>
-        <textarea rows="3" placeholder="回答を入力してください" disabled></textarea>
+    {% for q in question %}
+    {% with forloop.counter as editid %}
+    <div class="ques-container" data-index="{{editid}}">
+    <div class="ques-lane">
+        <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力" value="{{ q.title }}">
+        <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
     </div>
-</div>
-    
-<div>
-    <!-- 質問を作成 -->
-    <div>
-        <button type="submit">公開</button>
-        <button type="submit" >一時保存</button>
-        <button onclick="history.back()">キャンセル</button>
+    <select name="ques-change" onchange="updateInputField(this)">
+        <option value="text" {% if q.type.type == "textarea" %}selected{% endif %}>テキスト</option>
+        <option value="checkbox" {% if q.type.type == "checkbox" %}selected{% endif %}>チェックボックス</option>
+        <option value="radio" {% if q.type.type == "radio" %}selected{% endif %}>ラジオボタン</option>
+        <option value="select" {% if q.type.type == "select" %}selected{% endif %}>プルダウン</option>
+    </select>
+
+    {% if q.type.type == "textarea" %}
+    <!-- テキスト入力用のフィールド -->
+    <div class="input-container">
+        <input type="hidden" name="ques-type" value="textarea">
+        <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
     </div>
-    
-</div>
+    </div>
+
+    {% else %}
+    <!-- チェックボックス用のフィールド（複数の選択肢をまとめて表示） -->
+    <div class="input-container">
+        <input type="hidden" name="ques-type" value="{{ q.type.type }}">
+        <div id="options-container-{{editid}}" class="options-container">
+            {% for choice in q.choice_set.all %}
+            {% with forloop.counter as choiceid %}
+            <div class="option">
+                {% if q.type.type == "select" %}
+                <label>{{choiceid}}.</label>
+                {% else %}
+                <input type="{{ q.type.type }}" disabled="">
+                {% endif %}
+                <input type="text" name="option-text-{{editid}}-{{choiceid}}" class="option-text" placeholder="オプション名を入力" value="{{choice.text}}">
+                <button type="button" class="option-del" onclick="deleteOption(this,'{{editid}}')">✕</button>
+            </div>
+            {% endwith %}
+            {% endfor %}    
+        </div>
+        {% if q.type.type == "checkbox" %}
+        <button type="button" class="option-add" onclick="addOption(this)">＋ チェックボックスを追加</button>
+        {% elif q.type.type == "radio" %}
+        <button type="button" class="option-add" onclick="addOption(this)">＋ ラジオボタンを追加</button>
+        {% elif q.type.type == "select" %}
+        <button type="button" class="option-add" onclick="addOption(this)">＋ プルダウンを追加</button>
+        {% endif %}
+    </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% endfor %}
+
+    <div class="add-ques">
+        <!-- 新しい質問を入れるdiv -->
+        <div id="inputFields"></div>
+        <button class="add-ques-btn" id="input-cre" onclick="createInputField(event,'text')">＋ 新規追加</button>
+    </div>
+
+    <div class="submit-container">
+        <!-- 質問を作成 -->
+        <div class="create-ques">
+            <button type="submit" class="create-ques-btn" id="create-ques-btn" name="action" value="create">公開</button>
+            <button type="submit" class="tem-ques-btn" id="tem-ques-btn" name="action" value="tem">一時保存</button>
+            <button type="button" class="cancel-ques-btn" onclick="history.back()">キャンセル</button>
+        </div>
+    </div>
+</form>
 {% endblock content %}

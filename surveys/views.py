@@ -174,11 +174,115 @@ def ag_data(request, survey_id):
 
 @login_required
 def edit_ques(request, survey_id):
-    survey = Survey.objects.get(id = survey_id)
+    try:
+        # Surveyと関連したQuestionを取り出す
+        survey = Survey.objects.get(id=survey_id)
+        questions = Question.objects.filter(survey=survey)
+        choices = Choice.objects.filter()
+    except Survey.DoesNotExist:
+        raise Http404("Survey does not exist")
     listdict = {
-        'title':'編集画面',
+        'edittitle':'編集画面',
+        "title": survey.title,
         'survey':survey,
+        'question':questions,
+        'choice':choices,
     }
+
+    if request.method == 'POST':
+        print("POSTデータ:", request.POST)
+        existing_question_count = Survey.objects.count()
+        next_survey_id = existing_question_count + 1
+
+        survey_title = request.POST.get('title-text')
+        survey_create_user = request.user.email
+
+        path = '/list'
+
+        # 新しいSurveyオブジェクトを作成
+        if request.POST.get('action') == 'create':
+            survey = Survey(
+                id=next_survey_id,
+                title=survey_title,
+                create_at=timezone.now(),
+                create_user=survey_create_user,
+                published_flag=True,
+                deleted_flag=False
+            )
+            survey.save()
+            path = '/al_list'
+        elif request.POST.get('action') == 'tem':
+            survey = Survey(
+                id=next_survey_id,
+                title=survey_title,
+                create_at=timezone.now(),
+                create_user=survey_create_user,
+                published_flag=False,
+                deleted_flag=False
+            )
+            survey.save()
+            path = '/tem_list'
+
+        # 質問と選択肢を処理
+        question_titles = request.POST.getlist('ques-title')
+        question_types = request.POST.getlist('ques-type')
+
+        # ques-title フィールド名をすべて取得してリストに追加
+        for key, value in request.POST.items():
+            if re.match(r'^ques-title-\d+$', key):
+                question_titles.append(value)
+
+        # タイトルとタイプの数が一致しない場合のエラーハンドリング
+        if len(question_titles) != len(question_types):
+            raise ValueError("質問タイトルと質問タイプの数が一致しません")
+
+        # 各質問を保存
+        for i in range(len(question_titles)):
+            existing_question_count = Question.objects.count()
+            next_question_id = existing_question_count + 1
+
+            question_type_text = question_types[i]
+            question_type = Choicetype.objects.get(type=question_type_text)  
+
+            # Questionオブジェクトの作成
+            question = Question(
+                id=next_question_id,
+                title=question_titles[i],
+                survey=survey,
+                type=question_type,
+                deleted_flag=False
+            )
+            question.save()
+
+            # テキストボックスじゃない場合に選択肢を取得
+            if question_type_text != 'textarea':
+                choice_texts = []
+                option_index = 1
+                while True:
+                    choice_key = f'option-text-{i + 1}-{option_index}'
+                    choice_text = request.POST.get(choice_key)
+                    if not choice_text:
+                        break
+                    choice_texts.append(choice_text.strip())
+                    option_index += 1
+
+                # 各選択肢を保存
+                for choice_text in choice_texts:
+                    if choice_text:
+                        existing_question_count = Choice.objects.count()
+                        next_choice_id = existing_question_count + 1
+
+                        choice = Choice(
+                            id=next_choice_id,
+                            text=choice_text,
+                            question=question,
+                            deleted_flag=False
+                        )
+                        choice.save()
+        survey = Survey.objects.get(id=survey_id)
+        survey.deleted_flag = True
+        survey.save()
+        return redirect(path)
     return render(request, 'surveys/edit_ques.html', listdict)
 
 @login_required
