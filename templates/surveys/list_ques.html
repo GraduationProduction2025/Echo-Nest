@@ -5,39 +5,56 @@
 {% endblock base %}
 
 {% block content %}
-{% load static %}
 <div class="container">
     <div class="title-bar">
         <h1>{{ title }}</h1>
     </div>
+
     <form method="get">
-        <input type="search" value="{{ request.GET.query }}"
-            name="query" type="text"
-            placeholder="　キーワードを入力　">
+        <input type="search" 
+               name="query" 
+               value="{{ request.GET.query }}"
+               placeholder="キーワードを入力">
     </form>
+
     <div class="scrollable-table">
         <table class="listtable">
-            <!-- 内容の表示 -->
-            <!-- for文の開始 -->
             {% if val %}
                 {% for i in val %}
                 <tr>
-                    <td><a href="{% url 'templates:answer' i.id %}" , target="_blank">{{ i.title }}</a></td>
-                    <td>{{ i.create_at }}</td>
-                    <td><a href="{% url 'templates:ag_data' i.id %}">詳細を見る</a></td>
+                    <td>
+                        <a href="{% url 'templates:answer' i.id %}" target="_blank">
+                            {{ i.title }}
+                        </a>
+                    </td>
+                    <td>{{ i.create_at|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="{% url 'templates:ag_data' i.id %}">
+                            詳細を見る
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
-                <!-- for文の終了 -->
             {% else %}
-                <h2>該当するアンケートがありませんでした。</h2>
+                <tr>
+                    <td colspan="3" class="no-results">
+                        該当するアンケートがありませんでした。
+                    </td>
+                </tr>
             {% endif %}
         </table>
     </div>
     
     <div class="add-button">
-        <button onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
-        <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
-        <button onclick=location.href="{% url 'templates:tem_list' %}">下書き一覧</button>
+        <button onclick="location.href='{% url 'templates:create_ques' %}'">
+            新規作成
+        </button>
+        <button onclick="location.href='{% url 'templates:al_list' %}'">
+            アンケート一覧
+        </button>
+        <button onclick="location.href='{% url 'templates:tem_list' %}'">
+            下書き一覧
+        </button>
     </div>
 </div>
 {% endblock content %}
