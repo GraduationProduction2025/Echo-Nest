@@ -141,40 +141,72 @@ def tem_list(request):
 
 @login_required
 def ag_data(request, survey_id):
+    # 対象のSurveyを取得
     survey = Survey.objects.get(id=survey_id)
+
     # Surveyに関連するQuestionを取得
     questions = Question.objects.filter(survey=survey, deleted_flag=False)
-    
-    # 各Questionに関連するAnswerを取得して辞書に格納
-    question_answers = {}
+
+    # JSONデータの格納先
+    answer_data = []
+    # JSONデータのid
+    answer_id = 0
+
+    # 各Questionに関連するデータを処理
     for question in questions:
         answers = Answer.objects.filter(question=question)
-        # 回答内容をIDからテキストに変換
-        formatted_answers = []
-        for answer in answers:
-            content_list = []
-            if question.type.type == "checkbox" or question.type.type == "radio" or question.type.type == "pulldown":
-                # 選択肢のIDを選択肢テキストに変換
+        
+        # 選択式質問の場合
+        if question.type.type in ["checkbox", "radio", "pulldown"]:
+            choice_counts = {}  # 選択肢の集計用辞書
+
+            # 各回答を解析
+            for answer in answers:
                 for choice_id in answer.context.get("content", []):
                     try:
                         choice = Choice.objects.get(id=choice_id)
-                        content_list.append(choice.text)
+                        if choice.text not in choice_counts:
+                            choice_counts[choice.text] = 0
+                        choice_counts[choice.text] += 1
                     except Choice.DoesNotExist:
-                        content_list.append("選択肢が見つかりません")
-            else:
-                # テキストボックスの場合はそのまま表示
-                content_list = answer.context.get("content", [])
-                
-            formatted_answers.append(content_list)
-        
-        question_answers[question] = formatted_answers
+                        if "選択肢が見つかりません" not in choice_counts:
+                            choice_counts["選択肢が見つかりません"] = 0
+                        choice_counts["選択肢が見つかりません"] += 1
 
-    context = {
-        'survey': survey,
-        'question_answers': question_answers,
+            # データを追加
+            answer_data.append({
+                'id': answer_id,
+                'question': question.title,
+                'labels': list(choice_counts.keys()),
+                'data': list(choice_counts.values()),
+                'total_votes': sum(choice_counts.values())
+            })
+            answer_id += 1
+        # テキスト形式の場合
+        elif question.type.type in ["textarea"]:
+            text_answers = []
+            # 回答をすべて取り出す
+            for answer in answers:
+                content = answer.context.get("content", [])
+                if isinstance(content, list):
+                    text_answers.extend(content)
+                elif isinstance(content, str):
+                    text_answers.append(content)
+            # データを追加
+            answer_data.append({
+                'id':answer_id,
+                'question': question.title,
+                'responses': text_answers,
+            })
+            answer_id += 1
+        # その他の場合はelifで追記
+        else:
+            pass
+    listdict = {
+        'title':'アンケート結果ダッシュボード',
+        'context':answer_data,
     }
-    
-    return render(request, 'surveys/ag_data.html', context)
+    return render(request, 'surveys/ag_data.html', listdict)
 
 @login_required
 def edit_ques(request, survey_id):
