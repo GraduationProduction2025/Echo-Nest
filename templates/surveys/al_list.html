@@ -20,6 +20,12 @@
             <td>{{ i.title }}</td>
             <td>{{ i.create_at }}</td>
             <td><a href="{% url 'templates:ag_data' i.id %}">詳細を見る</a></td>
+            <td>
+                <form method="POST" action="{% url 'templates:delete_ques' i.id %}">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
         <!-- for文の終了 -->

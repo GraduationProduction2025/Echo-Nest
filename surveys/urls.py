@@ -14,4 +14,5 @@ urlpatterns = [
     path('tem_list/edit_ques/<int:survey_id>/', views.edit_ques, name='edit_ques'),
     path('answer/<int:survey_id>/', views.answer, name='answer'),
     path('complete/', views.complete, name='Answered'),
+    path('delete_ques/<int:survey_id>', views.delete_ques, name='delete_ques'),
 ]

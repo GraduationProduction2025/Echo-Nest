@@ -5,12 +5,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 import re
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 # データベースを取得して表示する
 @login_required
 def list_ques(request):
     login_user = request.user.email
-    survey_field_data = Survey.objects.exclude(create_user=login_user)
+    survey_field_data = Survey.objects.exclude(create_user=login_user).filter(published_flag=True, deleted_flag=False)
     query = request.GET.get('query', '')
     if query:
         survey_field_data = survey_field_data.filter(title__icontains=query)
@@ -122,7 +123,7 @@ def create_ques(request):
 @login_required
 def al_list(request):
     login_user = request.user.email
-    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=True)
+    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=True, deleted_flag=False)
     listdict = {
         'title':'公開済みアンケート一覧',
         'val':survey_field_data,
@@ -132,7 +133,7 @@ def al_list(request):
 @login_required
 def tem_list(request):
     login_user = request.user.email
-    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=False)
+    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=False, deleted_flag=False)
     listdict = {
         'title':'下書きアンケート一覧',
         'val':survey_field_data,
@@ -247,3 +248,10 @@ def complete(request):
         return render(request, 'answers/complete.html', listdict)
 
     return render(request, 'answers/answer.html', {'title': '回答ページ'})
+
+
+def delete_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.deleted_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
