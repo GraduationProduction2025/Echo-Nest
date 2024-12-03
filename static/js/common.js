@@ -168,3 +168,64 @@ function updateOptionIndices(container, questionIndex) {
         }
     });
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (event) {
+        const errors = validateForm();
+        if (errors.length > 0) {
+            event.preventDefault(); // フォームの送信を防止
+            alert(errors.join("\n")); // エラー内容をまとめてアラートで表示
+        }
+    });
+});
+
+function validateForm() {
+    const errors = new Set(); // 重複を防ぐために Set を使用
+
+    // タイトルの検証
+    const titleText = document.querySelector(".title-text");
+    if (!titleText || titleText.value.trim() === "") {
+        errors.add("タイトルが入力されていません。");
+        titleText.classList.add("error");
+    } else {
+        titleText.classList.remove("error");
+    }
+
+    // 各質問の検証
+    const questionContainers = document.querySelectorAll(".ques-container");
+    let questionTitleError = false;
+    let optionTextError = false;
+
+    questionContainers.forEach(container => {
+        const questionTitle = container.querySelector(".ques-title");
+        if (!questionTitle || questionTitle.value.trim() === "") {
+            questionTitleError = true;
+            questionTitle.classList.add("error");
+        } else {
+            questionTitle.classList.remove("error");
+        }
+
+        const optionTexts = container.querySelectorAll(".option-text");
+        optionTexts.forEach(option => {
+            if (!option || option.value.trim() === "") {
+                optionTextError = true;
+                option.classList.add("error");
+            } else {
+                option.classList.remove("error");
+            }
+        });
+    });
+
+    // 質問タイトルのエラーを追加
+    if (questionTitleError) {
+        errors.add("未入力の質問タイトルがあります。");
+    }
+
+    // 選択肢のエラーを追加
+    if (optionTextError) {
+        errors.add("未入力のオプションがあります。");
+    }
+
+    return Array.from(errors); // Set を配列に変換して返す
+}
