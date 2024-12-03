@@ -139,6 +139,12 @@ path {
     right: 0;
 }
 
+.username {
+    padding-left: 30px;
+    padding-bottom: 30px;
+    color: white;
+}
+
 /* メニュー項目 */
 .menu-items {
     list-style: none;

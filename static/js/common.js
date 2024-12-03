@@ -17,6 +17,8 @@ function createInputField(event, inputType) {
                     <select name="ques-change" onchange="updateInputField(this, ${questionIndex})">
                         <option value="text">テキスト</option>
                         <option value="checkbox">チェックボックス</option>
+                        <option value="radio">ラジオボタン</option>
+                        <option value="select">プルダウン</option>
                     </select>`;
     newDiv.innerHTML += newInputField;
 
@@ -49,9 +51,39 @@ function addInputField(container, inputType, index) {
                             </div>
                          </div>
                          <div id="options-add-${index}">
-                            <button type="button" class="option-add" onclick="option_add(this, ${index})">＋ オプションを追加</button>
+                            <button type="button" class="option-add" onclick="option_add(this, ${index} ,1)">＋ オプションを追加</button>
                          </div>`;
-    }
+    } else if (inputType === "radio") {
+        inputFieldHtml = `<input type="hidden" name="ques-type" value="radio">
+                         <div id="options-container-${index}">
+                            <div><input type="radio" name="radio${index}">
+                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                            <div><input type="radio" name="radio${index}">
+                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                         </div>
+                         <div id="options-add-${index}">
+                            <button type="button" class="option-add" onclick="option_add(this, ${index} , 2)">＋ オプションを追加</button>
+                         </div>`;
+    } else if (inputType === "select") {
+        inputFieldHtml = `<input type="hidden" name="ques-type" value="select">
+                         <div id="options-container-${index}">
+                            <div><label id="select-num">1.</label>
+                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                            <div><label id="select-num">2.</label>
+                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
+                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
+                            </div>
+                         </div>
+                         <div id="options-add-${index}">
+                            <button type="button" class="option-add" onclick="option_add(this, ${index} , 3)">＋ オプションを追加</button>
+                         </div>`;
+    } 
     container.querySelector('.ques-lane').insertAdjacentHTML('afterend', inputFieldHtml);
 }
 
@@ -72,23 +104,38 @@ function updateInputField(selectElement, questionIndex) {
         quesTypeField.remove();
     }
 
-    // options-add が存在する場合、text タイプでは削除する
+    // options-add が存在する場合削除する
     const optionsAdd = container.querySelector(`#options-add-${questionIndex}`);
-    if (optionsAdd && selectedType === "text") {
+    if (optionsAdd) {
         optionsAdd.remove();
     }
+
+    //オプション数をリセット
+    optionCounters[questionIndex] = 3;
 
     // 新しいタイプに応じてフィールドを追加
     addInputField(container, selectedType, questionIndex);
 }
 
 // オプションを追加する関数
-function option_add(button, Index) {
+function option_add(button, Index , Type_num) {
     const optionsContainer = document.getElementById(`options-container-${Index}`);
     let optionCount = optionCounters[Index]++;
-    const newOption = `<div><input type="checkbox">
-                       <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
-                       <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+
+    if (Type_num == 1) {
+        newOption = `<div><input type="checkbox">
+               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
+               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    } else if (Type_num == 2) {
+        newOption = `<div><input type="radio" name="radio${Index}">
+               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
+               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    } else if (Type_num == 3) {
+        newOption = `<div><label id="select-num">${optionCount}.</label>
+               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
+               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    }
+    
     optionsContainer.insertAdjacentHTML('beforeend', newOption);
 }
 
@@ -104,6 +151,11 @@ function updateOptionIndices(Index) {
     const options = optionsContainer.querySelectorAll('.option-text');
     options.forEach((option, index) => {
         option.name = `option-text-${Index}-${index + 1}`;
+
+        const label = option.previousElementSibling;
+        if (label && label.id === "select-num") {
+            label.textContent = `${index + 1}.`;
+        }
     });
     optionCounters[Index] = options.length + 1;
 }
@@ -149,3 +201,68 @@ function updateQuestionIndices() {
 
     questionIndex = questionContainers.length + 1;
 }
+
+//タイトルやオプションが空欄で送信される際にメッセージを出す処理
+document.addEventListener('DOMContentLoaded', () => {
+    if (!document.getElementById('create-ques-btn')) {
+        return;
+    }
+    const createBtn = document.getElementById('create-ques-btn');
+    const tempBtn = document.getElementById('tem-ques-btn');
+
+    function validateInputs() {
+        const titleText = document.querySelector('.title-text');
+        const quesTitles = document.querySelectorAll('.ques-title');
+        const optionTexts = document.querySelectorAll('.option-text');
+
+        let errors = [];
+        let check = true;
+
+        // タイトルのチェック
+        if (!titleText.value.trim()) {
+            errors.push('タイトルが入力されていません。');
+        }
+
+        // 質問タイトルのチェック
+        quesTitles.forEach((quesTitle) => {
+            if (!quesTitle.value.trim()) {
+                check = false; 
+            }
+        });
+        if(check != true){
+            errors.push('未入力の質問タイトルがあります。');
+            check = true
+        }
+
+        // オプション名のチェック
+        optionTexts.forEach((optionText) => {
+            if (!optionText.value.trim()) {
+                check = false;
+            }
+        });
+        if(check != true){
+            errors.push('未入力のオプションがあります。');
+            check = true
+        }
+
+        // エラーがあれば警告表示
+        if (errors.length > 0) {
+            alert(errors.join('\n'));
+            return false;
+        }
+
+        return true;
+    }
+
+    createBtn.addEventListener('click', (e) => {
+        if (!validateInputs()) {
+            e.preventDefault(); // フォームの送信を防ぐ
+        }
+    });
+
+    tempBtn.addEventListener('click', (e) => {
+        if (!validateInputs()) {
+            e.preventDefault(); // フォームの送信を防ぐ
+        }
+    });
+});

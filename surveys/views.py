@@ -4,24 +4,35 @@ from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 import re
+from django.contrib.auth.decorators import login_required
 
 # データベースを取得して表示する
+@login_required
 def list_ques(request):
-    survey_field_data = Survey.objects.values()
+    login_user = request.user.email
+    survey_field_data = Survey.objects.exclude(create_user=login_user)
+    query = request.GET.get('query', '')
+    if query:
+        survey_field_data = survey_field_data.filter(title__icontains=query)
+        
     listdict = {
         'title':'一覧',
         'val':survey_field_data,
     }
     return render(request, 'surveys/list_ques.html', listdict)
 
+@login_required
 def create_ques(request):
+    listdict = {
+        'title':'新規作成画面',
+    }
     if request.method == 'POST':
         print("POSTデータ:", request.POST)
         existing_question_count = Survey.objects.count()
         next_survey_id = existing_question_count + 1
 
         survey_title = request.POST.get('title-text')
-        survey_create_user = "admin"
+        survey_create_user = request.user.email
 
         path = '/list'
 
@@ -106,24 +117,29 @@ def create_ques(request):
                         )
                         choice.save()
         return redirect(path)
-    return render(request, 'surveys/create_ques.html')
+    return render(request, 'surveys/create_ques.html', listdict)
 
+@login_required
 def al_list(request):
-    survey_field_data = Survey.objects.filter(published_flag=True)
+    login_user = request.user.email
+    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=True)
     listdict = {
         'title':'公開済みアンケート一覧',
         'val':survey_field_data,
     }
     return render(request, 'surveys/al_list.html', listdict)
 
+@login_required
 def tem_list(request):
-    survey_field_data = Survey.objects.filter(published_flag=False)
+    login_user = request.user.email
+    survey_field_data = Survey.objects.filter(create_user=login_user, published_flag=False)
     listdict = {
         'title':'下書きアンケート一覧',
         'val':survey_field_data,
     }
     return render(request, 'surveys/tem_list.html', listdict)
 
+@login_required
 def ag_data(request, survey_id):
     # 対象のSurveyを取得
     survey = Survey.objects.get(id=survey_id)
@@ -192,6 +208,7 @@ def ag_data(request, survey_id):
     }
     return render(request, 'surveys/ag_data.html', listdict)
 
+@login_required
 def edit_ques(request, survey_id):
     survey = Survey.objects.get(id = survey_id)
     listdict = {
@@ -200,6 +217,7 @@ def edit_ques(request, survey_id):
     }
     return render(request, 'surveys/edit_ques.html', listdict)
 
+@login_required
 def answer(request, survey_id):
     try:
         # Surveyと関連したQuestionを取り出す
@@ -216,6 +234,7 @@ def answer(request, survey_id):
     }
     return render(request, "answers/answer.html", listdict)
 
+@login_required
 @csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
 def complete(request):
     if request.method == 'POST':

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>アカウント登録</title>
+  </head>
+  <body>
+    <h2>アカウント登録</h2>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">登録</button>
+    </form>
+    <button onclick=location.href="{% url 'accounts:login' %}">ログイン</button>
+  </body>
+</html>
