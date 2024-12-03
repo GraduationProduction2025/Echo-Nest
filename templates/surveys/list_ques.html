@@ -10,18 +10,27 @@
     <div class="title-bar">
         <h1>{{ title }}</h1>
     </div>
+    <form method="get">
+        <input type="search" value="{{ request.GET.query }}"
+            name="query" type="text"
+            placeholder="　キーワードを入力　">
+    </form>
     <div class="scrollable-table">
         <table class="listtable">
             <!-- 内容の表示 -->
             <!-- for文の開始 -->
-            {% for i in val %}
-            <tr>
-                <td><a href="{% url 'templates:answer' i.id %}" , target="_blank">{{ i.title }}</a></td>
-                <td>{{ i.create_at }}</td>
-                <td><a href="{% url 'templates:ag_data' i.id %}">詳細を見る</a></td>
-            </tr>
-            {% endfor %}
-            <!-- for文の終了 -->
+            {% if val %}
+                {% for i in val %}
+                <tr>
+                    <td><a href="{% url 'templates:answer' i.id %}" , target="_blank">{{ i.title }}</a></td>
+                    <td>{{ i.create_at }}</td>
+                    <td><a href="{% url 'templates:ag_data' i.id %}">詳細を見る</a></td>
+                </tr>
+                {% endfor %}
+                <!-- for文の終了 -->
+            {% else %}
+                <h2>該当するアンケートがありませんでした。</h2>
+            {% endif %}
         </table>
     </div>
     
