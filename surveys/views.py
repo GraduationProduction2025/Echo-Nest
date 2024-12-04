@@ -181,13 +181,6 @@ def edit_ques(request, survey_id):
         choices = Choice.objects.filter()
     except Survey.DoesNotExist:
         raise Http404("Survey does not exist")
-    listdict = {
-        'edittitle':'編集画面',
-        "title": survey.title,
-        'survey':survey,
-        'question':questions,
-        'choice':choices,
-    }
 
     if request.method == 'POST':
         print("POSTデータ:", request.POST)
@@ -283,6 +276,12 @@ def edit_ques(request, survey_id):
         survey.deleted_flag = True
         survey.save()
         return redirect(path)
+    listdict = {
+        'title':'編集画面',
+        'survey':survey,
+        'question':questions,
+        'choice':choices,
+    }
     return render(request, 'surveys/edit_ques.html', listdict)
 
 @login_required
