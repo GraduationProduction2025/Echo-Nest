@@ -219,7 +219,7 @@ function validateForm() {
 
     //質問が一つもないエラーを追加
     if (questionCounter == 0) {
-        errors.add("質問が存在しません\n質問を作成してください。");
+        errors.add("質問を作成してください。");
     }
 
     // 質問タイトルのエラーを追加
