@@ -1,268 +1,231 @@
-// インデックスを管理するオブジェクト
-let optionCounters = {}; // 各質問ごとのオプション数を保持
-let questionIndex = 1;  // 質問ごとのインデックス
+// 質問のインデックス管理
+let questionCounter = 0;
 
-// 質問タイプを選択
+// 質問作成
 function createInputField(event, inputType) {
     event.preventDefault();
+
+    const form = document.querySelector("form");
+    const existingContainers = form.querySelectorAll(".ques-container");
+    questionCounter = existingContainers.length;
+
     const newDiv = document.createElement("div");
     newDiv.classList.add("ques-container");
-    newDiv.dataset.index = questionIndex; // 質問ごとのインデックスを設定
+    newDiv.dataset.index = ++questionCounter;
+
     const addQuesDiv = document.querySelector(".add-ques");
     addQuesDiv.parentNode.insertBefore(newDiv, addQuesDiv);
-    let newInputField = `<div class="ques-lane">
-                    <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
-                    <img src="/static/img/delbox.png" class="ques-del" onclick="ques_del(this)">
-                    </div>
-                    <select name="ques-change" onchange="updateInputField(this, ${questionIndex})">
-                        <option value="text">テキスト</option>
-                        <option value="checkbox">チェックボックス</option>
-                        <option value="radio">ラジオボタン</option>
-                        <option value="select">プルダウン</option>
-                    </select>`;
-    newDiv.innerHTML += newInputField;
 
-    // 初期オプション数を設定
-    optionCounters[questionIndex] = 3;
+    const newInputField = `
+        <div class="ques-lane">
+            <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
+            <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
+        </div>
+        <select name="ques-change" onchange="updateInputField(this)">
+            <option value="text">テキスト</option>
+            <option value="checkbox">チェックボックス</option>
+            <option value="radio">ラジオボタン</option>
+            <option value="select">プルダウン</option>
+        </select>
+        <div class="input-container"></div>
+    `;
 
-    // 初期の inputType に応じたフィールドを追加
-    addInputField(newDiv, inputType, questionIndex);
-    questionIndex++;
+    newDiv.innerHTML = newInputField;
+    updateInputField(newDiv.querySelector("select"), inputType);
 }
 
-// 質問タイプに応じて入力フィールドを追加
-function addInputField(container, inputType, index) {
-    let inputFieldHtml;
-    if (inputType === "text") {
-        inputFieldHtml = `<input type="hidden" name="ques-type" value="textarea">
-                        <div>
-                            <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
-                        </div>`;
-    } else if (inputType === "checkbox") {
-        inputFieldHtml = `<input type="hidden" name="ques-type" value="checkbox">
-                         <div id="options-container-${index}">
-                            <div><input type="checkbox">
-                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
-                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
-                            </div>
-                            <div><input type="checkbox">
-                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
-                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
-                            </div>
-                         </div>
-                         <div id="options-add-${index}">
-                            <button type="button" class="option-add" onclick="option_add(this, ${index} ,1)">＋ オプションを追加</button>
-                         </div>`;
-    } else if (inputType === "radio") {
-        inputFieldHtml = `<input type="hidden" name="ques-type" value="radio">
-                         <div id="options-container-${index}">
-                            <div><input type="radio" name="radio${index}">
-                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
-                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
-                            </div>
-                            <div><input type="radio" name="radio${index}">
-                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
-                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
-                            </div>
-                         </div>
-                         <div id="options-add-${index}">
-                            <button type="button" class="option-add" onclick="option_add(this, ${index} , 2)">＋ オプションを追加</button>
-                         </div>`;
-    } else if (inputType === "select") {
-        inputFieldHtml = `<input type="hidden" name="ques-type" value="select">
-                         <div id="options-container-${index}">
-                            <div><label id="select-num">1.</label>
-                            <input type="text" name="option-text-${index}-1" class="option-text" placeholder="オプション名を入力">
-                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
-                            </div>
-                            <div><label id="select-num">2.</label>
-                            <input type="text" name="option-text-${index}-2" class="option-text" placeholder="オプション名を入力">
-                            <button type="button" class="option-del" onclick="option_del(this, ${index})">✕</button>
-                            </div>
-                         </div>
-                         <div id="options-add-${index}">
-                            <button type="button" class="option-add" onclick="option_add(this, ${index} , 3)">＋ オプションを追加</button>
-                         </div>`;
-    } 
-    container.querySelector('.ques-lane').insertAdjacentHTML('afterend', inputFieldHtml);
-}
-
-// オプションの更新処理
-function updateInputField(selectElement, questionIndex) {
-    const selectedType = selectElement.value;
+// 質問タイプを変更
+function updateInputField(selectElement, inputType = null) {
     const container = selectElement.closest('.ques-container');
-    const existingField = container.querySelector('[name="ques-type"]').nextElementSibling; // 入力フィールドのみ取得
+    const inputContainer = container.querySelector('.input-container');
+    inputContainer.innerHTML = ""; // 既存のフィールドをクリア
 
-    // 既存の入力フィールドを削除
-    if (existingField) {
-        existingField.remove();
-    }
-
-    // hidden ques-type フィールドがある場合に削除
-    const quesTypeField = container.querySelector('input[name="ques-type"]');
-    if (quesTypeField) {
-        quesTypeField.remove();
-    }
-
-    // options-add が存在する場合削除する
-    const optionsAdd = container.querySelector(`#options-add-${questionIndex}`);
-    if (optionsAdd) {
-        optionsAdd.remove();
-    }
-
-    //オプション数をリセット
-    optionCounters[questionIndex] = 3;
-
-    // 新しいタイプに応じてフィールドを追加
-    addInputField(container, selectedType, questionIndex);
+    const selectedInputType = inputType || selectElement.value; // 明示的指定があればそれを優先
+    changeQuestionType(container, selectedInputType);
 }
 
-// オプションを追加する関数
-function option_add(button, Index , Type_num) {
-    const optionsContainer = document.getElementById(`options-container-${Index}`);
-    let optionCount = optionCounters[Index]++;
+// 質問フィールドを変更
+function changeQuestionType(container, inputType) {
+    const inputContainer = container.querySelector('.input-container');
+    const questionIndex = container.dataset.index;
 
-    if (Type_num == 1) {
-        newOption = `<div><input type="checkbox">
-               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
-               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
-    } else if (Type_num == 2) {
-        newOption = `<div><input type="radio" name="radio${Index}">
-               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
-               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
-    } else if (Type_num == 3) {
-        newOption = `<div><label id="select-num">${optionCount}.</label>
-               <input type="text" name="option-text-${Index}-${optionCount}" class="option-text" placeholder="オプション名を入力">
-               <button type="button" class="option-del" onclick="option_del(this, ${Index})">✕</button></div>`;
+    let inputHtml = "";
+
+    switch (inputType) {
+        case "text":
+            inputHtml = `
+                <input type="hidden" name="ques-type" value="textarea">
+                <textarea rows="3" name="ques-text" class="ques-text" placeholder="回答を入力してください" disabled></textarea>
+            `;
+            break;
+        case "checkbox":
+        case "radio":
+        case "select":
+            const inputTypeLabel = inputType === "checkbox" ? "チェックボックス" :
+                inputType === "radio" ? "ラジオボタン" : "プルダウン";
+            inputHtml = `
+                <input type="hidden" name="ques-type" value="${inputType}">
+                <div id="options-container-${questionIndex}" class="options-container">
+                    ${generateOption(questionIndex, 1, inputType)}
+                    ${generateOption(questionIndex, 2, inputType)}
+                </div>
+                <button type="button" class="option-add" onclick="addOption(this)">＋ ${inputTypeLabel}を追加</button>
+            `;
+            break;
     }
-    
-    optionsContainer.insertAdjacentHTML('beforeend', newOption);
+
+    inputContainer.innerHTML = inputHtml;
 }
 
-// オプション削除の関数
-function option_del(button, Index) {
+// オプション生成関数
+function generateOption(questionIndex, optionIndex, inputType) {
+    const inputTag = inputType === "checkbox" ? `<input type="checkbox" disabled>` :
+        inputType === "radio" ? `<input type="radio" name="radio${questionIndex}" disabled>` :
+            `<label>${optionIndex}.</label>`;
+    return `
+        <div class="option">
+            ${inputTag}
+            <input type="text" name="option-text-${questionIndex}-${optionIndex}" class="option-text" placeholder="オプション名を入力">
+            <button type="button" class="option-del" onclick="deleteOption(this,${questionIndex})">✕</button>
+        </div>
+    `;
+}
+
+// オプションを追加
+function addOption(button) {
+    const container = button.previousElementSibling;
+    const questionIndex = container.id.split('-').pop();
+    const optionIndex = container.children.length + 1;
+    const inputType = container.closest('.ques-container').querySelector('input[name="ques-type"]').value;
+
+    const newOption = generateOption(questionIndex, optionIndex, inputType);
+    container.insertAdjacentHTML("beforeend", newOption);
+}
+
+// オプションを削除
+function deleteOption(button, Index) {
+    const container = button.closest(".options-container");
     button.parentElement.remove();
-    updateOptionIndices(Index);
+    updateOptionIndices(container, Index);
 }
 
-// インデックスを再設定
-function updateOptionIndices(Index) {
-    const optionsContainer = document.getElementById(`options-container-${Index}`);
-    const options = optionsContainer.querySelectorAll('.option-text');
-    options.forEach((option, index) => {
-        option.name = `option-text-${Index}-${index + 1}`;
-
-        const label = option.previousElementSibling;
-        if (label && label.id === "select-num") {
-            label.textContent = `${index + 1}.`;
-        }
-    });
-    optionCounters[Index] = options.length + 1;
-}
-
-// 質問削除の関数
-function ques_del(button) {
+// 質問を削除
+function deleteQuestion(button) {
     const container = button.closest('.ques-container');
     if (container) {
-        const questionIndex = parseInt(container.dataset.index, 10);
-        delete optionCounters[questionIndex];
-        container.remove();
-        updateQuestionIndices();
+        container.remove(); // 対象の質問を削除
+        updateQuestionIndices(); // 削除後、インデックスを再割り当て
     }
 }
 
-// 質問インデックスを詰める関数
+// 質問インデックスを更新
 function updateQuestionIndices() {
-    const questionContainers = document.querySelectorAll('.ques-container');
-    questionContainers.forEach((container, index) => {
-        const newIndex = index + 1;
+    const containers = document.querySelectorAll('.ques-container');
+    containers.forEach((container, newIndex) => {
+        const oldIndex = container.dataset.index;
+        const optionsContainer = container.querySelector(`#options-container-${oldIndex}`);
+        const optionsAddButton = container.querySelector(`#options-add-${oldIndex}`);
 
-        // optionsContainerが存在する場合、オプションのインデックスを更新
-        const optionsContainer = container.querySelector(`#options-container-${container.dataset.index}`);
+        // 新しいインデックスを割り当て
+        container.dataset.index = newIndex + 1;
+
+        // options-container の ID を更新
         if (optionsContainer) {
-            optionsContainer.id = `options-container-${newIndex}`;
-            const options = optionsContainer.querySelectorAll('.option-text');
-            options.forEach((option, optionIndex) => {
-                option.name = `option-text-${newIndex}-${optionIndex + 1}`;
-            });
-            optionCounters[newIndex] = options.length + 1;
-        } else {
-            optionCounters[newIndex] = 1;
+            optionsContainer.id = `options-container-${newIndex + 1}`;
+            updateOptionIndices(optionsContainer, newIndex + 1);
         }
 
-        const optionsAdd = container.querySelector(`#options-add-${container.dataset.index}`);
-        if (optionsAdd) {
-            optionsAdd.id = `options-add-${newIndex}`;
+        // オプション追加ボタンの ID と onclick 属性を更新
+        if (optionsAddButton) {
+            optionsAddButton.id = `options-add-${newIndex + 1}`;
             const optionAddButton = container.querySelector('.option-add');
-            optionAddButton.setAttribute('onclick', `option_add(this, ${newIndex})`);
+            optionAddButton.setAttribute('onclick', `addOption(this, ${newIndex + 1})`);
         }
-        container.dataset.index = newIndex;
+
+        // セレクトボックスの onchange 属性を更新
+        const selectElement = container.querySelector('select[name="ques-change"]');
+        if (selectElement) {
+            selectElement.setAttribute('onchange', `updateInputField(this)`);
+        }
     });
 
-    questionIndex = questionContainers.length + 1;
+    questionCounter = containers.length; // 質問数を更新
 }
 
-//タイトルやオプションが空欄で送信される際にメッセージを出す処理
-document.addEventListener('DOMContentLoaded', () => {
-    if (!document.getElementById('create-ques-btn')) {
-        return;
-    }
-    const createBtn = document.getElementById('create-ques-btn');
-    const tempBtn = document.getElementById('tem-ques-btn');
+// オプションインデックスを更新
+function updateOptionIndices(container, questionIndex) {
+    const options = container.querySelectorAll('.option');
+    options.forEach((option, newIndex) => {
+        const input = option.querySelector(".option-text");
+        input.name = `option-text-${questionIndex}-${newIndex + 1}`;
 
-    function validateInputs() {
-        const titleText = document.querySelector('.title-text');
-        const quesTitles = document.querySelectorAll('.ques-title');
-        const optionTexts = document.querySelectorAll('.option-text');
+        const label = option.querySelector("label");
+        if (label) label.textContent = `${newIndex + 1}.`;
 
-        let errors = [];
-        let check = true;
-
-        // タイトルのチェック
-        if (!titleText.value.trim()) {
-            errors.push('タイトルが入力されていません。');
-        }
-
-        // 質問タイトルのチェック
-        quesTitles.forEach((quesTitle) => {
-            if (!quesTitle.value.trim()) {
-                check = false; 
-            }
-        });
-        if(check != true){
-            errors.push('未入力の質問タイトルがあります。');
-            check = true
-        }
-
-        // オプション名のチェック
-        optionTexts.forEach((optionText) => {
-            if (!optionText.value.trim()) {
-                check = false;
-            }
-        });
-        if(check != true){
-            errors.push('未入力のオプションがあります。');
-            check = true
-        }
-
-        // エラーがあれば警告表示
-        if (errors.length > 0) {
-            alert(errors.join('\n'));
-            return false;
-        }
-
-        return true;
-    }
-
-    createBtn.addEventListener('click', (e) => {
-        if (!validateInputs()) {
-            e.preventDefault(); // フォームの送信を防ぐ
+        const deleteButton = option.querySelector(".option-del");
+        if (deleteButton) {
+            deleteButton.setAttribute("onclick", `deleteOption(this,${questionIndex})`);
         }
     });
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
 
-    tempBtn.addEventListener('click', (e) => {
-        if (!validateInputs()) {
-            e.preventDefault(); // フォームの送信を防ぐ
+    form.addEventListener("submit", function (event) {
+        const errors = validateForm();
+        if (errors.length > 0) {
+            event.preventDefault(); // フォームの送信を防止
+            alert(errors.join("\n")); // エラー内容をまとめてアラートで表示
         }
     });
 });
+
+function validateForm() {
+    const errors = new Set(); // 重複を防ぐために Set を使用
+
+    // タイトルの検証
+    const titleText = document.querySelector(".title-text");
+    if (!titleText || titleText.value.trim() === "") {
+        errors.add("タイトルが入力されていません。");
+        titleText.classList.add("error");
+    } else {
+        titleText.classList.remove("error");
+    }
+
+    // 各質問の検証
+    const questionContainers = document.querySelectorAll(".ques-container");
+    let questionTitleError = false;
+    let optionTextError = false;
+
+    questionContainers.forEach(container => {
+        const questionTitle = container.querySelector(".ques-title");
+        if (!questionTitle || questionTitle.value.trim() === "") {
+            questionTitleError = true;
+            questionTitle.classList.add("error");
+        } else {
+            questionTitle.classList.remove("error");
+        }
+
+        const optionTexts = container.querySelectorAll(".option-text");
+        optionTexts.forEach(option => {
+            if (!option || option.value.trim() === "") {
+                optionTextError = true;
+                option.classList.add("error");
+            } else {
+                option.classList.remove("error");
+            }
+        });
+    });
+
+    // 質問タイトルのエラーを追加
+    if (questionTitleError) {
+        errors.add("未入力の質問タイトルがあります。");
+    }
+
+    // 選択肢のエラーを追加
+    if (optionTextError) {
+        errors.add("未入力のオプションがあります。");
+    }
+
+    return Array.from(errors); // Set を配列に変換して返す
+}
