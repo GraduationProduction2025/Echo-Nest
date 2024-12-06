@@ -1,43 +1,77 @@
-/* ---- 全画面 ---- */
- body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    margin: 0;
-    height: 100vh;
+/* 全体背景をグラデーションに設定 */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(45deg, #4a90e2, #87ceeb);
+  margin: 0;
+  height: 100vh;
 }
 
 header {
-    position: fixed;
-    width: 100%;
-    height: 150px;
-    background: linear-gradient(45deg, #4a90e2, #87ceeb);
-    margin-top: -150px;
-    display: flex;
-    align-items: center;
-    z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px; /* 必要に応じて調整 */
+  display: flex;
+  flex-direction: column; /* 子要素を縦に配置 */
+  justify-content: flex-start; /* 最初の要素を上に寄せる */
+  z-index: 100;
+  padding: 0; /* 余白をリセット */
 }
 
 .header-content {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%;
+  padding: 20px; /* 上部に少し余白を追加 */
+  background-color: white;
+  position: relative;
+  display: flex;
+  justify-content: space-between; /* 横方向に要素を分ける */
+  align-items: center; /* 中央に揃える */
+  z-index: 2;
 }
 
 .cloud-shape {
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    z-index: -1;
+  transform: translateY(50px);
+  width: 1440px; /* 固定幅に設定 */
+  height: 100px; /* 固定高さに設定 */
+  z-index: 1; /* 背景に配置 */
+  position: relative;
+  margin: 0 auto; /* 水平方向中央に配置 */
+}
+
+.path {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(45deg, #4a90e2, #87ceeb);
+  overflow: hidden;
+}
+
+/* SVG雲をグラデーションに馴染むよう調整 */
+.cloud-shape {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  z-index: -1;
 }
 
 .appname {
-    margin-right: auto;
-    padding: 30px 0px 0px 20px;
-    color: #fff;
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 38px;
+  margin-right: auto;
+  padding: 30px 0px 0px 20px;
+  color: #4a90e2;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  font-style: italic; /* 斜体にする場合 */
+}
+
+/* その他コードはそのまま */
+
+.content {
+  padding-top: 50px; /* ヘッダーの高さより大きく設定 */
 }
 
 .user {
@@ -73,119 +107,157 @@ path {
 }
 
 /* ハンバーガーメニューボタン */
+/* ハンバーガーメニューボタン */
 .hamburger {
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    width: 45px;
-    height: 45px;
-    background-color: #333;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1000;
-    transition: 0.3s ease-in-out;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 45px;
+  height: 45px;
+  background-color: rgba(135, 206, 235, 0.8); /* 空の色に近い水色 */
+  border-radius: 50%; /* 丸型に変更 */
+  cursor: pointer;
+  z-index: 1000;
+  transform: translate(-20px, 25px);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 軽やかさを出すための影 */
 }
 
+/* ハンバーガーアイコン */
 .hamburger span {
-    position: absolute;
-    left: 10px;
-    width: 25px;
-    height: 2px;
-    background-color: white;
-    transition: 0.3s ease-in-out;
+  position: absolute;
+  left: 10px;
+  width: 25px;
+  height: 2px;
+  background-color: white;
+  transition: 0.3s ease-in-out;
+  border-radius: 10px; /* 丸みを持たせる */
 }
 
 .hamburger span:nth-child(1) {
-    top: 15px;
+  top: 12px;
+  transform: translateY(0) rotate(0); /* アーチをつける */
 }
 
 .hamburger span:nth-child(2) {
-    top: 22px;
+  top: 22px;
+  opacity: 1;
 }
 
 .hamburger span:nth-child(3) {
-    top: 29px;
+  top: 32px;
+  transform: translateY(0) rotate(0); /* アーチをつける */
 }
 
 /* ハンバーガーメニューがアクティブ時の×マーク */
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg);
-    top: 22px;
+  transform: rotate(45deg) translateY(10px); /* 斜めにして空の雲のように */
+  top: 22px;
 }
 
 .hamburger.active span:nth-child(2) {
-    opacity: 0;
+  opacity: 0;
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg);
-    top: 22px;
+  transform: rotate(-45deg) translateY(-10px); /* 斜めにして空の雲のように */
+  top: 22px;
 }
 
+/* アニメーション効果を追加 */
+.hamburger:hover {
+  transform: translate(-20px, 25px) scale(1.1);
+}
+
+
+/* サイドメニュー */
 .side-menu {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 300px;
-    height: 100vh;
-    background-color: #333;
-    padding-top: 80px;
-    transition: 0.3s ease-in-out;
-    z-index: 999;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.side-menu.active {
-    right: 0;
-}
-
-.username {
-    padding-left: 30px;
-    padding-bottom: 30px;
-    color: white;
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.9); /* 半透明の白で雲をイメージ */
+  padding-top: 80px;
+  transition: 0.3s ease-in-out;
+  z-index: 999;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2); /* 軽い影で浮いている印象 */
+  border-left: 2px solid rgba(0, 0, 0, 0.1); /* わずかな枠線 */
+  backdrop-filter: blur(5px); /* 背景をぼかして雲のような効果 */
 }
 
 /* メニュー項目 */
 .menu-items {
-    list-style: none;
+  list-style: none;
+  padding-left: 0;
 }
 
 .menu-items li {
-    padding: 15px 30px;
-    border-bottom: 1px solid #444;
+  padding: 15px 30px;
+  border-bottom: 1px solid #f1f1f1;
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+  color: #4a90e2; /* 空の青色 */
+  transition: 0.3s ease;
 }
 
+.menu-items li:hover {
+  background-color: rgba(135, 206, 235, 0.3); /* 空の色を背景に追加 */
+  color: #fff; /* ホバー時に文字色を白に */
+  transform: translateX(10px); /* 風が吹くようにメニュー項目を横にスライド */
+}
+
+/* メニューリンク */
 .menu-items li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    display: block;
-    transition: 0.2s;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s ease;
 }
 
+/* メニュー項目にホバー効果 */
 .menu-items li a:hover {
-    color: #66ccff;
-    padding-left: 5px;
+  color: #fff;
+  padding-left: 10px; /* 左側に少し余白を加えて動きに余裕を持たせる */
 }
 
-/* オーバーレイ */
+/* メニューが開いている時のアニメーション */
+.side-menu.active {
+  right: 0;
+  transition: 0.3s ease-in-out;
+}
+
+/* メニューのユーザー名 */
+.username {
+  padding-left: 30px;
+  padding-bottom: 30px;
+  color: #4a90e2; /* 空の青色 */
+  font-size: 18px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+/* メニューを開いたときの背景オーバーレイ */
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.3s ease-in-out;
-    z-index: 998;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+  z-index: 998;
 }
 
+/* アクティブな状態でオーバーレイを表示 */
 .overlay.active {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
+
+
 /* サイドメニューここまで */
 
 
