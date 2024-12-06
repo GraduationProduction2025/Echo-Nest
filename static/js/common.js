@@ -29,6 +29,7 @@ function createInputField(event, inputType) {
                 <option value="select">プルダウン</option>
             </select>
         </div>
+        <div class="input-container"></div>
     `;
 
     newDiv.innerHTML = newInputField;
