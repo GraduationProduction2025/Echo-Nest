@@ -263,3 +263,238 @@ path {
 
 /*全画面ここまで */
 
+/* ログイン画面　ここから */
+/* 背景デザイン */
+.login-body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* ログインフォームのスタイル */
+  .login-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    padding: 20px;
+    text-align: start;
+    color: #333;
+  }
+
+  .login-container-signup {
+    text-align: end;
+  }
+  
+  /* ロゴ風のタイトル */
+  .login-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* フォームデザイン */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .login-form input[type="text"],
+  .login-form input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .login-submit {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-submit:hover {
+    background-color: #357ab8;
+  }
+  
+  /* 新規作成ボタン */
+  .login-signup-button {
+    margin-top: 10px;
+    background-color: transparent;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .login-signup-button:hover {
+    background-color: #4a90e2;
+    color: #fff;
+  }
+
+/* ログイン画面　ここまで */
+
+/* アカウント作成画面　ここから */
+.signup-body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* コンテナスタイル */
+  .signup-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 550px;
+    padding: 20px;
+    text-align: start;
+    color: #333;
+  }
+  .signup-container-login {
+    text-align: end;
+  }
+  
+  /* タイトルスタイル */
+  .signup-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* フォームデザイン */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .signup-form input[type="email"],
+  .signup-form input[type="text"],
+  .signup-form input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .signup-form ul {
+    padding-left: 20px;
+    color: red;
+  }
+
+  .signup-form li {
+    color: red;
+  }
+  
+  .signup-form span {
+    padding-left: 20px;
+    color: red;
+  }
+  
+  /* 登録ボタン */
+  .signup-submit-button {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-submit-button:hover {
+    background-color: #357ab8;
+  }
+  
+  /* ログイン画面へのボタン */
+  .signup-login-button {
+    margin-top: 10px;
+    background-color: transparent;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .signup-login-button:hover {
+    background-color: #4a90e2;
+    color: #fff;
+  }
+
+/* アカウント作成画面　ここまで   */
+
+/* ログアウト後の画面　ここから */
+/* ログアウト画面の背景デザイン */
+.logout-body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* コンテナスタイル */
+  .logout-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  /* メッセージスタイル */
+  .logout-message {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  /* トップに戻るボタン */
+  .logout-back-button {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-back-button:hover {
+    background-color: #357ab8;
+  }
+
+/* ログアウト後の画面　ここまで */

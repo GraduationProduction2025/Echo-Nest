@@ -2,10 +2,20 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ログアウト</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
-  <body>
-    <p>ログアウトしました</p>
+  <body class="logout-body">
+    <div class="logout-container">
+      <p class="logout-message">ログアウトしました</p>
+      <button
+        class="logout-back-button"
+        onclick="location.href='{% url 'accounts:login' %}'"
+      >
+        トップに戻る
+      </button>
+    </div>
   </body>
-  <button onclick=location.href="{% url 'accounts:login' %}">トップに戻る</button>
 </html>
