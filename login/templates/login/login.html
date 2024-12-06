@@ -2,14 +2,27 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ログイン</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
-  <body>
-    <h1>ログイン</h1>
-    <form action="{% url 'accounts:login' %}" method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <input type="submit" value="ログイン" />
-    </form>
-    <button onclick=location.href="{% url 'accounts:signup' %}">新規作成</button>
+  <body class="login-body">
+    <div class="login-container">
+      <h1 class="login-title">ログイン</h1>
+      <form class="login-form" action="{% url 'accounts:login' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="login-submit" type="submit" value="ログイン" />
+      </form>
+      <div class="login-container-signup">
+        <button
+          class="login-signup-button"
+          onclick="location.href='{% url 'accounts:signup' %}'"
+        >
+          新規作成
+        </button>
+      </div>
+    </div>
   </body>
 </html>
