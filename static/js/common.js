@@ -219,6 +219,11 @@ function validateForm() {
         });
     });
 
+    //質問が一つもないエラーを追加
+    if (questionCounter == 0) {
+        errors.add("質問を作成してください。");
+    }
+
     // 質問タイトルのエラーを追加
     if (questionTitleError) {
         errors.add("未入力の質問タイトルがあります。");
