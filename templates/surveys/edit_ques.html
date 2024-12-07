@@ -22,12 +22,14 @@
         <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力" value="{{ q.title }}">
         <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
     </div>
-    <select name="ques-change" onchange="updateInputField(this)">
-        <option value="text" {% if q.type.type == "textarea" %}selected{% endif %}>テキスト</option>
-        <option value="checkbox" {% if q.type.type == "checkbox" %}selected{% endif %}>チェックボックス</option>
-        <option value="radio" {% if q.type.type == "radio" %}selected{% endif %}>ラジオボタン</option>
-        <option value="select" {% if q.type.type == "select" %}selected{% endif %}>プルダウン</option>
-    </select>
+    <div class="select-right">
+        <select name="ques-change" class="ques-change" onchange="updateInputField(this)">
+            <option value="text" {% if q.type.type == "textarea" %}selected{% endif %}>テキスト</option>
+            <option value="checkbox" {% if q.type.type == "checkbox" %}selected{% endif %}>チェックボックス</option>
+            <option value="radio" {% if q.type.type == "radio" %}selected{% endif %}>ラジオボタン</option>
+            <option value="select" {% if q.type.type == "select" %}selected{% endif %}>プルダウン</option>
+        </select>
+    </div>
 
     {% if q.type.type == "textarea" %}
     <!-- テキスト入力用のフィールド -->

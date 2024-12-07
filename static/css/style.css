@@ -56,6 +56,9 @@ a {
 }
 
 .container {
+    width: 80%;
+    margin: auto;
+    overflow-x: auto;
     margin-top: 150px;
     position: relative;
     z-index: 1;
@@ -265,3 +268,212 @@ h2 {
 /* 結果表示画面ここまで */
 
 /*全画面ここまで */
+
+/* タイトル */
+.title-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.title-bar h1 {
+    color: #333;
+    font-size: 24px;
+    margin: 0;
+}
+
+.title-text {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 24px;
+    border-radius: 0;
+    outline: none;
+}
+
+.title-text:focus {
+    border-bottom: 1px solid #4a90e2;
+    outline: none;
+}
+
+/* 新規作成・編集画面 */
+.ques-container {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f7fbff;
+}
+
+.ques-lane {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ques-title {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.ques-del {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.ques-del:hover {
+    opacity: 1;
+}
+
+/* セレクトボックス */
+.select-right {
+    text-align: right;
+}
+
+.ques-change {
+    width: 150px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* 入力フィールド */
+.input-container {
+    margin-top: 10px;
+}
+
+.ques-text {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none;
+    background-color: #eef7ff;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.option input.option-text {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 0;
+    outline: none;
+}
+
+.option input.option-text:focus {
+    border-bottom: 1px solid #4a90e2;
+    outline: none;
+}
+
+.option-del {
+    background: none;
+    border: none;
+    color: #ff6666;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.option-del:hover {
+    color: #cc0000;
+}
+
+/* 質問・オプション追加ボタン */
+.option-add {
+    background-color: #66ccff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.option-add:hover {
+    background-color: #55bbee;
+}
+
+.add-ques-btn {
+    background-color: #66ccff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+}
+
+.add-ques-btn:hover {
+    background-color: #55bbee;
+}
+/* 質問・オプション追加ボタン　ここまで */
+
+
+/* submit-containerとボタン */
+.submit-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.create-ques-btn,
+.tem-ques-btn,
+.cancel-ques-btn {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.create-ques-btn {
+    background-color: #66ccff;
+    color: white;
+}
+
+.create-ques-btn:hover {
+    background-color: #55bbee;
+}
+
+.tem-ques-btn {
+    background-color: #cccccc;
+    color: #333;
+}
+
+.tem-ques-btn:hover {
+    background-color: #bbbbbb;
+}
+
+.cancel-ques-btn {
+    background-color: #ff6666;
+    color: white;
+}
+
+.cancel-ques-btn:hover {
+    background-color: #cc0000;
+}
+/* submit-containerとボタン　ここまで */
+/* 新規作成・編集画面　ここまで */

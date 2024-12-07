@@ -21,12 +21,14 @@ function createInputField(event, inputType) {
             <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
             <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
         </div>
-        <select name="ques-change" onchange="updateInputField(this)">
-            <option value="text">テキスト</option>
-            <option value="checkbox">チェックボックス</option>
-            <option value="radio">ラジオボタン</option>
-            <option value="select">プルダウン</option>
-        </select>
+        <div class="select-right">
+            <select name="ques-change" class="ques-change" onchange="updateInputField(this)">
+                <option value="text">テキスト</option>
+                <option value="checkbox">チェックボックス</option>
+                <option value="radio">ラジオボタン</option>
+                <option value="select">プルダウン</option>
+            </select>
+        </div>
         <div class="input-container"></div>
     `;
 
