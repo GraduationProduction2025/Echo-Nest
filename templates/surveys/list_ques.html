@@ -5,56 +5,80 @@
 {% endblock base %}
 
 {% block content %}
-<div class="container">
-    <div class="title-bar">
-        <h1>{{ title }}</h1>
-    </div>
-
-    <form method="get">
-        <input type="search" 
-               name="query" 
-               value="{{ request.GET.query }}"
-               placeholder="キーワードを入力">
-    </form>
-
-    <div class="scrollable-table">
-        <table class="listtable">
+<div class="list_ques-container">
+    <div class="scrollable-card-container">
+        <div class="card-wrapper">
             {% if val %}
                 {% for i in val %}
-                <tr>
-                    <td>
-                        <a href="{% url 'templates:answer' i.id %}" target="_blank">
+                <div class="card" onclick="location.href='{% url 'templates:answer' i.id %}'">
+                    <div class="card-header">
+                        <h2>
                             {{ i.title }}
-                        </a>
-                    </td>
-                    <td>{{ i.create_at|date:"Y-m-d H:i" }}</td>
-                    <td>
-                        <a href="{% url 'templates:ag_data' i.id %}">
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <p>作成日時: {{ i.create_at|date:"Y-m-d" }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'templates:ag_data' i.id %}" class="details-link">
                             詳細を見る
                         </a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
                 {% endfor %}
             {% else %}
-                <tr>
-                    <td colspan="3" class="no-results">
-                        該当するアンケートがありませんでした。
-                    </td>
-                </tr>
+                <div class="no-results">
+                    ※ 該当するアンケートがありませんでした。
+                </div>
             {% endif %}
-        </table>
+        </div>
     </div>
-    
-    <div class="add-button">
-        <button onclick="location.href='{% url 'templates:create_ques' %}'">
-            新規作成
-        </button>
-        <button onclick="location.href='{% url 'templates:al_list' %}'">
-            アンケート一覧
-        </button>
-        <button onclick="location.href='{% url 'templates:tem_list' %}'">
-            下書き一覧
-        </button>
+
+    <div class="list_ques-search_container">
+        <form method="get">
+            <input type="search" 
+                name="query" 
+                value="{{ request.GET.query }}"
+                placeholder="キーワードを入力">
+        </form>
     </div>
+    {% comment %} 太陽 {% endcomment %}
+    <div class="wrapper">
+      <div class="circle-frame1">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame2">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame3">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame4">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame5">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame6">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame7">
+        <div class= "triangle"></div>
+      </div>
+      <div class="circle-frame8">
+        <div class= "triangle"></div>
+      </div>
+    </div>
+    {% comment %} 鳥 {% endcomment %}
+    <div class="bird"></div>
+    <div class="bird -type_2"></div>
+    <div class="bird -type_3"></div>
+    {% comment %} 雲 {% endcomment %}
+    <div class="create_ques-cloud-container-1"></div>
+    <div class="create_ques-cloud-container-2"></div>
+    <div class="create_ques-cloud-container-3"></div>
+    <div class="create_ques-cloud-container-4"></div>
+    <div class="create_ques-cloud-container-5"></div>
+    <a href="create_ques" class="btn btn-malformation btn-malformation--pastel">新規作成</a>
 </div>
 {% endblock content %}
