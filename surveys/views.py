@@ -142,47 +142,182 @@ def tem_list(request):
 
 @login_required
 def ag_data(request, survey_id):
+    # 対象のSurveyを取得
     survey = Survey.objects.get(id=survey_id)
+
     # Surveyに関連するQuestionを取得
     questions = Question.objects.filter(survey=survey, deleted_flag=False)
-    
-    # 各Questionに関連するAnswerを取得して辞書に格納
-    question_answers = {}
+
+    # JSONデータの格納先
+    answer_data = []
+    # JSONデータのid
+    answer_id = 0
+
+    # 各Questionに関連するデータを処理
     for question in questions:
         answers = Answer.objects.filter(question=question)
-        # 回答内容をIDからテキストに変換
-        formatted_answers = []
-        for answer in answers:
-            content_list = []
-            if question.type.type == "checkbox" or question.type.type == "radio" or question.type.type == "pulldown":
-                # 選択肢のIDを選択肢テキストに変換
+        
+        # 選択式質問の場合
+        if question.type.type in ["checkbox", "radio", "pulldown"]:
+            choice_counts = {}  # 選択肢の集計用辞書
+
+            # 各回答を解析
+            for answer in answers:
                 for choice_id in answer.context.get("content", []):
                     try:
                         choice = Choice.objects.get(id=choice_id)
-                        content_list.append(choice.text)
+                        if choice.text not in choice_counts:
+                            choice_counts[choice.text] = 0
+                        choice_counts[choice.text] += 1
                     except Choice.DoesNotExist:
-                        content_list.append("選択肢が見つかりません")
-            else:
-                # テキストボックスの場合はそのまま表示
-                content_list = answer.context.get("content", [])
-                
-            formatted_answers.append(content_list)
-        
-        question_answers[question] = formatted_answers
+                        if "選択肢が見つかりません" not in choice_counts:
+                            choice_counts["選択肢が見つかりません"] = 0
+                        choice_counts["選択肢が見つかりません"] += 1
 
-    context = {
-        'survey': survey,
-        'question_answers': question_answers,
+            # データを追加
+            answer_data.append({
+                'id': answer_id,
+                'question': question.title,
+                'labels': list(choice_counts.keys()),
+                'data': list(choice_counts.values()),
+                'total_votes': sum(choice_counts.values())
+            })
+            answer_id += 1
+        # テキスト形式の場合
+        elif question.type.type in ["textarea"]:
+            text_answers = []
+            # 回答をすべて取り出す
+            for answer in answers:
+                content = answer.context.get("content", [])
+                if isinstance(content, list):
+                    text_answers.extend(content)
+                elif isinstance(content, str):
+                    text_answers.append(content)
+            # データを追加
+            answer_data.append({
+                'id':answer_id,
+                'question': question.title,
+                'responses': text_answers,
+            })
+            answer_id += 1
+        # その他の場合はelifで追記
+        else:
+            pass
+    listdict = {
+        'title':'アンケート結果ダッシュボード',
+        'context':answer_data,
     }
-    
-    return render(request, 'surveys/ag_data.html', context)
+    return render(request, 'surveys/ag_data.html', listdict)
 
 @login_required
 def edit_ques(request, survey_id):
-    survey = Survey.objects.get(id = survey_id)
+    try:
+        # Surveyと関連したQuestionを取り出す
+        survey = Survey.objects.get(id=survey_id)
+        questions = Question.objects.filter(survey=survey)
+        choices = Choice.objects.filter()
+    except Survey.DoesNotExist:
+        raise Http404("Survey does not exist")
+
+    if request.method == 'POST':
+        print("POSTデータ:", request.POST)
+        existing_question_count = Survey.objects.count()
+        next_survey_id = existing_question_count + 1
+
+        survey_title = request.POST.get('title-text')
+        survey_create_user = request.user.email
+
+        path = '/list'
+
+        # 新しいSurveyオブジェクトを作成
+        if request.POST.get('action') == 'create':
+            survey = Survey(
+                id=next_survey_id,
+                title=survey_title,
+                create_at=timezone.now(),
+                create_user=survey_create_user,
+                published_flag=True,
+                deleted_flag=False
+            )
+            survey.save()
+            path = '/al_list'
+        elif request.POST.get('action') == 'tem':
+            survey = Survey(
+                id=next_survey_id,
+                title=survey_title,
+                create_at=timezone.now(),
+                create_user=survey_create_user,
+                published_flag=False,
+                deleted_flag=False
+            )
+            survey.save()
+            path = '/tem_list'
+
+        # 質問と選択肢を処理
+        question_titles = request.POST.getlist('ques-title')
+        question_types = request.POST.getlist('ques-type')
+
+        # ques-title フィールド名をすべて取得してリストに追加
+        for key, value in request.POST.items():
+            if re.match(r'^ques-title-\d+$', key):
+                question_titles.append(value)
+
+        # タイトルとタイプの数が一致しない場合のエラーハンドリング
+        if len(question_titles) != len(question_types):
+            raise ValueError("質問タイトルと質問タイプの数が一致しません")
+
+        # 各質問を保存
+        for i in range(len(question_titles)):
+            existing_question_count = Question.objects.count()
+            next_question_id = existing_question_count + 1
+
+            question_type_text = question_types[i]
+            question_type = Choicetype.objects.get(type=question_type_text)  
+
+            # Questionオブジェクトの作成
+            question = Question(
+                id=next_question_id,
+                title=question_titles[i],
+                survey=survey,
+                type=question_type,
+                deleted_flag=False
+            )
+            question.save()
+
+            # テキストボックスじゃない場合に選択肢を取得
+            if question_type_text != 'textarea':
+                choice_texts = []
+                option_index = 1
+                while True:
+                    choice_key = f'option-text-{i + 1}-{option_index}'
+                    choice_text = request.POST.get(choice_key)
+                    if not choice_text:
+                        break
+                    choice_texts.append(choice_text.strip())
+                    option_index += 1
+
+                # 各選択肢を保存
+                for choice_text in choice_texts:
+                    if choice_text:
+                        existing_question_count = Choice.objects.count()
+                        next_choice_id = existing_question_count + 1
+
+                        choice = Choice(
+                            id=next_choice_id,
+                            text=choice_text,
+                            question=question,
+                            deleted_flag=False
+                        )
+                        choice.save()
+        survey = Survey.objects.get(id=survey_id)
+        survey.deleted_flag = True
+        survey.save()
+        return redirect(path)
     listdict = {
         'title':'編集画面',
         'survey':survey,
+        'question':questions,
+        'choice':choices,
     }
     return render(request, 'surveys/edit_ques.html', listdict)
 

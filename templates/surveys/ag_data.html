@@ -1,37 +1,153 @@
 {% extends 'base.html' %}
 
 {% block base %}
-{{ survey.title }} - Questions and Answers
+{{ title }}
 {% endblock base %}
 
 {% block content %}
+{% load static %}
 <div class="container">
     <div class="title-bar">
-        <h1>{{ survey.title }}の回答一覧</h1>
+        <h1>{{ title }}</h1>
     </div>
-
-    <ul>
-        {% for question, answers in question_answers.items %}
-        <li>
-            <strong>{{ question.title }}</strong>
-            <ul>
-                {% for answer_list in answers %}
-                {% if answer_list %}
-                <li>
-                    {% for item in answer_list %}
-                    ・{{ item }}<br>
-                    {% endfor %}
-                </li>
-                {% else %}
-                <li>質問に対応する回答が存在しませんでした。</li>
-                {% endif %}
-                {% endfor %}
-            </ul><br>
-        </li>
-        {% empty %}
-        <li>アンケートに対応する質問が存在しませんでした。</li>
-        {% endfor %}
-    </ul>
-    <button type="button" onclick="history.back()">戻る</button>
+    <button type="button" class="cancel-ques-btn" onclick="history.back()">戻る</button>
+    <div id="ag-data-questions"></div>
 </div>
+<script>
+    let charts = [];
+
+    let data = {{ context | safe }}
+
+    // データをidの昇順でソート
+    data.sort((a, b) => a.id - b.id);
+
+    function createCharts(data) {
+        const container = document.getElementById('ag-data-questions');
+
+        data.forEach((item, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'ag-data-question-container';
+
+            if (item.labels && item.data) {
+                // 選択肢質問
+                if (item.data.length === 0) {
+                    questionDiv.innerHTML = `
+                        <h2>${item.question}</h2>
+                        <p>データがありません。</p>
+                    `;
+                } else {
+                    questionDiv.innerHTML = `
+                        <h2>${item.question}</h2>
+                        <div class="ag-data-chart-controls">
+                            <button class="ag-data-chart-type-btn active" data-type="pie" data-index="${index}">円グラフ</button>
+                            <button class="ag-data-chart-type-btn" data-type="bar" data-index="${index}">棒グラフ</button>
+                        </div>
+                        <div class="ag-data-chart-container">
+                            <div class="ag-data-chart-wrapper">
+                                <canvas id="chart${index}"></canvas>
+                            </div>
+                        </div>
+                        <div class="ag-data-total-votes">総投票数: ${item.total_votes}</div>
+                    `;
+                }
+
+                container.appendChild(questionDiv);
+
+                if (item.data.length > 0) {
+                    createChart(index, 'pie', item);
+
+                    // イベントリスナーを追加
+                    questionDiv.querySelectorAll('.ag-data-chart-type-btn').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const type = this.getAttribute('data-type');
+                            const index = this.getAttribute('data-index');
+                            createChart(index, type, item);
+
+                            // アクティブなボタンのスタイルを更新
+                            this.parentNode.querySelectorAll('.ag-data-chart-type-btn').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                    });
+                }
+            } else if (item.responses) {
+                // テキスト質問
+                if (item.responses.length === 0) {
+                    questionDiv.innerHTML = `
+                        <h2>${item.question}</h2>
+                        <div class="ag-data-text-responses">データがありません。</div>
+                    `;
+                } else {
+                    questionDiv.innerHTML = `
+                        <h2>${item.question}</h2>
+                        <div class="ag-data-text-responses">
+                            ${item.responses.map(response => `<div class="ag-data-text-response">${response}</div>`).join('')}
+                        </div>
+                    `;
+                }
+                container.appendChild(questionDiv);
+            }
+        });
+    }
+
+    function createChart(index, type, question) {
+        const ctx = document.getElementById(`chart${index}`).getContext('2d');
+
+        if (charts[index]) {
+            charts[index].destroy();
+        }
+
+        const config = {
+            type: type,
+            data: {
+                labels: question.labels,
+                datasets: [{
+                    data: question.data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)'
+                    ],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: getChartTitle(type)
+                    }
+                }
+            }
+        };
+
+        if (type === 'bar') {
+            config.options.indexAxis = 'y';
+            config.options.scales = {
+                x: {
+                    beginAtZero: true
+                }
+            };
+        }
+
+        charts[index] = new Chart(ctx, config);
+    }
+
+    function getChartTitle(type) {
+        switch (type) {
+            case 'pie': return '円グラフ';
+            case 'bar': return '棒グラフ';
+            default: return '';
+        }
+    }
+
+    // データの作成
+    createCharts(data);
+</script>
 {% endblock content %}
