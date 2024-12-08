@@ -11,6 +11,6 @@
     <div class="title-bar">
         <h1>{{ title }}</h1>
     </div>
-    <button onClick="window.close();">閉じる</button>
+    <button onclick=location.href="{% url 'templates:list_ques' %}">一覧画面に戻る</button>
 </div>
 {% endblock content %}
