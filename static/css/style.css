@@ -1458,10 +1458,133 @@ select.ans-form::-ms-expand {
 
 /* 回答画面　ここまで */
 
-/* 回答集計画面 */
-.ag-data-container {
+/* 一覧画面 */
+/* 全体のスタイル */
 
+/* コンテナ */
+.list-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-/* 回答集計画面　ここまで */
+
+/* タイトルバー */
+.title-bar h1 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* カードコンテナ */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* カードリンク */
+.detail-link {
+  text-decoration: none; /* リンクの下線を消す */
+  color: inherit; /* カード内の色を継承 */
+  width: calc(50% - 10px); /* 50%幅で左右に余白を確保 */
+  box-sizing: border-box;
+}
+
+/* カード */
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.detail-link:hover .card {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* カード内容 */
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.card-date {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+/* カードのアクション */
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-actions p {
+  margin: 0;
+  font-size: 14px;
+  color: #007BFF;
+  font-weight: bold;
+}
+
+/* 削除ボタン */
+.delete-form {
+  margin: 0;
+}
+
+.delete-button {
+  background-color: #FF4D4D;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #FF1A1A;
+}
+
+/* ボタン */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.action-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* 一覧画面　ここまで */
 
 /*全画面ここまで */

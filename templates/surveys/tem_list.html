@@ -7,32 +7,31 @@
 {% block content %}
 {% load static %}
 
-<div class="container">
+<div class="list-container">
     <div class="title-bar">
         <h1>{{ title }}</h1>
     </div>
-    <div class="scrollable-table">
-        <table class="listtable">
-            <!-- 内容の表示 -->
-            <!-- for文の開始 -->
-            {% for i in val %}
-            <tr>
-                <td>{{ i.title }}</td>
-                <td>{{ i.create_at }}</td>
-                <td><a href="{% url 'templates:edit_ques' i.id %}">編集</a></td>
-                <td>
-                    <form method="POST" action="{% url 'templates:delete_ques' i.id %}">
-                        {% csrf_token %}
-                        <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-            <!-- for文の終了 -->
-        </table>
+    <div class="card-container">
+        {% for i in val %}
+        <a href="{% url 'templates:ag_data' i.id %}" class="detail-link">
+        <div class="card">
+            <h2 class="card-title">{{ i.title }}</h2>
+            <p class="card-date">作成日時: {{ i.create_at }}</p>
+            <div class="card-actions">
+                <p>詳細を見る</p>
+                <form method="POST" action="{% url 'templates:delete_ques' i.id %}" class="delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirm('本当に削除しますか？');">削除</button>
+                </form>
+            </div>
+        </div>
+        </a>
+        {% endfor %}
     </div>
-    <button onclick=location.href="{% url 'templates:al_list' %}">アンケート一覧</button>
-    <button onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
-
+    <div class="button-group">
+        <button class="action-button" onclick=location.href="{% url 'templates:tem_list' %}">下書き一覧</button>
+        <button class="action-button" onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
+    </div>
 </div>
+
 {% endblock content %}
