@@ -158,7 +158,7 @@ def ag_data(request, survey_id):
         answers = Answer.objects.filter(question=question)
         
         # 選択式質問の場合
-        if question.type.type in ["checkbox", "radio", "pulldown"]:
+        if question.type.type in ["checkbox", "radio", "select"]:
             choice_counts = {}  # 選択肢の集計用辞書
 
             # 各回答を解析
