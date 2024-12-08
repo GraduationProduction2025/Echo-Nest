@@ -876,8 +876,6 @@ h2 {
 
 /* 結果表示画面ここまで */
 
-/*全画面ここまで */
-
 /* ログイン画面　ここから */
 /* 背景デザイン */
 .login-body {
@@ -1321,3 +1319,143 @@ h2 {
 }
 /* submit-containerとボタン　ここまで */
 /* 新規作成・編集画面　ここまで */
+
+/* 回答画面 */
+/* コンテナのスタイル */
+.ans-container {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title-bar h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.q-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 10px;
+  border-left: 4px solid #007bff;
+  padding-left: 8px;
+}
+
+.ans-form {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ans-form:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.ans-check,
+.ans-radio {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.form-label:hover {
+  background-color: #f0f8ff;
+}
+
+.form-label input {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.form-input {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.ans-check label,
+.ans-radio label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+select.ans-form {
+  appearance: none;
+  background-color: #f7fbff;
+  cursor: pointer;
+}
+
+select.ans-form::-ms-expand {
+  display: none;
+}
+
+.answer {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.answer:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.answer:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-submit {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #66ccff;
+  color: white;
+}
+
+/* 回答画面　ここまで */
+
+/*全画面ここまで */
