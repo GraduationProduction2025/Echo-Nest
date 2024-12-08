@@ -804,10 +804,10 @@ path {
 /* ----- 結果表示画面 ----- */
 .ag-data-container {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin: 0 auto;
+    max-width: 80%;
+    margin: auto;
     padding: 20px;
     box-sizing: border-box;
-    max-width: 1200px;
 }
 /* 以下2つ、他画面で使われていなかったため命名変更なしのまま移行 */
 h1,
@@ -1457,5 +1457,11 @@ select.ans-form::-ms-expand {
 }
 
 /* 回答画面　ここまで */
+
+/* 回答集計画面 */
+.ag-data-container {
+
+}
+/* 回答集計画面　ここまで */
 
 /*全画面ここまで */
