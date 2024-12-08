@@ -237,13 +237,6 @@ function validateForm() {
     return Array.from(errors); // Set を配列に変換して返す
 }
 
-    tempBtn.addEventListener('click', (e) => {
-        if (!validateInputs()) {
-            e.preventDefault(); // フォームの送信を防ぐ
-        }
-    });
-});
-
 //横スクロールを可能にする
 document.addEventListener('DOMContentLoaded', function () {
     const scrollContainer = document.querySelector('.scrollable-card-container');
