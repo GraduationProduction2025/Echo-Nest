@@ -236,3 +236,68 @@ function validateForm() {
 
     return Array.from(errors); // Set を配列に変換して返す
 }
+
+//横スクロールを可能にする
+document.addEventListener('DOMContentLoaded', function () {
+    const scrollContainer = document.querySelector('.scrollable-card-container');
+
+    scrollContainer.addEventListener('wheel', function (event) {
+        event.preventDefault(); // 縦スクロールを無効化
+        scrollContainer.scrollLeft += event.deltaY; // ホイールの動きを横スクロールに変換
+    });
+});
+
+//自動でループしながら徐々にスクロールさせる
+document.addEventListener('DOMContentLoaded', function () {
+    const scrollContainer = document.querySelector('.scrollable-card-container');
+    const cardWrapper = document.querySelector('.card-wrapper');
+    
+    let cardWidth = 0; // カードの幅を保持
+    let isScrolling = false; // スクロールが進行中かどうか
+
+    // 最初の要素の幅を取得
+    if (cardWrapper && cardWrapper.children.length > 0) {
+        cardWidth = cardWrapper.children[0].offsetWidth;
+    }
+
+    // スクロール可能かどうかを判定
+    function isScrollable() {
+        if (!scrollContainer || !cardWrapper) return false;
+
+        const totalCardWidth = cardWidth * cardWrapper.children.length; // 全カードの幅
+        const containerWidth = scrollContainer.clientWidth; // コンテナの幅
+
+        // 要素がコンテナ内に収まりきる場合、スクロールは不要
+        return totalCardWidth > containerWidth;
+    }
+
+    // スクロール処理
+    function autoScroll() {
+        if (!isScrollable()) return; // スクロール可能でない場合は処理を実行しない
+
+        if (!scrollContainer || !cardWrapper) return;
+
+        // スクロール位置を少し進める
+        scrollContainer.scrollLeft += 1;
+
+        // 横スクロールが終了したときに最初の要素を最後に移動
+        if (scrollContainer.scrollLeft >= (cardWrapper.scrollWidth - scrollContainer.clientWidth) && !isScrolling) {
+            isScrolling = true;  // スクロール中フラグを立てる
+
+            // 最初の要素を最後に移動
+            const firstCard = cardWrapper.firstElementChild;
+            cardWrapper.appendChild(firstCard); // 最初の要素を最後に追加
+
+            // 再度スクロール位置を調整
+            scrollContainer.scrollLeft -= cardWidth; // 少し戻して繋がり感を持たせる
+
+            // スクロール終了後フラグをリセット
+            setTimeout(() => {
+                isScrolling = false;
+            }, 100);
+        }
+    }
+
+    // 自動スクロールを一定間隔で実行
+    const scrollInterval = setInterval(autoScroll, 20); // 20msごとにスクロール
+});
