@@ -377,7 +377,7 @@ def complete(request):
 
         # 完了画面に表示するためのデータをレンダリング
         listdict = {
-            'title': '回答完了画面',
+            'title': '回答が完了しました。',
             'responses': response_list,
         }
         return render(request, 'answers/complete.html', listdict)
