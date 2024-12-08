@@ -43,9 +43,9 @@
         {% elif q.type.type == "select" %}
         <!-- プルダウンリスト用のフィールド -->
         <select name="answer_{{ q.id }}">
-            <option>選択してください</option>
+            <option value="">選択してください</option>
             {% for choice in q.choice_set.all %}
-                <option>{{ choice.text }}</option>
+                <option value="{{ choice.id }}">{{ choice.text }}</option>
             {% endfor %}
         </select>
         <!-- 他のタイプがあればここに追加 -->
