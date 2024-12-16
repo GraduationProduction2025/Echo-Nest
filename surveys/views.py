@@ -390,3 +390,9 @@ def delete_ques(request, survey_id):
     survey.deleted_flag=True
     survey.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def publish_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.published_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

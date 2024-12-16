@@ -14,22 +14,26 @@
     <div class="card-container">
         {% for i in val %}
         <a href="{% url 'templates:ag_data' i.id %}" class="detail-link">
-        <div class="card">
-            <h2 class="card-title">{{ i.title }}</h2>
-            <p class="card-date">作成日時: {{ i.create_at }}</p>
-            <div class="card-actions">
-                <p>詳細を見る</p>
-                <form method="POST" action="{% url 'templates:delete_ques' i.id %}" class="delete-form">
-                    {% csrf_token %}
-                    <button type="submit" class="delete-button" onclick="return confirm('本当に削除しますか？');">削除</button>
-                </form>
+            <div class="card">
+                <h2 class="card-title">{{ i.title }}</h2>
+                <p class="card-date">作成日時: {{ i.create_at }}</p>
+                <div class="card-actions">
+                    <p>詳細を見る</p>
+                    <form method="POST" action="{% url 'templates:publish_ques' i.id %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="publish-button" onclick="return confirm('公開しますか？');">公開</button>
+                    </form>
+                    <form method="POST" action="{% url 'templates:delete_ques' i.id %}" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button" onclick="return confirm('本当に削除しますか？');">削除</button>
+                    </form>
+                </div>
             </div>
-        </div>
         </a>
         {% endfor %}
     </div>
     <div class="button-group">
-        <button class="action-button" onclick=location.href="{% url 'templates:tem_list' %}">下書き一覧</button>
+        <button class="action-button" onclick=location.href="{% url 'templates:al_list' %}">公開済み一覧</button>
         <button class="action-button" onclick=location.href="{% url 'templates:create_ques' %}">新規作成</button>
     </div>
 </div>
