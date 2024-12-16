@@ -45,7 +45,7 @@
         <select class="form-input" name="answer_{{ q.id }}">
             <option>選択してください</option>
             {% for choice in q.choice_set.all %}
-                <option>{{ choice.text }}</option>
+                <option value="{{ choice.id }}">{{ choice.text }}</option>
             {% endfor %}
         </select>
         <!-- 他のタイプがあればここに追加 -->
