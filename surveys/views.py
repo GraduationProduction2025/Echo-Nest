@@ -141,6 +141,24 @@ def tem_list(request):
     return render(request, 'surveys/tem_list.html', listdict)
 
 @login_required
+def cl_list(request):
+    survey_field_data = Survey.objects.values()
+    listdict = {
+        'title':'募集終了アンケート一覧',
+        'val':survey_field_data,
+    }
+    return render(request, 'surveys/cl_list.html', listdict)
+
+@login_required
+def ansd_list(request):
+    survey_field_data = Survey.objects.values()
+    listdict = {
+        'title':'回答済みアンケート一覧',
+        'val':survey_field_data,
+    }
+    return render(request, 'surveys/ansd_list.html', listdict)
+
+@login_required
 def ag_data(request, survey_id):
     # 対象のSurveyを取得
     survey = Survey.objects.get(id=survey_id)

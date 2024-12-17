@@ -32,8 +32,10 @@
         <p class="username">{{ request.user.email }} でログイン中</p>
         <ul class="menu-items">
             <li><a href="{% url 'templates:list_ques' %}">ホーム</a></li>
-            <li><a href="{% url 'templates:al_list' %}">アンケート一覧</a></li>
+            <li><a href="{% url 'templates:al_list' %}">公開済みアンケート</a></li>
             <li><a href="{% url 'templates:tem_list' %}">下書きアンケート</a></li>
+            <li><a href="{% url 'templates:cl_list' %}">募集終了アンケート</a></li>
+            <li><a href="{% url 'templates:ansd_list' %}">回答済みアンケート</a></li>
             <li>お問い合わせ</li>
             <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
         </ul>
