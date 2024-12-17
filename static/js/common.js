@@ -18,6 +18,13 @@ function createInputField(event, inputType) {
 
     const newInputField = `
         <div class="ques-lane">
+            <div class="image-upload-container">
+                <input type="file" name="ques-image-${questionCounter}" id="file-input-${questionCounter}" class="ques-image" accept="image/*" onchange="previewImage(this, ${questionCounter})" style="display: none;">
+                <div class="image-preview" id="image-preview-${questionCounter}">
+                    <img src="/static/img/def-img.png" alt="画像を選択" class="preview-img" id="upload-btn-${questionCounter}" onclick="triggerFileInput(${questionCounter})" style="cursor: pointer;">
+                    <button type="button" class="image-del-btn" onclick="removeImage(${questionCounter})" style="display: none;">✕</button>
+                </div>
+            </div>
             <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
             <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
         </div>
@@ -170,6 +177,43 @@ function updateOptionIndices(container, questionIndex) {
         }
     });
 }
+
+//画像添付
+function triggerFileInput(editid) {
+    const fileInput = document.getElementById(`file-input-${editid}`);
+    fileInput.click();
+}
+
+function previewImage(input, editid) {
+    const file = input.files[0];
+    const previewContainer = document.getElementById(`image-preview-${editid}`);
+    const previewImage = previewContainer.querySelector('.preview-img');
+    const deleteButton = previewContainer.querySelector('.image-del-btn');
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            deleteButton.style.display = 'block'; // 削除ボタンを表示
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+function removeImage(editid) {
+    const previewContainer = document.getElementById(`image-preview-${editid}`);
+    const previewImage = previewContainer.querySelector('.preview-img');
+    const fileInput = document.getElementById(`file-input-${editid}`);
+    const deleteButton = previewContainer.querySelector('.image-del-btn');
+
+    // プレビュー画像とファイル入力をリセット
+    previewImage.src = "/static/img/def-img.png";
+    deleteButton.style.display = 'none';
+    fileInput.value = '';
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
 
