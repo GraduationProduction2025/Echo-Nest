@@ -9,7 +9,7 @@ class Survey(models.Model):
     title = models.CharField(max_length = 255)
     create_at = models.DateTimeField()
     create_user = models.CharField(max_length = 255)   #users-user_idの外部キーを設定する
-    for_publish = models.DateField()
+    for_publish = models.DateTimeField()
     published_flag = models.BooleanField(default = False, help_text = '公開済みならTrue')
     deleted_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
     def __str__(self):
