@@ -7,17 +7,17 @@
 {% block content %}
 {% load static %}
 
-<div class="list-container">
+<div class="tem_list-container">
     <div class="title-bar">
         <h1>{{ title }}</h1>
     </div>
-    <div class="card-container">
+    <div class="tem_list-card-container">
         {% for i in val %}
         <a href="{% url 'templates:ag_data' i.id %}" class="detail-link">
-            <div class="card">
-                <h2 class="card-title">{{ i.title }}</h2>
-                <p class="card-date">作成日時: {{ i.create_at }}</p>
-                <div class="card-actions">
+            <div class="tem_list-card">
+                <h2 class="tem_list-card-title">{{ i.title }}</h2>
+                <p class="tem_list-card-date">作成日時: {{ i.create_at }}</p>
+                <div class="tem_list-card-actions">
                     <p>詳細を見る</p>
                     <form method="POST" action="{% url 'templates:publish_ques' i.id %}" class="delete-form">
                         {% csrf_token %}

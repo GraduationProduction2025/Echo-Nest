@@ -876,8 +876,6 @@ h2 {
 
 /* 結果表示画面ここまで */
 
-/*全画面ここまで */
-
 /* ログイン画面　ここから */
 /* 背景デザイン */
 .login-body {
@@ -1464,7 +1462,7 @@ select.ans-form::-ms-expand {
 /* 全体のスタイル */
 
 /* コンテナ */
-.list-container {
+.al_list-container, .tem_list-container {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
@@ -1483,7 +1481,7 @@ select.ans-form::-ms-expand {
 }
 
 /* カードコンテナ */
-.card-container {
+.al_list-card-container, .tem_list-card-container{
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -1502,7 +1500,7 @@ select.ans-form::-ms-expand {
 }
 
 /* カード */
-.card {
+.al_list-card, .tem_list-card {
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -1521,27 +1519,27 @@ select.ans-form::-ms-expand {
 }
 
 /* カード内容 */
-.card-title {
+.al_list-card-title, .tem_list-card-title {
   font-size: 18px;
   font-weight: bold;
   margin: 0 0 10px 0;
   color: #333;
 }
 
-.card-date {
+.al_list-card-date, .tem_list-card-date {
   font-size: 14px;
   color: #777;
   margin-bottom: 15px;
 }
 
 /* カードのアクション */
-.card-actions {
+.al_list-card-actions, .tem_list-card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.card-actions p {
+.al_list-card-actions p, .tem_list-card-actions p {
   margin: 0;
   font-size: 14px;
   color: #007BFF;
