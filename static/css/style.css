@@ -1,14 +1,11 @@
 /* 全体背景をグラデーションに設定 */
 html {
-  scrollbar-width: none;
-  /* Firefox用 */
-  -ms-overflow-style: none;
-  /* Internet Explorer用 */
+  scrollbar-width: none; /* Firefox用 */
+  -ms-overflow-style: none; /* Internet Explorer用 */
 }
 
 .html::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari用 */
+  display: none; /* Chrome, Safari用 */
 }
 
 body {
@@ -23,43 +20,32 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 150px;
-  /* 必要に応じて調整 */
+  height: 150px; /* 必要に応じて調整 */
   display: flex;
-  flex-direction: column;
-  /* 子要素を縦に配置 */
-  justify-content: flex-start;
-  /* 最初の要素を上に寄せる */
+  flex-direction: column; /* 子要素を縦に配置 */
+  justify-content: flex-start; /* 最初の要素を上に寄せる */
   z-index: 100;
-  padding: 0;
-  /* 余白をリセット */
+  padding: 0; /* 余白をリセット */
 }
 
 .header-content {
   width: 100%;
-  padding: 20px;
-  /* 上部に少し余白を追加 */
+  padding: 20px; /* 上部に少し余白を追加 */
   background-color: white;
   position: relative;
   display: flex;
-  justify-content: space-between;
-  /* 横方向に要素を分ける */
-  align-items: center;
-  /* 中央に揃える */
+  justify-content: space-between; /* 横方向に要素を分ける */
+  align-items: center; /* 中央に揃える */
   z-index: 2;
 }
 
 .cloud-shape {
   transform: translateY(50px);
-  width: 1440px;
-  /* 固定幅に設定 */
-  height: 100px;
-  /* 固定高さに設定 */
-  z-index: 1;
-  /* 背景に配置 */
+  width: 1440px; /* 固定幅に設定 */
+  height: 100px; /* 固定高さに設定 */
+  z-index: 1; /* 背景に配置 */
   position: relative;
-  margin: 0 auto;
-  /* 水平方向中央に配置 */
+  margin: 0 auto; /* 水平方向中央に配置 */
 }
 
 .path {
@@ -88,8 +74,7 @@ header {
   position: relative;
   z-index: 2;
   cursor: pointer;
-  font-style: italic;
-  /* 斜体にする場合 */
+  font-style: italic; /* 斜体にする場合 */
 }
 
 /* その他コードはそのまま */
@@ -101,72 +86,57 @@ header {
 }
 
 .user {
-  height: 50px;
-  width: 50px;
+    height: 50px;
+    width: 50px;
 }
 
 .nav-item {
-  display: inline-block;
-  padding: 10px;
-  vertical-align: middle;
+    display: inline-block;
+    padding: 10px;
+    vertical-align: middle;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 /* アンケート表示部分 */
 .scrollable-card-container {
-  width: 100%;
-  /* 横幅いっぱいに広げる */
-  height: 300px;
-  /* 固定の高さを設定 */
-  overflow-x: auto;
-  /* 横スクロールを有効化 */
-  overflow-y: hidden;
-  /* 縦スクロールを無効化 */
-  white-space: nowrap;
-  /* 子要素を横並びに維持 */
+  width: 100%; /* 横幅いっぱいに広げる */
+  height: 300px; /* 固定の高さを設定 */
+  overflow-x: auto; /* 横スクロールを有効化 */
+  overflow-y: hidden; /* 縦スクロールを無効化 */
+  white-space: nowrap; /* 子要素を横並びに維持 */
   display: flex;
-  align-items: center;
-  /* 縦方向の中央揃え（カードの高さに合わせて調整） */
+  align-items: center; /* 縦方向の中央揃え（カードの高さに合わせて調整） */
   padding: 10px;
   box-sizing: border-box;
 }
 
 .card-wrapper {
-  display: inline-flex;
-  /* カードを横並びに配置 */
-  gap: 20px;
-  /* カード間のスペース */
+  display: inline-flex; /* カードを横並びに配置 */
+  gap: 20px; /* カード間のスペース */
 }
 
 .card {
-  display: inline-block;
-  /* カードを横並びにする */
+  display: inline-block; /* カードを横並びにする */
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  /* カードの固定幅 */
-  height: 150px;
-  /* カードの固定高さ */
+  width: 400px; /* カードの固定幅 */
+  height: 150px; /* カードの固定高さ */
   padding: 15px;
-  box-sizing: border-box;
-  /* パディングを含めた計算 */
+  box-sizing: border-box; /* パディングを含めた計算 */
   text-align: left;
-  cursor: pointer;
-  /* カード全体をクリック可能にする */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  /* ホバー時の動き */
+  cursor: pointer; /* カード全体をクリック可能にする */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* ホバー時の動き */
 }
 
 .card:hover {
   transform: translateY(-25px) scale(1.15);
   border: solid #007BFF;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  /* ホバー時に影を強調 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ホバー時に影を強調 */
 }
 
 .card-body p {
@@ -180,15 +150,13 @@ a {
   display: inline-block;
   text-align: center;
   width: 100%;
-  padding: 12px 20px;
-  /* ボタンサイズを大きく */
+  padding: 12px 20px;  /* ボタンサイズを大きく */
   background-color: #007BFF;
   color: white;
   text-decoration: none;
   border-radius: 4px;
   font-size: 16px;
-  transition: background-color 0.3s, transform 0.2s;
-  /* アニメーションを加える */
+  transition: background-color 0.3s, transform 0.2s;  /* アニメーションを加える */
 }
 
 .card-footer .details-link:hover {
@@ -197,8 +165,7 @@ a {
 
 .card-footer .details-link:hover {
   background-color: #0056b3;
-  transform: scale(1.05);
-  /* ホバー時に少し大きく */
+  transform: scale(1.05); /* ホバー時に少し大きく */
 }
 
 .no-results {
@@ -213,251 +180,203 @@ a {
 }
 
 .scrollable-card-container {
-  scrollbar-width: none;
-  /* Firefox用 */
-  -ms-overflow-style: none;
-  /* Internet Explorer用 */
+  scrollbar-width: none; /* Firefox用 */
+  -ms-overflow-style: none; /* Internet Explorer用 */
 }
 
 .scrollable-card-container::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari用 */
+  display: none; /* Chrome, Safari用 */
 }
 
 /* 太陽 */
 .wrapper {
-  position: relative;
-  margin-left: 50px;
-  width: 100px;
-  /* 元の倍に拡大 */
-  height: 100px;
-  /* 元の倍に拡大 */
-  border-radius: 50px;
-  /* 円形を維持 */
-  background-color: orange;
+    position: relative;
+    margin-left: 50px;
+    width: 100px; /* 元の倍に拡大 */
+    height: 100px; /* 元の倍に拡大 */
+    border-radius: 50px; /* 円形を維持 */
+    background-color: orange;
 }
-
-.circle-frame1,
-.circle-frame2,
-.circle-frame3,
-.circle-frame4,
-.circle-frame5,
-.circle-frame6,
-.circle-frame7,
-.circle-frame8 {
-  position: absolute;
-  top: -10px;
-  /* サイズに応じて調整 */
-  left: calc(50% - 20px);
-  /* サイズに応じて調整 */
-  width: 40px;
-  /* 元の倍に拡大 */
-  height: calc(50% + 10px);
-  /* 元の倍に拡大 */
-  transform-origin: center bottom;
+.circle-frame1, .circle-frame2, .circle-frame3, .circle-frame4,
+.circle-frame5, .circle-frame6, .circle-frame7, .circle-frame8 {
+    position: absolute;
+    top: -10px; /* サイズに応じて調整 */
+    left: calc(50% - 20px); /* サイズに応じて調整 */
+    width: 40px; /* 元の倍に拡大 */
+    height: calc(50% + 10px); /* 元の倍に拡大 */
+    transform-origin: center bottom;
 }
-
 .triangle {
-  margin-top: -40px;
-  /* サイズに応じて調整 */
-  width: 40px;
-  /* 元の倍に拡大 */
-  height: 40px;
-  /* 元の倍に拡大 */
-  background-color: #FF6600;
-  clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  animation: stretch 2s linear infinite;
+    margin-top: -40px; /* サイズに応じて調整 */
+    width: 40px; /* 元の倍に拡大 */
+    height: 40px; /* 元の倍に拡大 */
+    background-color: #FF6600;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    animation: stretch 2s linear infinite;
 }
 
 .circle-frame1 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(0deg);
-  animation: rotate1 12s linear infinite;
-}
-
-@keyframes rotate1 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+    animation: rotate1 12s linear infinite;
 }
-
+@keyframes rotate1 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 .circle-frame2 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(45deg);
-  animation: rotate2 12s linear infinite;
-}
-
-@keyframes rotate2 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(45deg);
-  }
-
-  100% {
-    transform: rotate(405deg);
-  }
+    animation: rotate2 12s linear infinite;
 }
-
+@keyframes rotate2 {
+    0% {
+        transform: rotate(45deg);
+    }
+    100% {
+        transform: rotate(405deg);
+    }
+}
 .circle-frame3 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(90deg);
-  animation: rotate3 12s linear infinite;
-}
-
-@keyframes rotate3 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(90deg);
-  }
-
-  100% {
-    transform: rotate(450deg);
-  }
+    animation: rotate3 12s linear infinite;
 }
-
+@keyframes rotate3 {
+    0% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(450deg);
+    }
+}
 .circle-frame4 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(135deg);
-  animation: rotate4 12s linear infinite;
-}
-
-@keyframes rotate4 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(135deg);
-  }
-
-  100% {
-    transform: rotate(495deg);
-  }
+    animation: rotate4 12s linear infinite;
 }
-
+@keyframes rotate4 {
+    0% {
+        transform: rotate(135deg);
+    }
+    100% {
+        transform: rotate(495deg);
+    }
+}
 .circle-frame5 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(180deg);
-  animation: rotate5 12s linear infinite;
-}
-
-@keyframes rotate5 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(180deg);
-  }
-
-  100% {
-    transform: rotate(540deg);
-  }
+    animation: rotate5 12s linear infinite;
 }
-
+@keyframes rotate5 {
+    0% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(540deg);
+    }
+}
 .circle-frame6 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(225deg);
-  animation: rotate6 12s linear infinite;
-}
-
-@keyframes rotate6 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(225deg);
-  }
-
-  100% {
-    transform: rotate(585deg);
-  }
+    animation: rotate6 12s linear infinite;
 }
-
+@keyframes rotate6 {
+    0% {
+        transform: rotate(225deg);
+    }
+    100% {
+        transform: rotate(585deg);
+    }
+}
 .circle-frame7 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(270deg);
-  animation: rotate7 12s linear infinite;
-}
-
-@keyframes rotate7 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(270deg);
-  }
-
-  100% {
-    transform: rotate(630deg);
-  }
+    animation: rotate7 12s linear infinite;
 }
-
+@keyframes rotate7 {
+    0% {
+        transform: rotate(270deg);
+    }
+    100% {
+        transform: rotate(630deg);
+    }
+}
 .circle-frame8 {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 10px);
-  width: 20px;
-  height: calc(50% + 5px);
-  transform-origin: center bottom;
-  transform: rotate(315deg);
-  animation: rotate8 12s linear infinite;
-}
-
-@keyframes rotate8 {
-  0% {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: calc(50% + 5px);
+    transform-origin: center bottom;
     transform: rotate(315deg);
-  }
-
-  100% {
-    transform: rotate(675deg);
-  }
+    animation: rotate8 12s linear infinite;
 }
-
+@keyframes rotate8 {
+    0% {
+        transform: rotate(315deg);
+    }
+    100% {
+        transform: rotate(675deg);
+    }
+}
 @keyframes stretch {
-  0% {
-    clip-path: polygon(0 90%, 50% 50%, 100% 90%);
-  }
-
-  50% {
-    clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  }
-
-  100% {
-    clip-path: polygon(0 90%, 50% 50%, 100% 90%);
-  }
+    0% {
+        clip-path: polygon(0 90%, 50% 50%, 100% 90%);
+    }
+    50% {
+        clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    }
+    100% {
+        clip-path: polygon(0 90%, 50% 50%, 100% 90%);
+    }
 }
-
 .triangle {
-  margin-top: -20px;
-  width: 20px;
-  height: 20px;
-  background-color: #FF6600;
-  clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  animation: stretch 2s linear infinite;
+    margin-top: -20px;
+    width: 20px;
+    height: 20px;
+    background-color: #FF6600;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    animation: stretch 2s linear infinite;
 }
 
 /* 鳥 */
@@ -472,7 +391,6 @@ a {
 .bird.-type_2 {
   animation-delay: 1s;
 }
-
 .bird.-type_2:before,
 .bird.-type_2:after {
   animation-delay: -2s;
@@ -487,20 +405,17 @@ a {
     top: 47vh;
     left: -2vw;
   }
-
   25% {
     top: 51vh;
     left: 23vw
   }
-
   100% {
     top: 47vh;
     left: 101vw;
   }
 }
 
-.bird:before,
-.bird:after {
+.bird:before, .bird:after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -515,7 +430,6 @@ a {
   height: 1px;
   animation: leftWing 8s linear infinite;
 }
-
 .bird:after {
   width: 1px;
   height: 100%;
@@ -523,249 +437,90 @@ a {
 }
 
 @keyframes leftWing {
-  0% {
-    transform: rotate(-30deg);
-  }
-
-  2% {
-    transform: rotate(-110deg);
-  }
-
-  4% {
-    transform: rotate(-30deg);
-  }
-
-  6% {
-    transform: rotate(-110deg);
-  }
-
-  8% {
-    transform: rotate(-30deg);
-  }
-
-  10% {
-    transform: rotate(-110deg);
-  }
-
-  12% {
-    transform: rotate(-30deg);
-  }
-
-  30% {
-    transform: rotate(-30deg);
-  }
-
-  42% {
-    transform: rotate(-35deg);
-  }
-
-  72% {
-    transform: rotate(-35deg);
-  }
-
-  74% {
-    transform: rotate(10deg);
-  }
-
-  76% {
-    transform: rotate(-30deg);
-  }
-
-  78% {
-    transform: rotate(-110deg);
-  }
-
-  80% {
-    transform: rotate(-30deg);
-  }
-
-  82% {
-    transform: rotate(-110deg);
-  }
-
-  84% {
-    transform: rotate(-30deg);
-  }
-
-  86% {
-    transform: rotate(-110deg);
-  }
-
-  88% {
-    transform: rotate(-30deg);
-  }
-
-  90% {
-    transform: rotate(-110deg);
-  }
-
-  92% {
-    transform: rotate(-30deg);
-  }
-
-  94% {
-    transform: rotate(-110deg);
-  }
-
-  96% {
-    transform: rotate(-30deg);
-  }
-
-  98% {
-    transform: rotate(-110deg);
-  }
-
-  100% {
-    transform: rotate(-30deg);
-  }
+  0%   { transform: rotate(-30deg); }
+  2%   { transform: rotate(-110deg); }
+  4%   { transform: rotate(-30deg); }
+  6%   { transform: rotate(-110deg); }
+  8%   { transform: rotate(-30deg); }
+  10%  { transform: rotate(-110deg); }
+  12%  { transform: rotate(-30deg); }
+  30%  { transform: rotate(-30deg); }
+  42%  { transform: rotate(-35deg); }
+  72%  { transform: rotate(-35deg); }
+  74%  { transform: rotate(10deg); }
+  76%  { transform: rotate(-30deg); }
+  78%  { transform: rotate(-110deg); }
+  80%  { transform: rotate(-30deg); }
+  82%  { transform: rotate(-110deg); }
+  84%  { transform: rotate(-30deg); }
+  86%  { transform: rotate(-110deg); }
+  88%  { transform: rotate(-30deg); }
+  90%  { transform: rotate(-110deg); }
+  92%  { transform: rotate(-30deg); }
+  94%  { transform: rotate(-110deg); }
+  96%  { transform: rotate(-30deg); }
+  98%  { transform: rotate(-110deg); }
+  100% { transform: rotate(-30deg); }
 }
 
 @keyframes rightWing {
-  0% {
-    transform: rotate(30deg);
-  }
-
-  2% {
-    transform: rotate(110deg);
-  }
-
-  4% {
-    transform: rotate(30deg);
-  }
-
-  6% {
-    transform: rotate(110deg);
-  }
-
-  8% {
-    transform: rotate(30deg);
-  }
-
-  10% {
-    transform: rotate(110deg);
-  }
-
-  12% {
-    transform: rotate(30deg);
-  }
-
-  30% {
-    transform: rotate(30deg);
-  }
-
-  42% {
-    transform: rotate(35deg);
-  }
-
-  72% {
-    transform: rotate(35deg);
-  }
-
-  74% {
-    transform: rotate(0deg);
-  }
-
-  76% {
-    transform: rotate(30deg);
-  }
-
-  78% {
-    transform: rotate(110deg);
-  }
-
-  80% {
-    transform: rotate(30deg);
-  }
-
-  82% {
-    transform: rotate(110deg);
-  }
-
-  84% {
-    transform: rotate(30deg);
-  }
-
-  86% {
-    transform: rotate(110deg);
-  }
-
-  88% {
-    transform: rotate(30deg);
-  }
-
-  90% {
-    transform: rotate(110deg);
-  }
-
-  92% {
-    transform: rotate(30deg);
-  }
-
-  94% {
-    transform: rotate(110deg);
-  }
-
-  96% {
-    transform: rotate(30deg);
-  }
-
-  98% {
-    transform: rotate(110deg);
-  }
-
-  100% {
-    transform: rotate(30deg);
-  }
+  0%   { transform: rotate(30deg); }
+  2%   { transform: rotate(110deg); }
+  4%   { transform: rotate(30deg); }
+  6%   { transform: rotate(110deg); }
+  8%   { transform: rotate(30deg); }
+  10%  { transform: rotate(110deg); }
+  12%  { transform: rotate(30deg); }
+  30%  { transform: rotate(30deg); }
+  42%  { transform: rotate(35deg); }
+  72%  { transform: rotate(35deg); }
+  74%  { transform: rotate(0deg); }
+  76%  { transform: rotate(30deg); }
+  78%  { transform: rotate(110deg); }
+  80%  { transform: rotate(30deg); }
+  82%  { transform: rotate(110deg); }
+  84%  { transform: rotate(30deg); }
+  86%  { transform: rotate(110deg); }
+  88%  { transform: rotate(30deg); }
+  90%  { transform: rotate(110deg); }
+  92%  { transform: rotate(30deg); }
+  94%  { transform: rotate(110deg); }
+  96%  { transform: rotate(30deg); }
+  98%  { transform: rotate(110deg); }
+  100% { transform: rotate(30deg); }
 }
 
 /* search */
 .list_ques-search_container {
-  display: flex;
-  /* Flexboxを使用 */
-  justify-content: center;
-  /* 水平方向の中央配置 */
-  width: 100%;
-  /* 横幅いっぱいに広げる */
+  display: flex; /* Flexboxを使用 */
+  justify-content: center; /* 水平方向の中央配置 */
+  width: 100%; /* 横幅いっぱいに広げる */
 }
 
 .list_ques-search_container form {
-  width: 100%;
-  /* 横幅いっぱいに広げる */
-  max-width: 600px;
-  /* 最大幅を指定 */
-  display: flex;
-  /* フォーム内の要素もFlexboxで制御 */
+  width: 100%; /* 横幅いっぱいに広げる */
+  max-width: 600px; /* 最大幅を指定 */
+  display: flex; /* フォーム内の要素もFlexboxで制御 */
 }
 
 .list_ques-search_container input[type="search"] {
-  flex: 1;
-  /* 入力フィールドをフォーム全体に広げる */
-  padding: 10px 15px;
-  /* パディングで内部スペースを調整 */
-  font-size: 16px;
-  /* フォントサイズを調整 */
-  border: 1px solid #ccc;
-  /* 枠線 */
-  border-radius: 4px;
-  /* 角丸 */
-  box-sizing: border-box;
-  /* パディングを含めて幅を計算 */
+  flex: 1; /* 入力フィールドをフォーム全体に広げる */
+  padding: 10px 15px; /* パディングで内部スペースを調整 */
+  font-size: 16px; /* フォントサイズを調整 */
+  border: 1px solid #ccc; /* 枠線 */
+  border-radius: 4px; /* 角丸 */
+  box-sizing: border-box; /* パディングを含めて幅を計算 */
 }
 
 .list_ques-search_container input[type="search"]::placeholder {
-  color: #999;
-  /* プレースホルダーの色を指定 */
+  color: #999; /* プレースホルダーの色を指定 */
 }
 
 .list_ques-search_container input[type="search"]:focus {
-  border-color: #007BFF;
-  /* フォーカス時の枠線色を変更 */
-  outline: none;
-  /* デフォルトのアウトラインを削除 */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  /* フォーカス時の光る効果 */
+  border-color: #007BFF; /* フォーカス時の枠線色を変更 */
+  outline: none; /* デフォルトのアウトラインを削除 */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* フォーカス時の光る効果 */
 }
-
 /* searchここまで */
 
 /* 新規作成ボタン */
@@ -846,64 +601,51 @@ button.btn {
 a.btn-malformation {
   font-size: 2rem;
   padding: 3rem 4rem;
-  color: #fff;
-  /* ボタン文字色 */
-  border-radius: 100% 80px / 80px 100%;
-  /* 丸みを帯びた形 */
-  background-color: #00aaff;
-  /* 青空をイメージした背景色 */
+  color: #fff; /* ボタン文字色 */
+  border-radius: 100% 80px / 80px 100%; /* 丸みを帯びた形 */
+  background-color: #00aaff; /* 青空をイメージした背景色 */
   transition: all 0.3s;
 }
 
 a.btn-malformation:hover {
   color: #fff;
-  border-radius: 60% 80% / 100% 80%;
-  /* ホバー時に変形 */
-  background-color: #0088cc;
-  /* ホバー時に濃い青に */
+  border-radius: 60% 80% / 100% 80%; /* ホバー時に変形 */
+  background-color: #0088cc; /* ホバー時に濃い青に */
 }
 
 .btn-malformation--pastel {
-  position: fixed;
-  /* 画面に固定 */
+  position: fixed;  /* 画面に固定 */
   bottom: 60px;
   right: 90px;
-  background: #80d0f7;
-  /* 空の薄い青色 */
-  background: -webkit-linear-gradient(-45deg, #80d0f7 40%, #add8e6 100%);
-  /* 青空のグラデーション */
+  background: #80d0f7; /* 空の薄い青色 */
+  background: -webkit-linear-gradient(-45deg, #80d0f7 40%, #add8e6 100%); /* 青空のグラデーション */
   background: -webkit-linear-gradient(315deg, #80d0f7 40%, #add8e6 100%);
   background: linear-gradient(135deg, #80d0f7 40%, #add8e6 100%);
-  -webkit-box-shadow: 30px 10px 0 #e0f7ff;
-  /* 雲をイメージした柔らかい影 */
+  -webkit-box-shadow: 30px 10px 0 #e0f7ff; /* 雲をイメージした柔らかい影 */
   box-shadow: 30px 10px 0 #e0f7ff;
-  border-radius: 100% 80px / 80px 100%;
-  /* 丸みを帯びた形 */
+  border-radius: 100% 80px / 80px 100%; /* 丸みを帯びた形 */
   font-size: 2rem;
   padding: 3rem 4rem;
-  color: #fff;
-  /* ボタン文字色 */
+  color: #fff; /* ボタン文字色 */
   transition: all 0.3s;
 }
 
 .btn-malformation--pastel:hover {
-  background: linear-gradient(135deg, #80d0f7 40%, #add8e6 80%);
-  /* ホバー時にグラデーションの色を少し変化させる */
-  box-shadow: 30px 10px 0 #b0eaff;
-  /* ホバー時に影を少し濃く */
+  background: linear-gradient(135deg, #80d0f7 40%, #add8e6 80%); /* ホバー時にグラデーションの色を少し変化させる */
+  box-shadow: 30px 10px 0 #b0eaff; /* ホバー時に影を少し濃く */
 }
 
 
 
 path {
-  z-index: -1;
+    z-index: -1;
 }
 
 /* ---- サイドメニュー ---- */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* ハンバーガーメニューボタン */
@@ -914,16 +656,13 @@ path {
   top: 20px;
   width: 45px;
   height: 45px;
-  background-color: rgba(135, 206, 235, 0.8);
-  /* 空の色に近い水色 */
-  border-radius: 50%;
-  /* 丸型に変更 */
+  background-color: rgba(135, 206, 235, 0.8); /* 空の色に近い水色 */
+  border-radius: 50%; /* 丸型に変更 */
   cursor: pointer;
   z-index: 1000;
   transform: translate(-20px, 25px);
   transition: 0.3s ease-in-out;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  /* 軽やかさを出すための影 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 軽やかさを出すための影 */
 }
 
 /* ハンバーガーアイコン */
@@ -934,14 +673,12 @@ path {
   height: 2px;
   background-color: white;
   transition: 0.3s ease-in-out;
-  border-radius: 10px;
-  /* 丸みを持たせる */
+  border-radius: 10px; /* 丸みを持たせる */
 }
 
 .hamburger span:nth-child(1) {
   top: 12px;
-  transform: translateY(0) rotate(0);
-  /* アーチをつける */
+  transform: translateY(0) rotate(0); /* アーチをつける */
 }
 
 .hamburger span:nth-child(2) {
@@ -951,14 +688,12 @@ path {
 
 .hamburger span:nth-child(3) {
   top: 32px;
-  transform: translateY(0) rotate(0);
-  /* アーチをつける */
+  transform: translateY(0) rotate(0); /* アーチをつける */
 }
 
 /* ハンバーガーメニューがアクティブ時の×マーク */
 .hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translateY(10px);
-  /* 斜めにして空の雲のように */
+  transform: rotate(45deg) translateY(10px); /* 斜めにして空の雲のように */
   top: 22px;
 }
 
@@ -967,8 +702,7 @@ path {
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-10px);
-  /* 斜めにして空の雲のように */
+  transform: rotate(-45deg) translateY(-10px); /* 斜めにして空の雲のように */
   top: 22px;
 }
 
@@ -985,17 +719,13 @@ path {
   right: -400px;
   width: 400px;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.9);
-  /* 半透明の白で雲をイメージ */
+  background-color: rgba(255, 255, 255, 0.9); /* 半透明の白で雲をイメージ */
   padding-top: 80px;
   transition: 0.3s ease-in-out;
   z-index: 999;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-  /* 軽い影で浮いている印象 */
-  border-left: 2px solid rgba(0, 0, 0, 0.1);
-  /* わずかな枠線 */
-  backdrop-filter: blur(5px);
-  /* 背景をぼかして雲のような効果 */
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2); /* 軽い影で浮いている印象 */
+  border-left: 2px solid rgba(0, 0, 0, 0.1); /* わずかな枠線 */
+  backdrop-filter: blur(5px); /* 背景をぼかして雲のような効果 */
 }
 
 /* メニュー項目 */
@@ -1009,18 +739,14 @@ path {
   border-bottom: 1px solid #f1f1f1;
   font-family: 'Arial', sans-serif;
   font-size: 18px;
-  color: #4a90e2;
-  /* 空の青色 */
+  color: #4a90e2; /* 空の青色 */
   transition: 0.3s ease;
 }
 
 .menu-items li:hover {
-  background-color: rgba(135, 206, 235, 0.3);
-  /* 空の色を背景に追加 */
-  color: #fff;
-  /* ホバー時に文字色を白に */
-  transform: translateX(10px);
-  /* 風が吹くようにメニュー項目を横にスライド */
+  background-color: rgba(135, 206, 235, 0.3); /* 空の色を背景に追加 */
+  color: #fff; /* ホバー時に文字色を白に */
+  transform: translateX(10px); /* 風が吹くようにメニュー項目を横にスライド */
 }
 
 /* メニューリンク */
@@ -1034,8 +760,7 @@ path {
 /* メニュー項目にホバー効果 */
 .menu-items li a:hover {
   color: #fff;
-  padding-left: 10px;
-  /* 左側に少し余白を加えて動きに余裕を持たせる */
+  padding-left: 10px; /* 左側に少し余白を加えて動きに余裕を持たせる */
 }
 
 /* メニューが開いている時のアニメーション */
@@ -1048,8 +773,7 @@ path {
 .username {
   padding-left: 30px;
   padding-bottom: 30px;
-  color: #4a90e2;
-  /* 空の青色 */
+  color: #4a90e2; /* 空の青色 */
   font-size: 18px;
   font-weight: bold;
   transition: 0.3s ease-in-out;
@@ -1079,526 +803,522 @@ path {
 
 /* ----- 結果表示画面 ----- */
 .ag-data-container {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  max-width: 80%;
-  margin: auto;
-  padding: 20px;
-  box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 1200px;
 }
-
 /* 以下2つ、他画面で使われていなかったため命名変更なしのまま移行 */
 h1,
 h2 {
-  color: #1a1a1a;
+    color: #1a1a1a;
 }
 
 .ag-data-question-container {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
 }
 
 .ag-data-chart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
 .ag-data-chart-wrapper {
-  width: 100%;
-  max-width: 600px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .ag-data-total-votes {
-  font-weight: bold;
-  color: #2c3e50;
-  margin-top: 10px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 10px;
 }
 
 .ag-data-text-responses {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .ag-data-text-response {
-  background-color: #e9ecef;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .ag-data-chart-controls {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .ag-data-chart-type-btn {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .ag-data-chart-type-btn.active {
-  background-color: #45a049;
+    background-color: #45a049;
 }
 
 /* 結果表示画面ここまで */
 
+/*全画面ここまで */
+
 /* ログイン画面　ここから */
 /* 背景デザイン */
 .login-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(45deg, #4a90e2, #87ceeb);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-}
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* ログインフォームのスタイル */
+  .login-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    padding: 20px;
+    text-align: start;
+    color: #333;
+  }
 
-/* ログインフォームのスタイル */
-.login-container {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 450px;
-  padding: 20px;
-  text-align: start;
-  color: #333;
-}
-
-.login-container-signup {
-  text-align: end;
-}
-
-/* ロゴ風のタイトル */
-.login-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-/* フォームデザイン */
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.login-form input[type="text"],
-.login-form input[type="password"] {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.login-submit {
-  background-color: #4a90e2;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login-submit:hover {
-  background-color: #357ab8;
-}
-
-/* 新規作成ボタン */
-.login-signup-button {
-  margin-top: 10px;
-  background-color: transparent;
-  color: #4a90e2;
-  border: 1px solid #4a90e2;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.login-signup-button:hover {
-  background-color: #4a90e2;
-  color: #fff;
-}
+  .login-container-signup {
+    text-align: end;
+  }
+  
+  /* ロゴ風のタイトル */
+  .login-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* フォームデザイン */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .login-form input[type="text"],
+  .login-form input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .login-submit {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-submit:hover {
+    background-color: #357ab8;
+  }
+  
+  /* 新規作成ボタン */
+  .login-signup-button {
+    margin-top: 10px;
+    background-color: transparent;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .login-signup-button:hover {
+    background-color: #4a90e2;
+    color: #fff;
+  }
 
 /* ログイン画面　ここまで */
 
 /* アカウント作成画面　ここから */
 .signup-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(45deg, #4a90e2, #87ceeb);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-}
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* コンテナスタイル */
+  .signup-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 550px;
+    padding: 20px;
+    text-align: start;
+    color: #333;
+  }
+  .signup-container-login {
+    text-align: end;
+  }
+  
+  /* タイトルスタイル */
+  .signup-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* フォームデザイン */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-/* コンテナスタイル */
-.signup-container {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 550px;
-  padding: 20px;
-  text-align: start;
-  color: #333;
-}
+  .signup-form input[type="email"],
+  .signup-form input[type="text"],
+  .signup-form input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-.signup-container-login {
-  text-align: end;
-}
+  .signup-form ul {
+    padding-left: 20px;
+    color: red;
+  }
 
-/* タイトルスタイル */
-.signup-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-/* フォームデザイン */
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.signup-form input[type="email"],
-.signup-form input[type="text"],
-.signup-form input[type="password"] {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.signup-form ul {
-  padding-left: 20px;
-  color: red;
-}
-
-.signup-form li {
-  color: red;
-}
-
-.signup-form span {
-  padding-left: 20px;
-  color: red;
-}
-
-/* 登録ボタン */
-.signup-submit-button {
-  background-color: #4a90e2;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.signup-submit-button:hover {
-  background-color: #357ab8;
-}
-
-/* ログイン画面へのボタン */
-.signup-login-button {
-  margin-top: 10px;
-  background-color: transparent;
-  color: #4a90e2;
-  border: 1px solid #4a90e2;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.signup-login-button:hover {
-  background-color: #4a90e2;
-  color: #fff;
-}
+  .signup-form li {
+    color: red;
+  }
+  
+  .signup-form span {
+    padding-left: 20px;
+    color: red;
+  }
+  
+  /* 登録ボタン */
+  .signup-submit-button {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-submit-button:hover {
+    background-color: #357ab8;
+  }
+  
+  /* ログイン画面へのボタン */
+  .signup-login-button {
+    margin-top: 10px;
+    background-color: transparent;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .signup-login-button:hover {
+    background-color: #4a90e2;
+    color: #fff;
+  }
 
 /* アカウント作成画面　ここまで   */
 
 /* ログアウト後の画面　ここから */
 /* ログアウト画面の背景デザイン */
 .logout-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(45deg, #4a90e2, #87ceeb);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-}
-
-/* コンテナスタイル */
-.logout-container {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  padding: 20px;
-  text-align: center;
-  color: #333;
-}
-
-/* メッセージスタイル */
-.logout-message {
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-/* トップに戻るボタン */
-.logout-back-button {
-  background-color: #4a90e2;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.logout-back-button:hover {
-  background-color: #357ab8;
-}
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4a90e2, #87ceeb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  /* コンテナスタイル */
+  .logout-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  /* メッセージスタイル */
+  .logout-message {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  /* トップに戻るボタン */
+  .logout-back-button {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-back-button:hover {
+    background-color: #357ab8;
+  }
 
 /* ログアウト後の画面　ここまで */
 /* タイトル */
 .title-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
 }
 
 .title-bar h1 {
-  color: #333;
-  font-size: 24px;
-  margin: 0;
+    color: #333;
+    font-size: 24px;
+    margin: 0;
 }
 
 .title-text {
-  width: 90%;
-  display: flex;
-  margin: auto;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  padding: 8px;
-  font-size: 24px;
-  border-radius: 0;
-  outline: none;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 24px;
+    border-radius: 0;
+    outline: none;
 }
 
 .title-text:focus {
-  border-bottom: 1px solid #4a90e2;
-  outline: none;
+    border-bottom: 1px solid #4a90e2;
+    outline: none;
 }
 
 /* 新規作成・編集画面 */
 .ques-container {
-  width: 80%;
-  margin: auto;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #f7fbff;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f7fbff;
 }
 
 .ques-lane {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .ques-title {
-  flex-grow: 1;
-  margin-right: 10px;
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .ques-del {
-  cursor: pointer;
-  width: 25px;
-  height: 25px;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-  cursor: pointer;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    cursor: pointer;
 }
 
 .ques-del:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 /* セレクトボックス */
 .select-right {
-  text-align: right;
+    text-align: right;
 }
 
 .ques-change {
-  width: 150px;
-  padding: 5px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+    width: 150px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
 }
 
 /* 入力フィールド */
 .input-container {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .ques-text {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  resize: none;
-  background-color: #eef7ff;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none;
+    background-color: #eef7ff;
 }
 
 .option {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
 .option input.option-text {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 0;
-  outline: none;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 0;
+    outline: none;
 }
 
 .option input.option-text:focus {
-  border-bottom: 1px solid #4a90e2;
-  outline: none;
+    border-bottom: 1px solid #4a90e2;
+    outline: none;
 }
 
 .option-del {
-  background: none;
-  border: none;
-  color: #ff6666;
-  font-size: 16px;
-  cursor: pointer;
+    background: none;
+    border: none;
+    color: #ff6666;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .option-del:hover {
-  color: #cc0000;
+    color: #cc0000;
 }
 
 /* 質問・オプション追加ボタン */
 .option-add {
-  background-color: #66ccff;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
+    background-color: #66ccff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .option-add:hover {
-  background-color: #55bbee;
+    background-color: #55bbee;
 }
 
 .add-ques-btn {
-  background-color: #66ccff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: block;
-  margin: 20px auto;
+    background-color: #66ccff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
 }
 
 .add-ques-btn:hover {
-  background-color: #55bbee;
+    background-color: #55bbee;
 }
-
 /* 質問・オプション追加ボタン　ここまで */
 
 
 /* submit-containerとボタン */
 .submit-container {
-  text-align: center;
-  margin-top: 20px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .create-ques-btn,
 .tem-ques-btn,
 .cancel-ques-btn {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
 }
 
 .create-ques-btn {
-  background-color: #66ccff;
-  color: white;
+    background-color: #66ccff;
+    color: white;
 }
 
 .create-ques-btn:hover {
-  background-color: #55bbee;
+    background-color: #55bbee;
 }
 
 .tem-ques-btn {
-  background-color: #cccccc;
-  color: #333;
+    background-color: #cccccc;
+    color: #333;
 }
 
 .tem-ques-btn:hover {
-  background-color: #bbbbbb;
+    background-color: #bbbbbb;
 }
 
 .cancel-ques-btn {
-  background-color: #ff6666;
-  color: white;
+    background-color: #ff6666;
+    color: white;
 }
 
 .cancel-ques-btn:hover {
-  background-color: #cc0000;
+    background-color: #cc0000;
 }
-
 /* submit-containerとボタン　ここまで */
 /* 新規作成・編集画面　ここまで */
 
