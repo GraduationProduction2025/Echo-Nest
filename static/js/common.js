@@ -301,3 +301,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // 自動スクロールを一定間隔で実行
     const scrollInterval = setInterval(autoScroll, 20); // 20msごとにスクロール
 });
+
+//作成画面に公開期間のプルダウンリスト
+document.addEventListener("DOMContentLoaded", function () {
+    const publishSelect = document.getElementById("publish-for_publish");
+    const datetimeForm = document.getElementById("publish-datetime-form");
+
+    publishSelect.addEventListener("change", function () {
+        if (publishSelect.value === "limited") {
+            datetimeForm.style.display = "flex";
+        } else {
+            datetimeForm.style.display = "none";
+        }
+    });
+});
+

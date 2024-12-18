@@ -3,7 +3,7 @@ from .models import Survey, Question, Choice, Choicetype, Answer
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-from datetime import timedelta
+from datetime import datetime, timedelta
 import re
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -37,7 +37,20 @@ def create_ques(request):
         survey_create_user = request.user.email
 
         path = '/list'
+
+        #公開期間が設定されなかった場合の値
         default_for_publish = timezone.now() + timedelta(days=365*100)
+
+        get_for_publish = request.POST.get('publish_date', '')
+        print("publishデータ:", get_for_publish)
+        #空文字かどうかをチェック
+        if get_for_publish:
+            try:
+                for_publish = get_for_publish
+            except:
+                for_publish = default_for_publish
+        else:
+            for_publish = default_for_publish
 
 
         # 新しいSurveyオブジェクトを作成
@@ -47,7 +60,7 @@ def create_ques(request):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
-                for_publish=default_for_publish,
+                for_publish=for_publish,
                 published_flag=True,
                 deleted_flag=False
             )
@@ -59,7 +72,7 @@ def create_ques(request):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
-                for_publish=default_for_publish,
+                for_publish=for_publish,
                 published_flag=False,
                 deleted_flag=False
             )

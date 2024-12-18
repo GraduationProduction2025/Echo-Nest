@@ -1143,6 +1143,57 @@ h2 {
 }
 
 /* 新規作成・編集画面 */
+
+/* 公開期間設定専用のスタイル */
+.publish-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* 要素間の余白 */
+  padding: 20px;
+  background-color: #ffffff; /* 白背景 */
+  border: 1px solid #ddd; /* 薄い枠線 */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 600px;
+  margin: 50px auto; /* 中央配置 */
+  background-color: #f9fafb;
+}
+
+.publish-label {
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.publish-select,
+.publish-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.publish-select:focus,
+.publish-input:focus {
+  border-color: #007bff;
+}
+
+.publish-datetime-form {
+  display: none; /* 初期非表示 */
+  align-items: center;
+  gap: 10px;
+}
+
+
+#datetime-form {
+  display: none; /* 初期状態で非表示 */
+  margin-top: 10px;
+}
+
 .ques-container {
     width: 80%;
     margin: auto;
