@@ -19,10 +19,6 @@
                 <p class="tem_list-card-date">作成日時: {{ i.create_at }}</p>
                 <div class="tem_list-card-actions">
                     <p>詳細を見る</p>
-                    <form method="POST" action="{% url 'templates:publish_ques' i.id %}" class="delete-form">
-                        {% csrf_token %}
-                        <button type="submit" class="publish-button" onclick="return confirm('公開しますか？');">公開</button>
-                    </form>
                     <form method="POST" action="{% url 'templates:delete_ques' i.id %}" class="delete-form">
                         {% csrf_token %}
                         <button type="submit" class="delete-button" onclick="return confirm('本当に削除しますか？');">削除</button>
