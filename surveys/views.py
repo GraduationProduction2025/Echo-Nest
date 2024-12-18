@@ -340,7 +340,7 @@ def answer(request, survey_id):
 
 @login_required
 @csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
-def complete(request):
+def complete(request, survey_id):
     if request.method == 'POST':
         responses = request.POST
         response_list = []
@@ -349,7 +349,7 @@ def complete(request):
             if key != 'csrfmiddlewaretoken':
                 question_id = int(key.replace("answer_", ""))
                 question = Question.objects.get(id=question_id)  # 質問を取得
-                
+
                 if question.type.type == "checkbox":
                     # チェックボックス形式の質問の場合、複数選択肢をリストとして取得
                     user_answers = request.POST.getlist(key)
@@ -379,10 +379,11 @@ def complete(request):
         listdict = {
             'title': '回答完了画面',
             'responses': response_list,
+            'survey_num': survey_id,  # survey_idをテンプレートに渡す
         }
         return render(request, 'answers/complete.html', listdict)
 
-    return render(request, 'answers/answer.html', {'title': '回答ページ'})
+    return redirect('templates:answer', survey_id=survey_id)
 
 
 def delete_ques(request, survey_id):
