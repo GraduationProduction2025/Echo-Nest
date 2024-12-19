@@ -316,3 +316,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const publishDateInput = document.getElementById("publish-date");
+    const create_al_ques_button = document.getElementById("create-ques-btn");
+    create_al_ques_button.addEventListener("click", function(){
+        const inputDate = new Date(publishDateInput.value);
+        const currentDate = new Date();
+
+        if(inputDate < currentDate) {
+            event.preventDefault();
+            alert("過去の日時が指定されています。アンケートが公開できません。");
+            publishDateInput.value = "";
+        }
+    });
+});
