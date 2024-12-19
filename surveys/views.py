@@ -72,7 +72,7 @@ def create_ques(request):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
-                for_publish=for_publish,
+                for_publish=default_for_publish,
                 published_flag=False,
                 deleted_flag=False
             )
