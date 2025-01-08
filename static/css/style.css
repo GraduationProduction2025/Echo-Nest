@@ -1323,7 +1323,7 @@ h2 {
 /* 回答画面 */
 /* コンテナのスタイル */
 .ans-container {
-  width: 80%;
+  width: 50%;
   margin: 20px auto;
   padding: 20px;
   background-color: #ffffff;
@@ -1341,7 +1341,7 @@ h2 {
 }
 
 .q-title {
-  font-size: 18px;
+  font-size: 30px;
   font-weight: bold;
   color: #444;
   margin-bottom: 10px;
@@ -1381,7 +1381,7 @@ h2 {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  font-size: 14px;
+  font-size: 25px;
   color: #555;
   cursor: pointer;
   border-radius: 4px;
@@ -1454,6 +1454,38 @@ select.ans-form::-ms-expand {
   cursor: pointer;
   background-color: #66ccff;
   color: white;
+}
+/* Googleフォーム風のプルダウンリスト */
+.answer-form-select {
+  width: 30%;
+  padding: 12px;
+  font-size: 14px;
+  color: #333;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  /* デフォルトの矢印を非表示 */
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.answer-form-select:hover {
+  border-color: #007bff;
+}
+
+.answer-form-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+.answer-form-select option {
+  color: #333;
 }
 
 /* 回答画面　ここまで */
