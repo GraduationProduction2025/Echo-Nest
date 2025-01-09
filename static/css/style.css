@@ -1350,7 +1350,7 @@ h2 {
 }
 
 .create-ques-btn:hover {
-    background-color: #55bbee;
+    background-いちらん画面r: #55bbee;
 }
 
 .tem-ques-btn {
@@ -1372,3 +1372,89 @@ h2 {
 }
 /* submit-containerとボタン　ここまで */
 /* 新規作成・編集画面　ここまで */
+
+/* 回答済み一覧画面 ここから */
+/* Container styling */
+.ansd-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Title bar styling */
+.ansd-title-bar {
+  color: white;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
+}
+
+.ansd-title-bar h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Table styling */
+.ansd-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ansd-table thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.ansd-table thead th {
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.ansd-table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ansd-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ansd-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Button styling */
+.ansd-btn {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.ansd-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Empty message styling */
+.ansd-empty-message {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px 0;
+}
+/* 回答済み一覧画面 ここまで */

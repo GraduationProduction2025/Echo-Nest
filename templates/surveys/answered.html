@@ -7,12 +7,12 @@
 {% block content %}
 {% load static %}
 
-<div class="container">
-    <div class="title-bar">
+<div class="ansd-container">
+    <div class="ansd-title-bar">
         <h1>{{ title }}</h1>
     </div>
     <div>
-        <table class="table">
+        <table class="ansd-table">
             <thead>
                 <tr>
                     <th>アンケートタイトル</th>
@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{ answer.answered_survey.title }}</td>
                     <td>
-                        <a class="btn btn-primary" href="{% url 'templates:ag_data' answer.answered_survey.id %}">
+                        <a class="ansd-btn btn-primary" href="{% url 'templates:ag_data' answer.answered_survey.id %}">
                             詳細を見る
                         </a>
                     </td>
