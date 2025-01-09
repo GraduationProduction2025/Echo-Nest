@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Survey, Question, Choice, Choicetype, Answer
+from .models import Survey, Question, Choice, Choicetype, Answer, UsersAnswer
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
@@ -408,3 +408,11 @@ def delete_ques(request, survey_id):
     survey.deleted_flag=True
     survey.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def answered(request):
+    usersanswer = UsersAnswer.objects.all()
+    listdict = {
+        'title': '回答済み一覧',
+        'answered': usersanswer,
+    }
+    return render(request, 'surveys/answered.html', listdict)
