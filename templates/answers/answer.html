@@ -58,6 +58,7 @@
         {% endfor %}
 
         <input type="submit" value="送信する">
+        <input type="hidden" name="survey_id" value="{{ survey.id }}">
     </form>
 </div>
 {% endblock content %}

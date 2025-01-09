@@ -363,8 +363,12 @@ def complete(request):
         responses = request.POST
         response_list = []
 
+        # Survey ID を取得（仮定としてフォームに survey_id を含める）
+        survey_id = int(request.POST.get("survey_id"))
+        survey = Survey.objects.get(id=survey_id)  # アンケートを取得
+
         for key in responses:
-            if key != 'csrfmiddlewaretoken':
+            if key != 'csrfmiddlewaretoken' and key != 'survey_id':
                 question_id = int(key.replace("answer_", ""))
                 question = Question.objects.get(id=question_id)  # 質問を取得
                 
@@ -392,6 +396,14 @@ def complete(request):
                 )
                 answer_instance.save()  # データベースに保存
                 response_list.append(answer_data)
+
+        # ユーザの回答記録をデータベースに追加
+        if not UsersAnswer.objects.filter(user=request.user, answered_survey=survey).exists():
+            user_answer = UsersAnswer(
+                user=request.user,
+                answered_survey=survey
+            )
+            user_answer.save()
 
         # 完了画面に表示するためのデータをレンダリング
         listdict = {
