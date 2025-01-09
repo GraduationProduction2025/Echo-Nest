@@ -409,8 +409,10 @@ def delete_ques(request, survey_id):
     survey.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+@login_required
 def answered(request):
-    usersanswer = UsersAnswer.objects.all()
+    # ログインしているユーザが回答したアンケートのみを表示
+    usersanswer = UsersAnswer.objects.filter(user = request.user)
     listdict = {
         'title': '回答済み一覧',
         'answered': usersanswer,

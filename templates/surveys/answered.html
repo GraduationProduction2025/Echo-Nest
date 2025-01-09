@@ -12,7 +12,30 @@
         <h1>{{ title }}</h1>
     </div>
     <div>
-        {{ answered }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>アンケートタイトル</th>
+                    <th>詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in answered %}
+                <tr>
+                    <td>{{ answer.answered_survey.title }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'templates:ag_data' answer.answered_survey.id %}">
+                            詳細を見る
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">回答済みのアンケートがありません。</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
