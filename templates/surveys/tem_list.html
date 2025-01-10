@@ -13,12 +13,12 @@
     </div>
     <div class="tem_list-card-container">
         {% for i in val %}
-        <a href="{% url 'templates:ag_data' i.id %}" class="detail-link">
+        <a href="{% url 'templates:edit_ques' i.id %}" class="detail-link">
             <div class="tem_list-card">
                 <h2 class="tem_list-card-title">{{ i.title }}</h2>
                 <p class="tem_list-card-date">作成日時: {{ i.create_at }}</p>
                 <div class="tem_list-card-actions">
-                    <p>詳細を見る</p>
+                    <p>編集する</p>
                     <form method="POST" action="{% url 'templates:delete_ques' i.id %}" class="delete-form">
                         {% csrf_token %}
                         <button type="submit" class="delete-button" onclick="return confirm('本当に削除しますか？');">削除</button>
