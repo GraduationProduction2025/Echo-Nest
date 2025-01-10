@@ -1374,7 +1374,6 @@ h2 {
 /* 新規作成・編集画面　ここまで */
 
 /* 回答済み一覧画面 ここから */
-/* Container styling */
 .ansd-container,
 .deleted-container {
   max-width: 1200px;
@@ -1385,7 +1384,6 @@ h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Title bar styling */
 .ansd-title-bar,
 .deleted-title-bar {
   color: white;
@@ -1401,7 +1399,6 @@ h2 {
   font-weight: bold;
 }
 
-/* Table styling */
 .ansd-table,
 .deleted-table {
   width: 100%;
@@ -1442,7 +1439,6 @@ h2 {
   background-color: #f2f2f2;
 }
 
-/* Button styling */
 .ansd-btn,
 .deleted-btn,
 .detail-btn {
