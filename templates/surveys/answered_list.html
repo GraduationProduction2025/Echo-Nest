@@ -11,6 +11,7 @@
     <div class="ansd-title-bar">
         <h1>{{ title }}</h1>
     </div>
+    <a class="ansd-btn" href="{% url 'templates:deleted' %}">削除されたアンケートを確認する</a>
     <div>
         <table class="ansd-table">
             <thead>
@@ -24,7 +25,7 @@
                 <tr>
                     <td>{{ answer.answered_survey.title }}</td>
                     <td>
-                        <a class="ansd-btn btn-primary" href="{% url 'templates:ag_data' answer.answered_survey.id %}">
+                        <a class="detail-btn" href="{% url 'templates:ag_data' answer.answered_survey.id %}">
                             詳細を見る
                         </a>
                     </td>

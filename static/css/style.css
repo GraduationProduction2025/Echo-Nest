@@ -1375,31 +1375,35 @@ h2 {
 
 /* 回答済み一覧画面 ここから */
 /* Container styling */
-.ansd-container {
+.ansd-container,
+.deleted-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px 50px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Title bar styling */
-.ansd-title-bar {
+.ansd-title-bar,
+.deleted-title-bar {
   color: white;
   padding: 15px;
   border-radius: 8px 8px 0 0;
   text-align: center;
 }
 
-.ansd-title-bar h1 {
+.ansd-title-bar h1,
+.deleted-title-bar h1 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
 }
 
 /* Table styling */
-.ansd-table {
+.ansd-table,
+.deleted-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -1409,32 +1413,39 @@ h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.ansd-table thead {
+.ansd-table thead,
+.deleted-table thead {
   background-color: #007bff;
   color: white;
 }
 
-.ansd-table thead th {
+.ansd-table thead th,
+.deleted-table thead th {
   padding: 10px;
   text-align: left;
   font-weight: bold;
 }
 
-.ansd-table tbody td {
+.ansd-table tbody td,
+.deleted-table tbody td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-.ansd-table tbody tr:last-child td {
+.ansd-table tbody tr:last-child td,
+.deleted-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.ansd-table tbody tr:nth-child(even) {
+.ansd-table tbody tr:nth-child(even),
+.deleted-table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
 /* Button styling */
-.ansd-btn {
+.ansd-btn,
+.deleted-btn,
+.detail-btn {
   display: inline-block;
   padding: 8px 12px;
   font-size: 0.9rem;
@@ -1446,15 +1457,18 @@ h2 {
   transition: background-color 0.3s ease;
 }
 
-.ansd-btn:hover {
+.ansd-btn,
+.deleted-btn {
+  display:block;
+  margin-left: auto;
+  text-align: center;
+  max-width: fit-content;
+}
+
+.ansd-btn:hover,
+.deleted-btn:hover,
+.detail-btn:hover {
   background-color: #0056b3;
 }
 
-/* Empty message styling */
-.ansd-empty-message {
-  text-align: center;
-  color: #666;
-  font-style: italic;
-  padding: 20px 0;
-}
 /* 回答済み一覧画面 ここまで */

@@ -423,10 +423,20 @@ def delete_ques(request, survey_id):
 
 @login_required
 def answered(request):
-    # ログインしているユーザが回答したアンケートのみを表示
-    usersanswer = UsersAnswer.objects.filter(user = request.user)
+    # ログインしているユーザが回答したアンケートのうち削除済みでないものを表示
+    usersanswer = UsersAnswer.objects.filter(user = request.user, answered_survey__deleted_flag=False)
     listdict = {
         'title': '回答済み一覧',
         'answered': usersanswer,
     }
-    return render(request, 'surveys/answered.html', listdict)
+    return render(request, 'surveys/answered_list.html', listdict)
+
+@login_required
+def deleted(request):
+    # ログインしているユーザが回答したアンケートのうち削除済みのものを表示
+    deletedanswer = UsersAnswer.objects.filter(user = request.user, answered_survey__deleted_flag=True)
+    listdict = {
+        'title': '削除されたアンケート一覧',
+        'deleted': deletedanswer,
+    }
+    return render(request, 'surveys/deleted_list.html', listdict)
