@@ -18,13 +18,6 @@ function createInputField(event, inputType) {
 
     const newInputField = `
         <div class="ques-lane">
-            <div class="image-upload-container">
-                <input type="file" name="ques-image-${questionCounter}" id="file-input-${questionCounter}" class="ques-image" accept="image/*" onchange="previewImage(this, ${questionCounter})" style="display: none;">
-                <div class="image-preview" id="image-preview-${questionCounter}">
-                    <img src="/static/img/def-img.png" alt="画像を選択" class="preview-img" id="upload-btn-${questionCounter}" onclick="triggerFileInput(${questionCounter})" style="cursor: pointer;">
-                    <button type="button" class="image-del-btn" onclick="removeImage(${questionCounter})" style="display: none;">✕</button>
-                </div>
-            </div>
             <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
             <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
         </div>
@@ -134,6 +127,7 @@ function updateQuestionIndices() {
         const oldIndex = container.dataset.index;
         const optionsContainer = container.querySelector(`#options-container-${oldIndex}`);
         const optionsAddButton = container.querySelector(`#options-add-${oldIndex}`);
+        const fileInput = container.querySelector(`#file-input-${oldIndex}`);
 
         // 新しいインデックスを割り当て
         container.dataset.index = newIndex + 1;
@@ -149,6 +143,19 @@ function updateQuestionIndices() {
             optionsAddButton.id = `options-add-${newIndex + 1}`;
             const optionAddButton = container.querySelector('.option-add');
             optionAddButton.setAttribute('onclick', `addOption(this, ${newIndex + 1})`);
+        }
+
+        if (fileInput) {
+            fileInput.id = `file-input-${newIndex + 1}`;
+            fileInput.name = `ques-image-${newIndex + 1}`;
+            fileInput.setAttribute('onchange', `previewImage(this, ${newIndex + 1})`);
+            const imagePreview = container.querySelector(`#image-preview-${oldIndex}`);
+            imagePreview.id = `image-preview-${newIndex + 1}`;
+            const uploadButton = container.querySelector(`#upload-btn-${oldIndex}`);
+            uploadButton.id = `upload-btn-${newIndex + 1}`;
+            uploadButton.setAttribute('onclick', `triggerFileInput(${newIndex + 1})`);
+            const imageDel = container.querySelector('.image-del-btn')
+            imageDel.setAttribute('onclick', `removeImage(${newIndex + 1})`);
         }
 
         // セレクトボックスの onchange 属性を更新
