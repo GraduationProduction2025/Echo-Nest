@@ -395,7 +395,7 @@ def complete(request):
 
         # 完了画面に表示するためのデータをレンダリング
         listdict = {
-            'title': '回答完了画面',
+            'title': '回答が完了しました。',
             'responses': response_list,
         }
         return render(request, 'answers/complete.html', listdict)
@@ -406,5 +406,11 @@ def complete(request):
 def delete_ques(request, survey_id):
     survey = Survey.objects.get(id=survey_id)
     survey.deleted_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def publish_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.published_flag=True
     survey.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
