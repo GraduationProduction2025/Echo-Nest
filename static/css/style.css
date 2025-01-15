@@ -103,7 +103,7 @@ a {
 /* アンケート表示部分 */
 .scrollable-card-container {
   width: 100%; /* 横幅いっぱいに広げる */
-  height: 500px; /* 固定の高さを設定 */
+  height: 435px; /* 固定の高さを設定 */
   overflow-x: auto; /* 横スクロールを有効化 */
   overflow-y: hidden; /* 縦スクロールを無効化 */
   white-space: nowrap; /* 子要素を横並びに維持 */
@@ -216,7 +216,7 @@ a {
 /* 太陽 */
 .wrapper {
     position: relative;
-    margin-left: 50px;
+    margin-left: 240px;
     width: 100px; /* 元の倍に拡大 */
     height: 100px; /* 元の倍に拡大 */
     border-radius: 50px; /* 円形を維持 */

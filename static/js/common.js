@@ -354,6 +354,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // 残り時間を表示
                 el.textContent = `残り時間: ${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
+                if (days < 1) {
+                    el.classList.add("ans_limit");
+                }
             } else {
                 // 締切が過ぎた場合
                 el.textContent = "締切が過ぎています";
