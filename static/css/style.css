@@ -127,6 +127,7 @@ a {
   width: 400px; /* カードの固定幅 */
   height: 150px; /* カードの固定高さ */
   padding: 15px;
+  margin: auto;
   box-sizing: border-box; /* パディングを含めた計算 */
   text-align: left;
   cursor: pointer; /* カード全体をクリック可能にする */
@@ -134,6 +135,7 @@ a {
 }
 
 .card:hover {
+  height: auto;
   transform: translateY(-25px) scale(1.15);
   border: solid #007BFF;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ホバー時に影を強調 */
@@ -144,6 +146,12 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+.card:hover .card-header h2 {
+  white-space: normal; /* nowrapを解除して改行を有効化 */
+  word-wrap: break-word; /* 長い単語を折り返し */
+  overflow-wrap: break-word; /* 同様の効果 */
 }
 
 .card-body p {
