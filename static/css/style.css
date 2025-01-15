@@ -103,7 +103,7 @@ a {
 /* アンケート表示部分 */
 .scrollable-card-container {
   width: 100%; /* 横幅いっぱいに広げる */
-  height: 300px; /* 固定の高さを設定 */
+  height: 500px; /* 固定の高さを設定 */
   overflow-x: auto; /* 横スクロールを有効化 */
   overflow-y: hidden; /* 縦スクロールを無効化 */
   white-space: nowrap; /* 子要素を横並びに維持 */
@@ -154,11 +154,21 @@ a {
   overflow-wrap: break-word; /* 同様の効果 */
 }
 
+.card-body {
+  display: flex; /* 横並びにする */
+  justify-content: space-between;
+  align-items: center;
+}
+
 .card-body p {
   padding-left: 10px;
   font-size: 14px;
   color: #333;
   margin: 10px 0;
+}
+
+.card-body .ans_limit {
+  color: red;
 }
 
 .card-footer .details-link {

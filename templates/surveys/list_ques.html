@@ -18,6 +18,9 @@
                     </div>
                     <div class="card-body">
                         <p>作成日時: {{ i.create_at|date:"Y-m-d" }}</p>
+                        <p id="countdown-{{ forloop.counter }}" data-deadline="{{ i.for_publish|date:'Y-m-d H:i:s' }}">
+                            残り時間: 計算中...
+                        </p>
                     </div>
                     <div class="card-footer">
                         <a href="{% url 'templates:ag_data' i.id %}" class="details-link">

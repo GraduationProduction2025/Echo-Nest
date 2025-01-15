@@ -330,3 +330,41 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // すべてのカウントダウン要素を取得
+    const countdownElements = document.querySelectorAll("[id^='countdown-']");
+
+    countdownElements.forEach(el => {
+        // 締切日を取得
+        const deadline = new Date(el.dataset.deadline);
+
+        function updateCountdown() {
+            const now = new Date(); // 現在時刻を取得
+            const diff = deadline - now; // 残り時間を計算
+
+            const fiftyYearsInMilliseconds = 50 * 365 * 24 * 60 * 60 * 1000;
+            if (diff > fiftyYearsInMilliseconds) {
+                el.textContent = "公開期間:無期限";
+            } else if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                // 残り時間を表示
+                el.textContent = `残り時間: ${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
+            } else {
+                // 締切が過ぎた場合
+                el.textContent = "締切が過ぎています";
+                el.classList.add("ans_limit");
+            }
+        }
+
+        // 初回実行
+        updateCountdown();
+
+        // 1秒ごとに更新
+        setInterval(updateCountdown, 1000);
+    });
+});
