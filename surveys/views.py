@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import re
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 # データベースを取得して表示する
 @login_required
@@ -109,6 +111,21 @@ def create_ques(request):
                 deleted_flag=False
             )
             question.save()
+
+            # 画像の処理
+            image_file = request.FILES.get(f'ques-image-{i + 1}')
+            if image_file:
+                # 画像がアップロードされた場合
+                new_filename = f"img-{question.id}.{image_file.name.split('.')[-1]}"
+                image_path = f"question_images/{new_filename}"
+                saved_path = default_storage.save(image_path, ContentFile(image_file.read()))
+                
+                # 画像パスをQuestionに保存
+                question.image = saved_path
+                question.save()
+            else:
+                question.image = "none"
+                question.save()
 
             # テキストボックスじゃない場合に選択肢を取得
             if question_type_text != 'textarea':

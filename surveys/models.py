@@ -29,6 +29,7 @@ class Question(models.Model):
     title = models.CharField(max_length = 255)
     survey = models.ForeignKey(Survey, on_delete = models.CASCADE)
     type = models.ForeignKey(Choicetype, on_delete = models.CASCADE)
+    image = models.ImageField(upload_to='question_images/', null=True, blank=True)
     deleted_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
     def __str__(self):
         return self.title
