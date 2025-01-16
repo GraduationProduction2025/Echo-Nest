@@ -193,6 +193,10 @@ a {
   transform: scale(1.05); /* ホバー時に少し大きく */
 }
 
+.hidden-card {
+  display: none;
+}
+
 .no-results {
   font-size: 32px;
   color: #fff;

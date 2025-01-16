@@ -361,6 +361,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 締切が過ぎた場合
                 el.textContent = "締切が過ぎています";
                 el.classList.add("ans_limit");
+
+                // 親要素（カード）を非表示にする
+                const card = el.closest(".card");
+                if (card) {
+                    card.classList.add("hidden-card");
+                }
             }
         }
 
