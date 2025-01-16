@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import re
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 # データベースを取得して表示する
 @login_required
@@ -109,6 +111,21 @@ def create_ques(request):
                 deleted_flag=False
             )
             question.save()
+
+            # 画像の処理
+            image_file = request.FILES.get(f'ques-image-{i + 1}')
+            if image_file:
+                # 画像がアップロードされた場合
+                new_filename = f"img-{question.id}.{image_file.name.split('.')[-1]}"
+                image_path = f"question_images/{new_filename}"
+                saved_path = default_storage.save(image_path, ContentFile(image_file.read()))
+                
+                # 画像パスをQuestionに保存
+                question.image = saved_path
+                question.save()
+            else:
+                question.image = "none"
+                question.save()
 
             # テキストボックスじゃない場合に選択肢を取得
             if question_type_text != 'textarea':
@@ -358,7 +375,7 @@ def answer(request, survey_id):
 
 @login_required
 @csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
-def complete(request):
+def complete(request, survey_id):
     if request.method == 'POST':
         responses = request.POST
         response_list = []
@@ -371,7 +388,7 @@ def complete(request):
             if key != 'csrfmiddlewaretoken' and key != 'survey_id':
                 question_id = int(key.replace("answer_", ""))
                 question = Question.objects.get(id=question_id)  # 質問を取得
-                
+
                 if question.type.type == "checkbox":
                     # チェックボックス形式の質問の場合、複数選択肢をリストとして取得
                     user_answers = request.POST.getlist(key)
@@ -407,19 +424,13 @@ def complete(request):
 
         # 完了画面に表示するためのデータをレンダリング
         listdict = {
-            'title': '回答完了画面',
+            'title': '回答が完了しました。',
             'responses': response_list,
+            'survey_num': survey_id,  # survey_idをテンプレートに渡す
         }
         return render(request, 'answers/complete.html', listdict)
 
-    return render(request, 'answers/answer.html', {'title': '回答ページ'})
-
-
-def delete_ques(request, survey_id):
-    survey = Survey.objects.get(id=survey_id)
-    survey.deleted_flag=True
-    survey.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('templates:answer', survey_id=survey_id)
 
 @login_required
 def answered(request):
@@ -440,3 +451,15 @@ def deleted(request):
         'deleted': deletedanswer,
     }
     return render(request, 'surveys/deleted_list.html', listdict)
+
+def publish_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.published_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def delete_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.deleted_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

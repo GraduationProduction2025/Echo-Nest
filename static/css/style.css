@@ -139,6 +139,13 @@ a {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ホバー時に影を強調 */
 }
 
+.card-header h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
 .card-body p {
   padding-left: 10px;
   font-size: 14px;
@@ -876,8 +883,6 @@ h2 {
 
 /* 結果表示画面ここまで */
 
-/*全画面ここまで */
-
 /* ログイン画面　ここから */
 /* 背景デザイン */
 .login-body {
@@ -1213,6 +1218,7 @@ h2 {
 .ques-title {
     flex-grow: 1;
     margin-right: 10px;
+    margin-left: 10px;
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -1231,6 +1237,51 @@ h2 {
 .ques-del:hover {
     opacity: 1;
 }
+
+/* 画像 */
+.image-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-preview {
+  position: relative;
+  margin-top: 10px;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.image-del-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+/* 画像ここまで */
 
 /* セレクトボックス */
 .select-right {
@@ -1373,6 +1424,361 @@ h2 {
 /* submit-containerとボタン　ここまで */
 /* 新規作成・編集画面　ここまで */
 
+/* 回答画面 */
+/* コンテナのスタイル */
+.ans-container {
+  width: 50%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title-bar h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.q-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 10px;
+  border-left: 4px solid #007bff;
+  padding-left: 8px;
+}
+
+.ans-form {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ans-form:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.ans-check,
+.ans-radio {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 25px;
+  color: #555;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.form-label:hover {
+  background-color: #f0f8ff;
+}
+
+.form-label input {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.form-input {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.ans-check label,
+.ans-radio label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+select.ans-form {
+  appearance: none;
+  background-color: #f7fbff;
+  cursor: pointer;
+}
+
+select.ans-form::-ms-expand {
+  display: none;
+}
+
+.answer {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.answer:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.answer:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-submit {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #66ccff;
+  color: white;
+}
+/* Googleフォーム風のプルダウンリスト */
+.answer-form-select {
+  width: 30%;
+  padding: 12px;
+  font-size: 14px;
+  color: #333;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  /* デフォルトの矢印を非表示 */
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.answer-form-select:hover {
+  border-color: #007bff;
+}
+
+.answer-form-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+.answer-form-select option {
+  color: #333;
+}
+
+/* 回答画面　ここまで */
+
+/* 一覧画面 */
+/* 全体のスタイル */
+
+/* コンテナ */
+.al_list-container, .tem_list-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* タイトルバー */
+.title-bar h1 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* カードコンテナ */
+.al_list-card-container, .tem_list-card-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* カードリンク */
+.detail-link {
+  text-decoration: none;
+  /* リンクの下線を消す */
+  color: inherit;
+  /* カード内の色を継承 */
+  width: calc(50% - 10px);
+  /* 50%幅で左右に余白を確保 */
+  box-sizing: border-box;
+}
+
+/* カード */
+.al_list-card, .tem_list-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.detail-link:hover .card {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* カード内容 */
+.al_list-card-title, .tem_list-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.al_list-card-date, .tem_list-card-date {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+/* カードのアクション */
+.al_list-card-actions, .tem_list-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.al_list-card-actions p, .tem_list-card-actions p {
+  margin: 0;
+  font-size: 14px;
+  color: #007BFF;
+  font-weight: bold;
+}
+
+/* 削除ボタン */
+.delete-form {
+  margin: 0;
+}
+
+.delete-button {
+  background-color: #FF4D4D;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #FF1A1A;
+}
+
+/* ボタン */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.action-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+
+
+.publish-button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.publish-button:hover {
+  background-color: #0056b3;
+}
+/* 一覧画面　ここまで */
+
+/* 回答完了画面 */
+.comp-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title-bar {
+  margin-bottom: 20px;
+}
+
+.title-bar h1 {
+  margin: auto;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333333;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 回答完了画面　ここまで */
+
+/*全画面ここまで */
 /* 回答済み一覧画面 ここから */
 .ansd-container,
 .deleted-container {
