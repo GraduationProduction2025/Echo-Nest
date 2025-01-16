@@ -3,9 +3,12 @@ from .models import Survey, Question, Choice, Choicetype, Answer
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from datetime import datetime, timedelta
 import re
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 # データベースを取得して表示する
 @login_required
@@ -37,6 +40,21 @@ def create_ques(request):
 
         path = '/list'
 
+        #公開期間が設定されなかった場合の値
+        default_for_publish = timezone.now() + timedelta(days=365*100)
+
+        get_for_publish = request.POST.get('publish_date', '')
+        print("publishデータ:", get_for_publish)
+        #空文字かどうかをチェック
+        if get_for_publish:
+            try:
+                for_publish = get_for_publish
+            except:
+                for_publish = default_for_publish
+        else:
+            for_publish = default_for_publish
+
+
         # 新しいSurveyオブジェクトを作成
         if request.POST.get('action') == 'create':
             survey = Survey(
@@ -44,6 +62,7 @@ def create_ques(request):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
+                for_publish=for_publish,
                 published_flag=True,
                 deleted_flag=False
             )
@@ -55,6 +74,7 @@ def create_ques(request):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
+                for_publish=default_for_publish,
                 published_flag=False,
                 deleted_flag=False
             )
@@ -91,6 +111,21 @@ def create_ques(request):
                 deleted_flag=False
             )
             question.save()
+
+            # 画像の処理
+            image_file = request.FILES.get(f'ques-image-{i + 1}')
+            if image_file:
+                # 画像がアップロードされた場合
+                new_filename = f"img-{question.id}.{image_file.name.split('.')[-1]}"
+                image_path = f"question_images/{new_filename}"
+                saved_path = default_storage.save(image_path, ContentFile(image_file.read()))
+                
+                # 画像パスをQuestionに保存
+                question.image = saved_path
+                question.save()
+            else:
+                question.image = "none"
+                question.save()
 
             # テキストボックスじゃない場合に選択肢を取得
             if question_type_text != 'textarea':
@@ -377,7 +412,7 @@ def complete(request, survey_id):
 
         # 完了画面に表示するためのデータをレンダリング
         listdict = {
-            'title': '回答完了画面',
+            'title': '回答が完了しました。',
             'responses': response_list,
             'survey_num': survey_id,  # survey_idをテンプレートに渡す
         }
@@ -389,5 +424,11 @@ def complete(request, survey_id):
 def delete_ques(request, survey_id):
     survey = Survey.objects.get(id=survey_id)
     survey.deleted_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def publish_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.published_flag=True
     survey.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

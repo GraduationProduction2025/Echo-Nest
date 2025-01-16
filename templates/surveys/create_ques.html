@@ -6,12 +6,26 @@
 
 {% block content %}
 {% load static %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container">
         <div class="title-bar">
             <h1>{{ title }}</h1>
             <input type="text" name="title-text" class="title-text" placeholder="タイトル">
+            <div class="publish-container">
+                <!-- 公開期間ラベルとプルダウンリスト -->
+                <label for="publish-for_publish" class="publish-label">公開期間</label>
+                <select id="publish-for_publish" class="publish-select">
+                    <option value="unlimited">無期限</option>
+                    <option value="limited">有期限</option>
+                </select>
+        
+                <!-- 日時入力フォーム -->
+                <div id="publish-datetime-form" class="publish-datetime-form">
+                    <label for="publish-date" class="publish-label">終了日時:</label>
+                    <input type="datetime-local" id="publish-date" class="publish-input" name="publish_date">
+                </div>
+            </div>
         </div>
     </div>
 

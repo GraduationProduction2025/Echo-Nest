@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Max
+from login.models import MyUser
 
 # Create your models here.
 # アンケートのデータベースの作成
@@ -8,6 +9,7 @@ class Survey(models.Model):
     title = models.CharField(max_length = 255)
     create_at = models.DateTimeField()
     create_user = models.CharField(max_length = 255)   #users-user_idの外部キーを設定する
+    for_publish = models.DateTimeField()
     published_flag = models.BooleanField(default = False, help_text = '公開済みならTrue')
     deleted_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
     def __str__(self):
@@ -27,6 +29,7 @@ class Question(models.Model):
     title = models.CharField(max_length = 255)
     survey = models.ForeignKey(Survey, on_delete = models.CASCADE)
     type = models.ForeignKey(Choicetype, on_delete = models.CASCADE)
+    image = models.ImageField(upload_to='question_images/', null=True, blank=True)
     deleted_flag = models.BooleanField(default = False, help_text = '削除済みならTrue')
     def __str__(self):
         return self.title
@@ -51,3 +54,10 @@ class Answer(models.Model):
             max_id = Answer.objects.aggregate(Max('id'))['id__max']
             self.id = (max_id or 0) + 1  # 1を加えて新しいIDを設定
         super().save(*args, **kwargs)
+
+# ユーザの回答保存データベース
+class UsersAnswer(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    answered_survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"User: {self.user.email}, Survey_ID: {self.answered_survey}"
