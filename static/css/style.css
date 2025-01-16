@@ -139,6 +139,13 @@ a {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ホバー時に影を強調 */
 }
 
+.card-header h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
 .card-body p {
   padding-left: 10px;
   font-size: 14px;
