@@ -127,6 +127,7 @@ function updateQuestionIndices() {
         const oldIndex = container.dataset.index;
         const optionsContainer = container.querySelector(`#options-container-${oldIndex}`);
         const optionsAddButton = container.querySelector(`#options-add-${oldIndex}`);
+        const fileInput = container.querySelector(`#file-input-${oldIndex}`);
 
         // 新しいインデックスを割り当て
         container.dataset.index = newIndex + 1;
@@ -142,6 +143,19 @@ function updateQuestionIndices() {
             optionsAddButton.id = `options-add-${newIndex + 1}`;
             const optionAddButton = container.querySelector('.option-add');
             optionAddButton.setAttribute('onclick', `addOption(this, ${newIndex + 1})`);
+        }
+
+        if (fileInput) {
+            fileInput.id = `file-input-${newIndex + 1}`;
+            fileInput.name = `ques-image-${newIndex + 1}`;
+            fileInput.setAttribute('onchange', `previewImage(this, ${newIndex + 1})`);
+            const imagePreview = container.querySelector(`#image-preview-${oldIndex}`);
+            imagePreview.id = `image-preview-${newIndex + 1}`;
+            const uploadButton = container.querySelector(`#upload-btn-${oldIndex}`);
+            uploadButton.id = `upload-btn-${newIndex + 1}`;
+            uploadButton.setAttribute('onclick', `triggerFileInput(${newIndex + 1})`);
+            const imageDel = container.querySelector('.image-del-btn')
+            imageDel.setAttribute('onclick', `removeImage(${newIndex + 1})`);
         }
 
         // セレクトボックスの onchange 属性を更新
@@ -170,6 +184,43 @@ function updateOptionIndices(container, questionIndex) {
         }
     });
 }
+
+//画像添付
+function triggerFileInput(editid) {
+    const fileInput = document.getElementById(`file-input-${editid}`);
+    fileInput.click();
+}
+
+function previewImage(input, editid) {
+    const file = input.files[0];
+    const previewContainer = document.getElementById(`image-preview-${editid}`);
+    const previewImage = previewContainer.querySelector('.preview-img');
+    const deleteButton = previewContainer.querySelector('.image-del-btn');
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            deleteButton.style.display = 'block'; // 削除ボタンを表示
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+function removeImage(editid) {
+    const previewContainer = document.getElementById(`image-preview-${editid}`);
+    const previewImage = previewContainer.querySelector('.preview-img');
+    const fileInput = document.getElementById(`file-input-${editid}`);
+    const deleteButton = previewContainer.querySelector('.image-del-btn');
+
+    // プレビュー画像とファイル入力をリセット
+    previewImage.src = "/static/img/def-img.png";
+    deleteButton.style.display = 'none';
+    fileInput.value = '';
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
 

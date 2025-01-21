@@ -4,3 +4,4 @@ sqlparse==0.4.1
 typing-extensions==3.7.4.3
 mysqlclient
 django-environ
+Pillow
