@@ -1274,6 +1274,7 @@ h2 {
   border-radius: 50%;
   width: 20px;
   height: 20px;
+  padding: 15px;
   display: flex;
   justify-content: center;
   align-items: center;

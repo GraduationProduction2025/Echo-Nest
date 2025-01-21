@@ -18,6 +18,14 @@ function createInputField(event, inputType) {
 
     const newInputField = `
         <div class="ques-lane">
+            <div class="image-upload-container">
+                <input type="file" name="ques-image-${questionCounter}" id="file-input-${questionCounter}" class="ques-image" accept="image/*" onchange="previewImage(this, ${questionCounter})" style="display: none;">
+                <div class="image-preview" id="image-preview-${questionCounter}">
+                    <img src="/static/img/def-img.png" alt="画像を選択" class="preview-img" id="upload-btn-${questionCounter}" onclick="triggerFileInput(${questionCounter})" style="cursor: pointer;">
+                    <input type="hidden" name="image-src-${questionCounter}" id="hidden-src-${questionCounter}" value="/static/img/def-img.png">
+                    <button type="button" class="image-del-btn" onclick="removeImage(${questionCounter})" style="display: none;">✕</button>
+                </div>
+            </div>
             <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力">
             <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
         </div>
@@ -196,13 +204,15 @@ function previewImage(input, editid) {
     const previewContainer = document.getElementById(`image-preview-${editid}`);
     const previewImage = previewContainer.querySelector('.preview-img');
     const deleteButton = previewContainer.querySelector('.image-del-btn');
+    const hiddenInput = document.getElementById(`hidden-src-${editid}`);
 
     if (file) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
             previewImage.src = e.target.result;
-            deleteButton.style.display = 'block'; // 削除ボタンを表示
+            hiddenInput.value = e.target.result;
+            deleteButton.style.display = 'flex'; // 削除ボタンを表示
         };
 
         reader.readAsDataURL(file);
@@ -214,9 +224,11 @@ function removeImage(editid) {
     const previewImage = previewContainer.querySelector('.preview-img');
     const fileInput = document.getElementById(`file-input-${editid}`);
     const deleteButton = previewContainer.querySelector('.image-del-btn');
+    const hiddenInput = document.getElementById(`hidden-src-${editid}`);
 
     // プレビュー画像とファイル入力をリセット
     previewImage.src = "/static/img/def-img.png";
+    hiddenInput.value = "/static/img/def-img.png";
     deleteButton.style.display = 'none';
     fileInput.value = '';
 }
@@ -379,5 +391,16 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("過去の日時が指定されています。アンケートが公開できません。");
             publishDateInput.value = "";
         }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // "ques-container"の要素をすべて取得
+    const elements = document.querySelectorAll(".ques-container");
+    
+    // 各要素を処理
+    elements.forEach(element => {
+        // data-indexを取得
+        questionCounter = element.getAttribute("data-index");
     });
 });

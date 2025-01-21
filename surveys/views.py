@@ -264,6 +264,9 @@ def edit_ques(request, survey_id):
 
         path = '/list'
 
+        #公開期間が設定されなかった場合の値
+        default_for_publish = timezone.now() + timedelta(days=365*100)
+
         # 新しいSurveyオブジェクトを作成
         if request.POST.get('action') == 'create':
             survey = Survey(
@@ -271,6 +274,7 @@ def edit_ques(request, survey_id):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
+                for_publish=default_for_publish,
                 published_flag=True,
                 deleted_flag=False
             )
@@ -282,6 +286,7 @@ def edit_ques(request, survey_id):
                 title=survey_title,
                 create_at=timezone.now(),
                 create_user=survey_create_user,
+                for_publish=default_for_publish,
                 published_flag=False,
                 deleted_flag=False
             )
@@ -318,6 +323,25 @@ def edit_ques(request, survey_id):
                 deleted_flag=False
             )
             question.save()
+
+            image_file = request.FILES.get(f'ques-image-{i + 1}')
+            upload_btn_path = request.POST.get(f'image-src-{i + 1}')
+            if image_file:
+                # 画像がアップロードされた場合
+                new_filename = f"img-{question.id}.{image_file.name.split('.')[-1]}"
+                image_path = f"question_images/{new_filename}"
+                saved_path = default_storage.save(image_path, ContentFile(image_file.read()))
+                
+                # 画像パスをQuestionに保存
+                question.image = saved_path
+                question.save()
+            elif upload_btn_path != "/static/img/def-img.png":
+                upload_btn_path = upload_btn_path.replace('/static/media/', '')
+                question.image = upload_btn_path
+                question.save()
+            else:
+                question.image = "none"
+                question.save()
 
             # テキストボックスじゃない場合に選択肢を取得
             if question_type_text != 'textarea':

@@ -6,7 +6,7 @@
 
 {% block content %}
 {% load static %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container">
         <div class="title-bar">
@@ -19,6 +19,14 @@
     {% with forloop.counter as editid %}
     <div class="ques-container" data-index="{{editid}}">
     <div class="ques-lane">
+        <div class="image-upload-container">
+            <input type="file" name="ques-image-{{editid}}" id="file-input-{{editid}}" class="ques-image" accept="image/*" onchange="previewImage(this, '{{editid}}')" style="display: none;">
+            <div class="image-preview" id="image-preview-{{editid}}">
+                <img src="{% if q.image == 'none' %}/static/img/def-img.png{% else %}/static/media/{{q.image}}{% endif %}" alt="画像を選択" class="preview-img" id="upload-btn-{{editid}}" onclick="triggerFileInput('{{editid}}')" style="cursor: pointer;">
+                <input type="hidden" name="image-src-{{editid}}" id="hidden-src-{{editid}}" value="{% if q.image == 'none' %}/static/img/def-img.png{% else %}/static/media/{{q.image}}{% endif %}">
+                <button type="button" class="image-del-btn" onclick="removeImage('{{editid}}')" {% if q.image == 'none' %}style="display: none;"{% endif %}>✕</button>
+            </div>
+        </div>
         <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力" value="{{ q.title }}">
         <img src="/static/img/delbox.png" class="ques-del" onclick="deleteQuestion(this)">
     </div>
