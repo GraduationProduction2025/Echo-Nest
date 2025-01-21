@@ -103,7 +103,7 @@ a {
 /* アンケート表示部分 */
 .scrollable-card-container {
   width: 100%; /* 横幅いっぱいに広げる */
-  height: 300px; /* 固定の高さを設定 */
+  height: 435px; /* 固定の高さを設定 */
   overflow-x: auto; /* 横スクロールを有効化 */
   overflow-y: hidden; /* 縦スクロールを無効化 */
   white-space: nowrap; /* 子要素を横並びに維持 */
@@ -127,6 +127,7 @@ a {
   width: 400px; /* カードの固定幅 */
   height: 150px; /* カードの固定高さ */
   padding: 15px;
+  margin: auto;
   box-sizing: border-box; /* パディングを含めた計算 */
   text-align: left;
   cursor: pointer; /* カード全体をクリック可能にする */
@@ -134,6 +135,7 @@ a {
 }
 
 .card:hover {
+  height: auto;
   transform: translateY(-25px) scale(1.15);
   border: solid #007BFF;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ホバー時に影を強調 */
@@ -146,11 +148,27 @@ a {
   width: 100%;
 }
 
+.card:hover .card-header h2 {
+  white-space: normal; /* nowrapを解除して改行を有効化 */
+  word-wrap: break-word; /* 長い単語を折り返し */
+  overflow-wrap: break-word; /* 同様の効果 */
+}
+
+.card-body {
+  display: flex; /* 横並びにする */
+  justify-content: space-between;
+  align-items: center;
+}
+
 .card-body p {
   padding-left: 10px;
   font-size: 14px;
   color: #333;
   margin: 10px 0;
+}
+
+.card-body .ans_limit {
+  color: red;
 }
 
 .card-footer .details-link {
@@ -173,6 +191,10 @@ a {
 .card-footer .details-link:hover {
   background-color: #0056b3;
   transform: scale(1.05); /* ホバー時に少し大きく */
+}
+
+.hidden-card {
+  display: none;
 }
 
 .no-results {
@@ -198,7 +220,7 @@ a {
 /* 太陽 */
 .wrapper {
     position: relative;
-    margin-left: 50px;
+    margin-left: 240px;
     width: 100px; /* 元の倍に拡大 */
     height: 100px; /* 元の倍に拡大 */
     border-radius: 50px; /* 円形を維持 */
