@@ -1133,10 +1133,11 @@ h2 {
 }
 
 .title-text {
-    width: 100%;
+    width: 80%;
     border: none;
     border-bottom: 1px solid #ddd;
     padding: 8px;
+    margin: auto;
     font-size: 24px;
     border-radius: 0;
     outline: none;
