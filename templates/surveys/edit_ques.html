@@ -22,9 +22,17 @@
         <div class="image-upload-container">
             <input type="file" name="ques-image-{{editid}}" id="file-input-{{editid}}" class="ques-image" accept="image/*" onchange="previewImage(this, '{{editid}}')" style="display: none;">
             <div class="image-preview" id="image-preview-{{editid}}">
-                <img src="{% if q.image == 'none' %}/static/img/def-img.png{% else %}/static/media/{{q.image}}{% endif %}" alt="画像を選択" class="preview-img" id="upload-btn-{{editid}}" onclick="triggerFileInput('{{editid}}')" style="cursor: pointer;">
-                <input type="hidden" name="image-src-{{editid}}" id="hidden-src-{{editid}}" value="{% if q.image == 'none' %}/static/img/def-img.png{% else %}/static/media/{{q.image}}{% endif %}">
-                <button type="button" class="image-del-btn" onclick="removeImage('{{editid}}')" {% if q.image == 'none' %}style="display: none;"{% endif %}>✕</button>
+                {% if q.image == 'none' %}
+                    <img src="/static/img/def-img.png" alt="画像を選択" class="preview-img" id="upload-btn-{{editid}}"
+                        onclick="triggerFileInput('{{editid}}')" style="cursor: pointer;">
+                    <input type="hidden" name="image-src-{{editid}}" id="hidden-src-{{editid}}" value="/static/img/def-img.png">
+                    <button type="button" class="image-del-btn" onclick="removeImage('{{editid}}')" style="display: none;">✕</button>
+                {% else %}
+                    <img src="/static/media/{{q.image}}" alt="画像を選択" class="preview-img" id="upload-btn-{{editid}}"
+                        onclick="triggerFileInput('{{editid}}')" style="cursor: pointer;">
+                    <input type="hidden" name="image-src-{{editid}}" id="hidden-src-{{editid}}" value="/static/media/{{q.image}}">
+                    <button type="button" class="image-del-btn" onclick="removeImage('{{editid}}')">✕</button>
+                {% endif %}
             </div>
         </div>
         <input type="text" name="ques-title" class="ques-title" placeholder="質問のタイトルを入力" value="{{ q.title }}">
