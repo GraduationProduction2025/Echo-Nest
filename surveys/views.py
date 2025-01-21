@@ -14,7 +14,8 @@ from django.core.files.base import ContentFile
 @login_required
 def list_ques(request):
     login_user = request.user.email
-    survey_field_data = Survey.objects.exclude(create_user=login_user).filter(published_flag=True, deleted_flag=False)
+    current_time = timezone.now()
+    survey_field_data = Survey.objects.exclude(create_user=login_user).filter(published_flag=True, deleted_flag=False, for_publish__gt=current_time)
     query = request.GET.get('query', '')
     if query:
         survey_field_data = survey_field_data.filter(title__icontains=query)
