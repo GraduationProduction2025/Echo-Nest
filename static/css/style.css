@@ -10,9 +10,9 @@ html {
 
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(45deg, #4a90e2, #87ceeb);
-  margin: 0;
-  height: 100vh;
+  background: linear-gradient(0deg, #4a90e2, #87ceeb);
+  margin: 0 0 20px 0;
+  height: auto;
 }
 
 header {
@@ -1420,11 +1420,11 @@ h2 {
 /* 回答画面 */
 /* コンテナのスタイル */
 .ans-container {
-  width: 50%;
-  margin: 20px auto;
+  width: 85%;
+  margin: auto;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -1433,14 +1433,12 @@ h2 {
   margin: 5px auto;
   padding: 20px;
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 
 .q-title {
-  font-size: 16px;
+  font-size: 28px;
   font-weight: bold;
   color: #444;
   margin-bottom: 10px;
@@ -1473,7 +1471,7 @@ h2 {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  font-size: 14px;
+  font-size: 20px;
   color: #555;
   cursor: pointer;
   border-radius: 4px;
@@ -1750,16 +1748,20 @@ select.ans-form::-ms-expand {
   text-align: center;
 }
 
-.title-bar {
-  margin-bottom: 20px;
+.ans-title-bar {
+  margin: 0;
+  background-color: #fff;
+  max-width: 85%;
+  margin: auto;
+  border-radius: 8px 8px 0 0;
 }
 
-.title-bar h1 {
-  margin: auto;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  font-size: 24px;
+.ans-title-bar h1 {
+  text-align: center;
+  margin: 20px 20px 15px 20px;
+  font-size: 45px;
   color: #333333;
+  padding: 20px;
 }
 
 button {

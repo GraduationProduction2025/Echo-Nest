@@ -7,10 +7,11 @@
 {% block content %}
 {% load static %}
 
+<div class="ans-title-bar">
+    <h1>{{ title }}</h1>
+</div>
 <div class="ans-container">
-    <div class="title-bar">
-        <h1>{{ title }}</h1>
-    </div>
+    
     <form action="/complete/" method="post">
         {% csrf_token %}
 
