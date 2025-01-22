@@ -10,7 +10,7 @@ html {
 
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(0deg, #4a90e2, #87ceeb);
+  background: linear-gradient(90deg, #4a90e2, #87ceeb);
   margin: 0 0 20px 0;
   height: auto;
 }
