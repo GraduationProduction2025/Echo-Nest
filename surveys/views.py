@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Survey, Question, Choice, Choicetype, Answer
+from .models import Survey, Question, Choice, Choicetype, Answer, UsersAnswer
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
@@ -14,7 +14,8 @@ from django.core.files.base import ContentFile
 @login_required
 def list_ques(request):
     login_user = request.user.email
-    survey_field_data = Survey.objects.exclude(create_user=login_user).filter(published_flag=True, deleted_flag=False)
+    current_time = timezone.now()
+    survey_field_data = Survey.objects.exclude(create_user=login_user).filter(published_flag=True, deleted_flag=False, for_publish__gt=current_time)
     query = request.GET.get('query', '')
     if query:
         survey_field_data = survey_field_data.filter(title__icontains=query)
@@ -375,16 +376,20 @@ def answer(request, survey_id):
 
 @login_required
 @csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
-def complete(request):
+def complete(request, survey_id):
     if request.method == 'POST':
         responses = request.POST
         response_list = []
 
+        # Survey ID を取得（仮定としてフォームに survey_id を含める）
+        survey_id = int(request.POST.get("survey_id"))
+        survey = Survey.objects.get(id=survey_id)  # アンケートを取得
+
         for key in responses:
-            if key != 'csrfmiddlewaretoken':
+            if key != 'csrfmiddlewaretoken' and key != 'survey_id':
                 question_id = int(key.replace("answer_", ""))
                 question = Question.objects.get(id=question_id)  # 質問を取得
-                
+
                 if question.type.type == "checkbox":
                     # チェックボックス形式の質問の場合、複数選択肢をリストとして取得
                     user_answers = request.POST.getlist(key)
@@ -410,24 +415,52 @@ def complete(request):
                 answer_instance.save()  # データベースに保存
                 response_list.append(answer_data)
 
+        # ユーザの回答記録をデータベースに追加
+        if not UsersAnswer.objects.filter(user=request.user, answered_survey=survey).exists():
+            user_answer = UsersAnswer(
+                user=request.user,
+                answered_survey=survey
+            )
+            user_answer.save()
+
         # 完了画面に表示するためのデータをレンダリング
         listdict = {
             'title': '回答が完了しました。',
             'responses': response_list,
+            'survey_num': survey_id,  # survey_idをテンプレートに渡す
         }
         return render(request, 'answers/complete.html', listdict)
 
-    return render(request, 'answers/answer.html', {'title': '回答ページ'})
+    return redirect('templates:answer', survey_id=survey_id)
 
+@login_required
+def answered(request):
+    # ログインしているユーザが回答したアンケートのうち削除済みでないものを表示
+    usersanswer = UsersAnswer.objects.filter(user = request.user, answered_survey__deleted_flag=False)
+    listdict = {
+        'title': '回答済み一覧',
+        'answered': usersanswer,
+    }
+    return render(request, 'surveys/answered_list.html', listdict)
 
-def delete_ques(request, survey_id):
-    survey = Survey.objects.get(id=survey_id)
-    survey.deleted_flag=True
-    survey.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+@login_required
+def deleted(request):
+    # ログインしているユーザが回答したアンケートのうち削除済みのものを表示
+    deletedanswer = UsersAnswer.objects.filter(user = request.user, answered_survey__deleted_flag=True)
+    listdict = {
+        'title': '削除されたアンケート一覧',
+        'deleted': deletedanswer,
+    }
+    return render(request, 'surveys/deleted_list.html', listdict)
 
 def publish_ques(request, survey_id):
     survey = Survey.objects.get(id=survey_id)
     survey.published_flag=True
+    survey.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def delete_ques(request, survey_id):
+    survey = Survey.objects.get(id=survey_id)
+    survey.deleted_flag=True
     survey.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

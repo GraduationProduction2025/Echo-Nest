@@ -103,7 +103,7 @@ a {
 /* アンケート表示部分 */
 .scrollable-card-container {
   width: 100%; /* 横幅いっぱいに広げる */
-  height: 300px; /* 固定の高さを設定 */
+  height: 435px; /* 固定の高さを設定 */
   overflow-x: auto; /* 横スクロールを有効化 */
   overflow-y: hidden; /* 縦スクロールを無効化 */
   white-space: nowrap; /* 子要素を横並びに維持 */
@@ -127,6 +127,7 @@ a {
   width: 400px; /* カードの固定幅 */
   height: 150px; /* カードの固定高さ */
   padding: 15px;
+  margin: auto;
   box-sizing: border-box; /* パディングを含めた計算 */
   text-align: left;
   cursor: pointer; /* カード全体をクリック可能にする */
@@ -134,9 +135,29 @@ a {
 }
 
 .card:hover {
+  height: auto;
   transform: translateY(-25px) scale(1.15);
   border: solid #007BFF;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ホバー時に影を強調 */
+}
+
+.card-header h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.card:hover .card-header h2 {
+  white-space: normal; /* nowrapを解除して改行を有効化 */
+  word-wrap: break-word; /* 長い単語を折り返し */
+  overflow-wrap: break-word; /* 同様の効果 */
+}
+
+.card-body {
+  display: flex; /* 横並びにする */
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-body p {
@@ -144,6 +165,10 @@ a {
   font-size: 14px;
   color: #333;
   margin: 10px 0;
+}
+
+.card-body .ans_limit {
+  color: red;
 }
 
 .card-footer .details-link {
@@ -166,6 +191,10 @@ a {
 .card-footer .details-link:hover {
   background-color: #0056b3;
   transform: scale(1.05); /* ホバー時に少し大きく */
+}
+
+.hidden-card {
+  display: none;
 }
 
 .no-results {
@@ -191,7 +220,7 @@ a {
 /* 太陽 */
 .wrapper {
     position: relative;
-    margin-left: 50px;
+    margin-left: 240px;
     width: 100px; /* 元の倍に拡大 */
     height: 100px; /* 元の倍に拡大 */
     border-radius: 50px; /* 円形を維持 */
@@ -1781,4 +1810,99 @@ button:hover {
 
 /* 回答完了画面　ここまで */
 
+/* 回答済み一覧画面 ここから */
+.ansd-container,
+.deleted-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 50px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ansd-title-bar,
+.deleted-title-bar {
+  color: white;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
+}
+
+.ansd-title-bar h1,
+.deleted-title-bar h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.ansd-table,
+.deleted-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ansd-table thead,
+.deleted-table thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.ansd-table thead th,
+.deleted-table thead th {
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.ansd-table tbody td,
+.deleted-table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ansd-table tbody tr:last-child td,
+.deleted-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ansd-table tbody tr:nth-child(even),
+.deleted-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.ansd-btn,
+.deleted-btn,
+.detail-btn {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.ansd-btn,
+.deleted-btn {
+  display:block;
+  margin-left: auto;
+  text-align: center;
+  max-width: fit-content;
+}
+
+.ansd-btn:hover,
+.deleted-btn:hover,
+.detail-btn:hover {
+  background-color: #0056b3;
+}
+
+/* 回答済み一覧画面 ここまで */
 /*全画面ここまで */

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="ansd-container">
+    <div class="ansd-title-bar">
+        <h1>{{ title }}</h1>
+    </div>
+    <a class="ansd-btn" href="{% url 'templates:deleted' %}">削除されたアンケートを確認する</a>
+    <div>
+        <table class="ansd-table">
+            <thead>
+                <tr>
+                    <th>アンケートタイトル</th>
+                    <th>詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in answered %}
+                <tr>
+                    <td>{{ answer.answered_survey.title }}</td>
+                    <td>
+                        <a class="detail-btn" href="{% url 'templates:ag_data' answer.answered_survey.id %}">
+                            詳細を見る
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">回答済みのアンケートがありません。</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
