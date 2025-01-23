@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block base %}
-{{ edittitle }}
+{{ title }}
 {% endblock base %}
 
 {% block content %}
@@ -10,7 +10,7 @@
     {% csrf_token %}
     <div class="container">
         <div class="title-bar">
-            <h1>{{ edittitle }}</h1>
+            <h1>{{ title }}</h1>
             <input type="text" name="title-text" class="title-text" placeholder="タイトルを入力" value="{{ survey.title }}">
             <div class="publish-container">
                 <!-- 公開期間ラベルとプルダウンリスト -->

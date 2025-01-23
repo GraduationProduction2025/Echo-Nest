@@ -29,7 +29,7 @@ def list_ques(request):
 @login_required
 def create_ques(request):
     listdict = {
-        'title':'新規作成画面',
+        'title':'新規作成',
     }
     if request.method == 'POST':
         print("POSTデータ:", request.POST)
@@ -265,12 +265,16 @@ def edit_ques(request, survey_id):
 
         path = '/list'
 
+        #公開期間が設定されなかった場合の値
+        default_for_publish = timezone.now() + timedelta(days=365*100)
+
         # 新しいSurveyオブジェクトを作成
         if request.POST.get('action') == 'create':
             survey = Survey(
                 id=next_survey_id,
                 title=survey_title,
                 create_at=timezone.now(),
+                for_publish=default_for_publish,
                 create_user=survey_create_user,
                 published_flag=True,
                 deleted_flag=False
@@ -282,6 +286,7 @@ def edit_ques(request, survey_id):
                 id=next_survey_id,
                 title=survey_title,
                 create_at=timezone.now(),
+                for_publish=default_for_publish,
                 create_user=survey_create_user,
                 published_flag=False,
                 deleted_flag=False
@@ -350,7 +355,7 @@ def edit_ques(request, survey_id):
         survey.save()
         return redirect(path)
     listdict = {
-        'title':'編集画面',
+        'title':'アンケート編集',
         'survey':survey,
         'question':questions,
         'choice':choices,
@@ -438,7 +443,7 @@ def answered(request):
     # ログインしているユーザが回答したアンケートのうち削除済みでないものを表示
     usersanswer = UsersAnswer.objects.filter(user = request.user, answered_survey__deleted_flag=False)
     listdict = {
-        'title': '回答済み一覧',
+        'title': '回答済みアンケート一覧',
         'answered': usersanswer,
     }
     return render(request, 'surveys/answered_list.html', listdict)

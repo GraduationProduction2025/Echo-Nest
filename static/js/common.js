@@ -428,3 +428,14 @@ document.addEventListener("DOMContentLoaded", function () {
         setInterval(updateCountdown, 1000);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // "ques-container"の要素をすべて取得
+    const elements = document.querySelectorAll(".ques-container");
+
+    // 各要素を処理
+    elements.forEach(element => {
+        // data-indexを取得
+        questionCounter = element.getAttribute("data-index");
+    });
+});
