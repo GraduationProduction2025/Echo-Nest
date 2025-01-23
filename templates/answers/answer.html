@@ -7,23 +7,24 @@
 {% block content %}
 {% load static %}
 
+<div class="ans-title-bar">
+    <h1>{{ title }}</h1>
+</div>
 <div class="ans-container">
-    <div class="title-bar">
-        <h1>{{ title }}</h1>
-    </div>
     <form action="{% url 'templates:complete' survey.id %}" method="post">
         {% csrf_token %}
 
         <!-- Survey_idをキーとするQuestionをすべて取り出す -->
         {% for q in question %}
+        <div class="ans-child-container">
         <p class="q-title">{{ q.title }}</p>
 
-        {% if q.type.type == "textarea" %}
         <!-- テキスト入力用のフィールド -->
-        <textarea class="form-input" name="answer_{{ q.id }}" rows="8" cols="50"></textarea>
-
+        {% if q.type.type == "textarea" %}
+            <textarea class="form-input" name="answer_{{ q.id }}" rows="10" cols="60"></textarea>
+        </div>
+        <!-- チェックボックス用のフィールド -->
         {% elif q.type.type == "checkbox" %}
-        <!-- チェックボックス用のフィールド（複数の選択肢をまとめて表示） -->
         <div class="form-group form-check">
             {% for choice in q.choice_set.all %}
             <label class="form-label">
@@ -31,8 +32,9 @@
             </label>
             {% endfor %}
         </div>
-        {% elif q.type.type == "radio" %}
+        </div>
         <!-- ラジオボタン用のフィールド -->
+        {% elif q.type.type == "radio" %}
         <div class="form-group form-radio">
             {% for choice in q.choice_set.all %}
             <label class="form-label">
@@ -40,14 +42,16 @@
             </label>
             {% endfor %}
         </div>
-        {% elif q.type.type == "select" %}
+        </div>
         <!-- プルダウンリスト用のフィールド -->
+        {% elif q.type.type == "select" %}
         <select class="form-input answer-form-select" name="answer_{{ q.id }}">
             <option value="">選択してください</option>
             {% for choice in q.choice_set.all %}
                 <option value="{{ choice.id }}">{{ choice.text }}</option>
             {% endfor %}
         </select>
+        </div>
         <!-- 他のタイプがあればここに追加 -->
         {% else %}
         <p>入力タイプが不明です</p>
