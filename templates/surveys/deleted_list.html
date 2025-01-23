@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{{ title }}
+{% endblock base %}
+
+{% block content %}
+{% load static %}
+
+<div class="deleted-container">
+    <div class="deleted-title-bar">
+        <h1>{{ title }}</h1>
+    </div>
+    <a class="deleted-btn" href="{% url 'templates:answered' %}">確認を終了する</a>
+    <div>
+        <table class="deleted-table">
+            <thead>
+                <tr>
+                    <th>アンケートタイトル</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in deleted %}
+                <tr>
+                    <td>{{ answer.answered_survey.title }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">回答済みのアンケートがありません。</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
