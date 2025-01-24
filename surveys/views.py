@@ -380,7 +380,6 @@ def answer(request, survey_id):
     return render(request, "answers/answer.html", listdict)
 
 @login_required
-@csrf_exempt  # CSRF保護を一時的に無効にする（開発中のみ）
 def complete(request, survey_id):
     if request.method == 'POST':
         responses = request.POST

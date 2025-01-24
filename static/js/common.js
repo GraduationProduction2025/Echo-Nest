@@ -241,6 +241,9 @@ function validateForm() {
     if (!titleText || titleText.value.trim() === "") {
         errors.add("タイトルが入力されていません。");
         titleText.classList.add("error");
+    } else if (titleText.value.length > 50) {
+        errors.add("タイトルの文字数が50文字を超えています。");
+        titleText.classList.add("error");
     } else {
         titleText.classList.remove("error");
     }
