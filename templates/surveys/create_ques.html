@@ -11,7 +11,7 @@
     <div class="container">
         <div class="title-bar">
             <h1>{{ title }}</h1>
-            <input type="text" name="title-text" class="title-text" placeholder="タイトル">
+            <input type="text" id="title-text" name="title-text" class="title-text" placeholder="タイトル" maxlength="50">
             <div class="publish-container">
                 <!-- 公開期間ラベルとプルダウンリスト -->
                 <label for="publish-for_publish" class="publish-label">公開期間</label>
@@ -19,7 +19,6 @@
                     <option value="unlimited">無期限</option>
                     <option value="limited">有期限</option>
                 </select>
-        
                 <!-- 日時入力フォーム -->
                 <div id="publish-datetime-form" class="publish-datetime-form">
                     <label for="publish-date" class="publish-label">終了日時:</label>
