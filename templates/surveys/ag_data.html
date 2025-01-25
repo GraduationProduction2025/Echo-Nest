@@ -101,9 +101,9 @@
             const config = {
                 type: 'pie', // 円グラフ
                 data: {
-                labels: question.labels,
+                    labels: question.labels,
                     datasets: [{
-                    data: question.data,
+                        data: question.data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.8)',
                             'rgba(54, 162, 235, 0.8)',
@@ -116,10 +116,10 @@
                     }]
                 },
                 options: {
-                responsive: true,
+                    responsive: true,
                     plugins: {
                         legend: {
-                        position: 'top',
+                            position: 'top',
                         },
                         title: {
                             display: true,
@@ -170,7 +170,7 @@
                     },
                     scales: {
                         x: {
-                    beginAtZero: true
+                            beginAtZero: true
                         }
                     }
                 }
