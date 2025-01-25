@@ -133,7 +133,7 @@
             charts[index] = new Chart(ctx, config);
 
         } else if (type === 'bar') {
-            const transformedLabels = question.labels.map((label, i) => `${i + 1}:${label}`);
+            const transformedLabels = question.labels.map((label, i) => `${label}`);
 
             const colors = [
                 'rgba(255, 99, 132, 0.8)',
