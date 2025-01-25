@@ -96,47 +96,88 @@
             charts[index].destroy();
         }
 
-        const config = {
-            type: type,
-            data: {
-                labels: question.labels,
-                datasets: [{
-                    data: question.data,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 206, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)'
-                    ],
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: getChartTitle(type)
+        if (type === 'pie') {
+            // 円グラフの処理（既存コードを使用）
+            const config = {
+                type: 'pie', // 円グラフ
+                data: {
+                    labels: question.labels,
+                    datasets: [{
+                        data: question.data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)'
+                        ],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '円グラフ' // タイトル
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        if (type === 'bar') {
-            config.options.indexAxis = 'y';
-            config.options.scales = {
-                x: {
-                    beginAtZero: true
+            // グラフを作成して保存
+            charts[index] = new Chart(ctx, config);
+
+        } else if (type === 'bar') {
+            const transformedLabels = question.labels.map((label, i) => `${label}`);
+
+            const colors = [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ];
+
+            const datasetLabels = transformedLabels.map((label, i) => ({
+                label: label, // 凡例用のラベル
+                data: [question.data[i]], // 対応するデータ
+                backgroundColor: colors[i % colors.length], // 5色を循環して使用
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+            }));
+
+            const config = {
+                type: 'bar', // 棒グラフ
+                data: {
+                    labels: [''], // 棒グラフのX軸ラベル
+                    datasets: datasetLabels, // データセット
+                },
+                options: {
+                    responsive: true, // レスポンシブ対応
+                    plugins: {
+                        legend: {
+                            position: 'top', // 凡例の位置
+                        },
+                        title: {
+                            display: true, // タイトル表示
+                            text: '棒グラフ' // タイトル
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             };
+            // グラフを作成して保存
+            charts[index] = new Chart(ctx, config);
         }
-
-        charts[index] = new Chart(ctx, config);
     }
 
     function getChartTitle(type) {

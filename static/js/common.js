@@ -241,6 +241,9 @@ function validateForm() {
     if (!titleText || titleText.value.trim() === "") {
         errors.add("タイトルが入力されていません。");
         titleText.classList.add("error");
+    } else if (titleText.value.length > 50) {
+        errors.add("タイトルの文字数が50文字を超えています。");
+        titleText.classList.add("error");
     } else {
         titleText.classList.remove("error");
     }
@@ -426,5 +429,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 1秒ごとに更新
         setInterval(updateCountdown, 1000);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // "ques-container"の要素をすべて取得
+    const elements = document.querySelectorAll(".ques-container");
+
+    // 各要素を処理
+    elements.forEach(element => {
+        // data-indexを取得
+        questionCounter = element.getAttribute("data-index");
     });
 });

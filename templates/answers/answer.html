@@ -63,6 +63,17 @@
 
         <input class="form-submit" type="submit" value="送信する">
         <input type="hidden" name="survey_id" value="{{ survey.id }}">
+        <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+                // ボタンを取得
+                const submitButton = e.target.querySelector('input[type="submit"]');
+                // ボタンを無効化して再送信を防止
+                submitButton.disabled = true;
+                // ボタンのスタイルを変更
+                submitButton.style.backgroundColor = '#cccccc'; // グレーに変更
+                submitButton.style.cursor = 'not-allowed'; // マウスカーソルも変更
+            });
+        </script>
     </form>
 </div>
 {% endblock content %}
